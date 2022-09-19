@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+configparser = "*"
+pykeyboard = "*"
+pyobjc-framework-quartz = "*"
+jsonpath = "*"
+pymongo = "*"
+pymysql = "*"
+psycopg2 = "*"
+cx-oracle = "*"
+python-dateutil = "*"
+selenium = "==4.0.0"
+
+[requires]
+python_version = "3.9"

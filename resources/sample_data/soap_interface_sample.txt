@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sam="http://www.soapui.org/sample/">
+<soapenv:Header/>
+<soapenv:Body>
+<sam:login>
+<username>${元素名称}</username>
+<password>Login123</password>
+</sam:login>
+</soapenv:Body>
+</soapenv:Envelope>

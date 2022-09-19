@@ -1,0 +1,20 @@
+Slot #    Type       Online    Register      Status      Primary
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1         LPU        Present   Registered    Normal      NA
+2         LPU        Present   Registered    Normal      NA
+3         LPU        Present   Registered    Normal      NA
+4         LPU        Present   Registered    Normal      NA
+6         LPU        Present   Registered    Normal      NA
+7         LPU        Present   Registered    Normal      NA
+8         LPU        Present   Registered    Normal      NA
+9         MPU        Present   NA            Normal      Master
+10        MPU        Present   Registered    Normal      Slave
+11        SFU        Present   Registered    Normal      NA
+12        SFU        Present   Registered    Down        NA
+13        SFU        Present   Registered    Normal      NA
+14        CLK        Present   Registered    Normal      Master
+15        CLK        Present   Registered    Normal      Slave
+16        PWR        Present   Registered    Normal      NA
+17        PWR        Present   Registered    Normal      NA
+18        FAN        Present   Registered    Normal      NA
+19        FAN        Present   Registered    Normal      NA

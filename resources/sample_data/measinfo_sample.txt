@@ -1,0 +1,19 @@
+<measInfo measInfoId="1930964704">
+    <granPeriod duration="PT900S" endTime="2022-01-04T17:15:00+08:00"/>
+    <repPeriod duration="PT900S"/>
+    <measTypes>1930992704 1930992705 1930992706 1930992707 1930992708 1930992709 1930992710 1930992711 1930992712 </measTypes>
+    <measValue measObjLdn="SC_SC_CD_UDM700FE02_B_HW/UDM用户数测量:72000" objectUID="12601MOBILE00081,NE=765,UdrFunction=0">
+        <measResults>1 0 0 0 0 0 0 0 0 </measResults>
+    </measValue>
+</measInfo>
+<measInfo measInfoId="1930963706">
+    <granPeriod duration="PT900S" endTime="2022-01-04T17:15:00+08:00"/>
+    <repPeriod duration="PT900S"/>
+    <measTypes>1930982831 1930982832 1930982833 1930982834 1930982835 1930982836 1930982837 1930982838 1930982839 1930982840 1930982841 1930982842 1930982843 1930982844 1930982845 1930982846 1930982847 1930982848 1930982849 1930982850 </measTypes>
+    <measValue measObjLdn="SC_SC_CD_UDM700FE02_B_HW/UDM用户数测量:72000" objectUID="12601MOBILE00081,NE=765,UdrFunction=0">
+        <measResults>1 0 0 0 0 0 0 0 0 </measResults>
+    </measValue>
+    <measValue measObjLdn="SC_SC_CD_UDM700FE02_B_HW/5G-对象实例ID:30014" objectUID="12601MOBILE00081,NE=765,UdmFunction=0">
+        <measResults>0 0 0 0 NIL NIL 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </measResults>
+    </measValue>
+</measInfo>
