@@ -467,7 +467,7 @@ class System(unittest.TestCase):
                 "平台名称": "auto_第三方系统"
             }
         }
-        msg = "账号或密码错误"
+        msg = "测试登录异常！登录失败：账号或密码错误"
         result = self.worker.action(action)
         assert result
         log.info(get_global_var("ResultMsg"))
@@ -608,6 +608,7 @@ class System(unittest.TestCase):
             }
         }
         msg = "爬虫服务端未配置，请检查"
+        # 测试失败！爬虫服务地址未配置，请检查
         result = self.worker.action(action)
         assert result
         log.info(get_global_var("ResultMsg"))
@@ -662,6 +663,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_29_system_update(self):
         u"""修改第三方系统，浏览器超时时间设为-1"""
         action = {
@@ -699,6 +701,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_30_system_test(self):
         u"""测试第三方系统连通性"""
         action = {
@@ -713,6 +716,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_31_system_update(self):
         u"""修改第三方系统，浏览器超时时间设为0"""
         action = {
@@ -750,6 +754,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_32_system_test(self):
         u"""测试第三方系统连通性"""
         action = {
@@ -764,6 +769,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_33_system_update(self):
         u"""修改第三方系统，浏览器超时时间设为30"""
         action = {
@@ -801,6 +807,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_34_system_test(self):
         u"""测试第三方系统连通性"""
         action = {
@@ -815,6 +822,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_35_system_update(self):
         u"""修改第三方系统，空闲刷新时间设为-1"""
         action = {
@@ -852,6 +860,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_36_system_test(self):
         u"""测试第三方系统连通性"""
         action = {
@@ -866,6 +875,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_37_system_update(self):
         u"""修改第三方系统，空闲刷新时间设为180"""
         action = {
@@ -903,6 +913,7 @@ class System(unittest.TestCase):
         log.info(get_global_var("ResultMsg"))
         assert get_global_var("ResultMsg").startswith(msg)
 
+    @unittest.skipIf(crawler_ver != 'ctcc', "非深圳电信版本不测试")
     def test_38_system_test(self):
         u"""测试第三方系统连通性"""
         action = {
@@ -1007,7 +1018,7 @@ class System(unittest.TestCase):
                 "平台名称": "auto_第三方系统_打开首页失败"
             }
         }
-        msg = "测试失败"
+        msg = "测试登录异常！打开首页超时"
         result = self.worker.action(action)
         assert result
         log.info(get_global_var("ResultMsg"))
