@@ -2,9 +2,9 @@
 # @Author: peng wei
 # @Time: 2021-05-06 14:57
 
-from src.report import getReportName
-from src.suite import createSuite
-from src import HTMLTestRunner
+from service.src.report import getReportName
+from service.src.suite import createSuite
+from service.src import HTMLTestRunner
 
 
 def main():

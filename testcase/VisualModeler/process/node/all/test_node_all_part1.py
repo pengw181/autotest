@@ -3,10 +3,10 @@
 # @Time: 2022/9/4 上午10:26
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class AllNodePart1(unittest.TestCase):
@@ -30,7 +30,7 @@ class AllNodePart1(unittest.TestCase):
         assert result
 
     def test_2_process_add(self):
-        u"""添加流程，测试脚本节点"""
+        u"""添加流程，全流程"""
         action = {
             "操作": "AddProcess",
             "参数": {

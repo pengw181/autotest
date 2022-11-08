@@ -3,10 +3,10 @@
 # @Time: 2021-05-06 15:47
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class Command(unittest.TestCase):

@@ -3,10 +3,10 @@
 # @Time: 2022/9/5 下午9:25
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class HandleNode(unittest.TestCase):

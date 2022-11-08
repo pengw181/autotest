@@ -3,10 +3,10 @@
 # @Time: 2021-05-06 15:47
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class CommonNodePart1(unittest.TestCase):
@@ -205,7 +205,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_测试流程",
+                "流程名称": "auto_通用节点流程",
                 "修改内容": {
                     "流程名称": "auto_通用节点流程",
                     "专业领域": ["AiSee", "auto域"],
@@ -228,7 +228,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_测试流程",
+                "流程名称": "auto_通用节点流程",
                 "修改内容": {
                     "流程名称": "auto_通用节点流程",
                     "专业领域": ["AiSee", "auto域"],
@@ -387,7 +387,7 @@ class CommonNodePart1(unittest.TestCase):
         assert get_global_var("ResultMsg").startswith(msg)
 
     def test_17_process_update(self):
-        u"""修改流程，关闭输出异常"""
+        u"""修改流程，修改流程定义变量"""
         action = {
             "操作": "UpdateProcess",
             "参数": {

@@ -3,10 +3,10 @@
 # @Time: 2022/9/11 下午12:58
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class CommonNodePart2(unittest.TestCase):
@@ -17,6 +17,37 @@ class CommonNodePart2(unittest.TestCase):
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理
         self.browser = get_global_var("browser")
         self.worker.init()
+
+    def test_2_process_update(self):
+        u"""修改流程，修改流程定义变量"""
+        action = {
+            "操作": "UpdateProcess",
+            "参数": {
+                "流程名称": "auto_通用节点流程",
+                "修改内容": {
+                    "流程名称": "auto_通用节点流程",
+                    "专业领域": ["AiSee", "auto域"],
+                    "流程类型": "主流程",
+                    "流程说明": "auto_通用节点流程说明",
+                    "高级配置": {
+                        "节点异常终止流程": "是",
+                        "自定义流程变量": {
+                            "状态": "开启",
+                            "参数列表": {
+                                "时间": "2020-10-21###",
+                                "地点": "广州###",
+                                "名字": "aisee###必填"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(get_global_var("ResultMsg"))
+        assert get_global_var("ResultMsg").startswith(msg)
 
     def test_3_process_node_add(self):
         u"""画流程图，添加一个通用节点"""

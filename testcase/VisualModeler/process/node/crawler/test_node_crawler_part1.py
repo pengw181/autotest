@@ -3,10 +3,10 @@
 # @Time: 2022/9/8 上午10:36
 
 import unittest
-from src.screenShot import screenShot
-from common.variable.globalVariable import *
-from common.log.logger import log
-from gooflow.caseWorker import CaseWorker
+from service.src.screenShot import screenShot
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from service.gooflow.case import CaseWorker
 
 
 class CrawlerNodePart1(unittest.TestCase):
@@ -218,7 +218,7 @@ class CrawlerNodePart1(unittest.TestCase):
         assert get_global_var("ResultMsg").startswith(msg)
 
     def test_9_process_node_business_conf(self):
-        u"""配置可视化操作模拟节点，表格取数场景，添加元素，点击核心网"""
+        u"""配置可视化操作模拟节点，表格取数场景，添加元素，点击进入领域"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -230,12 +230,12 @@ class CrawlerNodePart1(unittest.TestCase):
                     "目标系统": "auto_第三方系统",
                     "元素配置": [
                         {
-                            "元素名称": "点击核心网",
+                            "元素名称": "点击进入领域",
                             "元素类型": "按钮",
                             "动作": "单击",
                             "标识类型": "xpath",
                             "元素标识": "//*[text()='${Belong}>${Domain}']",
-                            "描述": "点击核心网"
+                            "描述": "点击进入领域"
                         }
                     ]
                 }
@@ -409,7 +409,7 @@ class CrawlerNodePart1(unittest.TestCase):
                             "对象": "操作",
                             "右键操作": "添加步骤",
                             "元素名称": [
-                                "点击核心网",
+                                "点击进入领域",
                                 "休眠5秒",
                                 "点击流程编辑器",
                                 "点击流程配置",
@@ -444,7 +444,7 @@ class CrawlerNodePart1(unittest.TestCase):
         assert get_global_var("ResultMsg").startswith(msg)
 
     def test_17_process_node_business_conf(self):
-        u"""配置可视化操作模拟节点，文件下载场景，添加元素，点击核心网"""
+        u"""配置可视化操作模拟节点，文件下载场景，添加元素，点击进入领域"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -456,12 +456,12 @@ class CrawlerNodePart1(unittest.TestCase):
                     "目标系统": "auto_第三方系统",
                     "元素配置": [
                         {
-                            "元素名称": "点击核心网",
+                            "元素名称": "点击进入领域",
                             "元素类型": "按钮",
                             "动作": "单击",
                             "标识类型": "xpath",
                             "元素标识": "//*[text()='${Belong}>${Domain}']",
-                            "描述": "点击核心网"
+                            "描述": "点击进入领域"
                         }
                     ]
                 }
@@ -742,7 +742,7 @@ class CrawlerNodePart1(unittest.TestCase):
                             "对象": "操作",
                             "右键操作": "添加步骤",
                             "元素名称": [
-                                "点击核心网",
+                                "点击进入领域",
                                 "休眠5秒",
                                 "点击常用信息管理",
                                 "点击文件目录管理",
@@ -780,7 +780,7 @@ class CrawlerNodePart1(unittest.TestCase):
         assert get_global_var("ResultMsg").startswith(msg)
 
     def test_29_process_node_business_conf(self):
-        u"""配置可视化操作模拟节点，附件上传场景，添加元素，点击核心网"""
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，点击进入领域"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -792,12 +792,12 @@ class CrawlerNodePart1(unittest.TestCase):
                     "目标系统": "auto_第三方系统",
                     "元素配置": [
                         {
-                            "元素名称": "点击核心网",
+                            "元素名称": "点击进入领域",
                             "元素类型": "按钮",
                             "动作": "单击",
                             "标识类型": "xpath",
                             "元素标识": "//*[text()='${Belong}>${Domain}']",
-                            "描述": "点击核心网"
+                            "描述": "点击进入领域"
                         }
                     ]
                 }
@@ -1084,7 +1084,7 @@ class CrawlerNodePart1(unittest.TestCase):
                             "对象": "操作",
                             "右键操作": "添加步骤",
                             "元素名称": [
-                                "点击核心网",
+                                "点击进入领域",
                                 "休眠5秒",
                                 "点击常用信息管理",
                                 "点击文件目录管理",

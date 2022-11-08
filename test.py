@@ -43,8 +43,20 @@ def rank():
     print(get_rank(d))
 
 
+def fun1():
+    data = [["abc", "211"],
+            ["ddd", "dwe"],
+            ["3r3", "gerg"]]
+    for a, b in data:
+        print("{0} | {1}".format(a, b))
+
+
 if __name__ == "__main__":
     j = '[["name","小明"],["age","11"],["addr","广州市"]]'
     json_to_list(j)
     get_fline()
     rank()
+    fun1()
+
+    a = None
+    print(type(a))
