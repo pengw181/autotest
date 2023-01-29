@@ -2,18 +2,19 @@
 # @Author: peng wei
 # @Time: 2022/5/13 上午11:30
 
-from client.app.Dashboard.dashboard.editDashboard import EditDashboard
-from service.lib.variable.globalVariable import *
-from client.page.script.css import setVisible
 from time import sleep
-from client.page.func.alertBox import BeAlertBox
-from client.page.func.toast import Toast
-from client.page.func.pageMaskWait import page_wait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from service.lib.log.logger import log
+from client.page.script.css import setVisible
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.toast import Toast
+from client.page.func.pageMaskWait import page_wait
 from client.page.wrapper.dashboardCheck import closeAndEnterDashboard
+from client.app.Dashboard.dashboard.editDashboard import EditDashboard
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
+
 
 
 class Dashboard:

@@ -2,9 +2,9 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午3:53
 
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from time import sleep
 from service.lib.variable.globalVariable import *
 
 

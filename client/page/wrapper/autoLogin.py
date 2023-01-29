@@ -2,16 +2,16 @@
 # @Author: peng wei
 # @Time: 2021/9/29 下午5:14
 
-from service.lib.log.logger import log
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from client.page.web.loginPage import login
-from service.lib.variable.globalVariable import *
-from config.loads import login_config
 from client.page.web.staticsLogin import login_tool
 from client.page.web.mainPage import AiSee
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from client.page.handle.windows import WindowHandles
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
+from config.loads import login_config
 
 
 # 定义一个自动检测登录vm的装饰器
@@ -54,6 +54,10 @@ def auto_enter_vm(func):
                 elif browser.current_window_handle == windows.win_handles.get("仪表盘主配置页"):
                     log.info("当前处于仪表盘主配置页窗口")
                     windows.close("仪表盘主配置页")
+                elif browser.current_window_handle == windows.win_handles.get("数据管理"):
+                    log.info("当前处于数据管理窗口")
+                elif browser.current_window_handle == windows.win_handles.get("一键启动"):
+                    log.info("当前处于一键启动窗口")
                 else:
                     log.info("当前已登录，未进入领域，自动进入{0}".format(get_global_var("Domain")))
                     arg2 = {

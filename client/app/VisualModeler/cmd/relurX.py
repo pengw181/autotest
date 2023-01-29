@@ -2,24 +2,24 @@
 # @Author: peng wei
 # @Time: 2021/9/17 下午4:56
 
-from selenium.common.exceptions import NoSuchElementException
-from client.page.func.alertBox import BeAlertBox
-from client.page.func.input import set_textarea
 from time import sleep
-from selenium.webdriver.common.keys import Keys
-from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.input import set_textarea
+from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from client.page.func.pageMaskWait import page_wait
-from service.lib.log.logger import log
-from service.lib.variable.globalVariable import *
 from client.page.func.tableData import get_table_data2
 from client.page.func.loadData import load_sample
 from client.page.func.regular import RegularCube
 from client.page.func.pagination import Pagination
 from client.page.func.level import choose_level
-from .tplVar import VarEditor
+from client.app.VisualModeler.cmd.tplVar import VarEditor
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 class RulerX:

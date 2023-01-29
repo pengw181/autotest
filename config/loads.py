@@ -4,8 +4,8 @@
 
 import os
 import configparser
-from .app import transferAppName
 from service.lib.variable.globalVariable import *
+from config.app import transferAppName
 
 
 class LoadDBConfig:

@@ -2,19 +2,19 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:07
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
+from time import sleep
+from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.dateUtil import set_calendar
 from service.lib.tools.dateCalculation import calculation
-from time import sleep
-from datetime import datetime
 from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 class AlarmPlan:
@@ -62,6 +62,8 @@ class AlarmPlan:
             By.XPATH, "//iframe[contains(@src,'/AlarmPlatform/html/alarmConfig/alarmPlanEdit.html')]")))
         sleep(1)
         self.plan_page(plan_name, alarm_type, data_source, region_tag, domain_tag, plan_desc)
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_plan_save']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -93,6 +95,8 @@ class AlarmPlan:
             By.XPATH, "//*[@class='alarm-edit-form']//*[@name='alarmPlanName']/preceding-sibling::input")))
 
         self.plan_page(plan_name, alarm_type, data_source, region_tag, domain_tag, plan_desc)
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_plan_save']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -159,9 +163,6 @@ class AlarmPlan:
             remark_textarea = self.browser.find_element(By.XPATH, "//*[@name='alarmPlanDesc']")
             set_textarea(remark_textarea, plan_desc)
             log.info("设置计划描述: {0}".format(plan_desc))
-
-        # 保存
-        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_plan_save']//*[text()='保存']").click()
 
     def update_status(self, plan_name, set_status, research=True):
         """

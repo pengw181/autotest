@@ -2,13 +2,13 @@
 # @Author: peng wei
 # @Time: 2021/9/16 下午6:20
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from time import sleep
 from selenium.webdriver.support import expected_conditions as ec
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
+from client.page.func.pageMaskWait import page_wait
+from service.lib.variable.globalVariable import *
 
 
 class ProcessLog:

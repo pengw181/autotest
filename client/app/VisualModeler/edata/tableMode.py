@@ -3,10 +3,10 @@
 # @Time: 2022/2/21 下午4:02
 
 from time import sleep
-from client.page.func.alertBox import BeAlertBox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from client.page.func.alertBox import BeAlertBox
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.input import set_textarea
 from client.page.func.level import choose_level

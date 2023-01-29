@@ -2,17 +2,17 @@
 # @Author: peng wei
 # @Time: 2021/9/17 下午4:05
 
-from service.lib.log.logger import log
-from service.lib.variable.globalVariable import *
+from time import sleep
 from selenium.webdriver import ActionChains
-from client.page.func.alertBox import BeAlertBox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from client.page.func.pageMaskWait import page_wait
 from client.app.AiSee.netunit.menu import choose_menu
-from time import sleep
+from client.page.func.alertBox import BeAlertBox
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 class Template(object):
@@ -32,12 +32,12 @@ class Template(object):
         """
         :param template_name: 模版名称
         """
-        input_ele = self.browser.find_element_by_xpath("//*[@id='tempName']/following-sibling::span/input[1]")
+        input_ele = self.browser.find_element(By.XPATH, "//*[@id='tempName']/following-sibling::span/input[1]")
         input_ele.clear()
         input_ele.send_keys(template_name)
-        self.browser.find_element_by_xpath("//*[@id='btn']//*[text()='查询']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
-        self.browser.find_element_by_xpath("//*[@field='tempName']//*[@data-mtips='{}']".format(template_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@field='tempName']//*[@data-mtips='{}']".format(template_name)).click()
         log.info("已选模版: {}".format(template_name))
 
     def add(self, template_name, netunit_type, login_type, remark, login_set):
@@ -48,13 +48,23 @@ class Template(object):
         :param remark: 用途说明
         :param login_set: 登录配置
         """
-        self.browser.find_element_by_xpath("//*[@id='addBtn']//*[text()='添加']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='addBtn']//*[text()='添加']").click()
         self.browser.switch_to.frame(
-            self.browser.find_element_by_xpath("//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html?type=add')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html?type=add')]"))
         sleep(1)
-        result = self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
-                                    remark=remark, login_set=login_set)
-        return result
+        self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
+                           remark=remark, login_set=login_set)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+        alert = BeAlertBox(back_iframe="default")
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功"):
+            log.info("保存配置成功")
+        else:
+            log.warning("保存配置失败，失败提示: {0}".format(msg))
+            alert.click_ok()
+        set_global_var("ResultMsg", msg, False)
 
     def update(self, obj_template, template_name, netunit_type, login_type, remark, login_set):
         """
@@ -66,10 +76,9 @@ class Template(object):
         :param login_set: 登录配置
         """
         self.choose(template_name=obj_template)
-        self.browser.find_element_by_xpath("//*[@id='editBtn']//*[text()='修改']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
         exist = alert.exist_alert
-        result = True
         if exist:
             set_global_var("ResultMsg", alert.get_msg(), False)
         else:
@@ -80,9 +89,19 @@ class Template(object):
             sleep(1)
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='ip']/preceding-sibling::input")))
-            result = self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
-                                        remark=remark, login_set=login_set)
-        return result
+            self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
+                               remark=remark, login_set=login_set)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+            alert = BeAlertBox(back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("保存成功"):
+                log.info("保存配置成功")
+            else:
+                log.warning("保存配置失败，失败提示: {0}".format(msg))
+                alert.click_ok()
+            set_global_var("ResultMsg", msg, False)
 
     def template_page(self, template_name, netunit_type, login_type, remark, login_set):
         """
@@ -94,35 +113,35 @@ class Template(object):
         """
         # 模版名称
         if template_name:
-            self.browser.find_element_by_xpath("//*[@name='tempName']/preceding-sibling::input").clear()
-            self.browser.find_element_by_xpath("//*[@name='tempName']/preceding-sibling::input").send_keys(
+            self.browser.find_element(By.XPATH, "//*[@name='tempName']/preceding-sibling::input").clear()
+            self.browser.find_element(By.XPATH, "//*[@name='tempName']/preceding-sibling::input").send_keys(
                 template_name)
             log.info("设置模版名称: {}".format(template_name))
 
         # 网元类型
         if netunit_type:
-            self.browser.find_element_by_xpath("//*[@id='levelId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='levelId']/following-sibling::span//a").click()
             sleep(1)
-            type_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'levelId') and text()='{}']".format(netunit_type))
+            type_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'levelId') and text()='{}']".format(netunit_type))
             action = ActionChains(self.browser)
             action.move_to_element(type_list).click().perform()
             log.info("设置网元类型: {}".format(netunit_type))
 
         # 登录模式
         if login_type:
-            self.browser.find_element_by_xpath("//*[@id='loginTypeId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='loginTypeId']/following-sibling::span//a").click()
             sleep(1)
-            type_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'loginTypeId') and text()='{}']".format(login_type))
+            type_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'loginTypeId') and text()='{}']".format(login_type))
             action = ActionChains(self.browser)
             action.move_to_element(type_list).click().perform()
             log.info("设置登录模式: {}".format(login_type))
 
         # 用途说明
         if remark:
-            self.browser.find_element_by_xpath("//*[@name='remark']/preceding-sibling::input").clear()
-            self.browser.find_element_by_xpath("//*[@name='remark']/preceding-sibling::input").send_keys(remark)
+            self.browser.find_element(By.XPATH, "//*[@name='remark']/preceding-sibling::input").clear()
+            self.browser.find_element(By.XPATH, "//*[@name='remark']/preceding-sibling::input").send_keys(remark)
             log.info("设置用途说明: {}".format(remark))
 
         # 登录配置
@@ -132,8 +151,8 @@ class Template(object):
 
             for ls in login_set:
                 try:
-                    row_ele = self.browser.find_element_by_xpath(
-                        login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
+                    row_ele = self.browser.find_element(
+                        By.XPATH, login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
                             row_num))
                     # 如果已存在，则单击修改
                     action = ActionChains(self.browser)
@@ -141,29 +160,17 @@ class Template(object):
                     sleep(1)
                 except NoSuchElementException:
                     # 如果不存在，则点击添加按钮
-                    self.browser.find_element_by_xpath("//*[@onclick='appendCmd()']//*[text()='添加']").click()
+                    self.browser.find_element(By.XPATH, "//*[@onclick='appendCmd()']").click()
                 finally:
-                    self.browser.find_element_by_xpath(
-                        login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
+                    self.browser.find_element(
+                        By.XPATH, login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
                             row_num)).click()
-                    jump_step_list = self.browser.find_element_by_xpath(
-                        "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(ls))
+                    jump_step_list = self.browser.find_element(
+                        By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(ls))
                     action = ActionChains(self.browser)
                     action.move_to_element(jump_step_list).click().perform()
                     log.info("设置登录指令名称: {}".format(ls))
                     row_num += 1
-
-        # 提交
-        self.browser.find_element_by_xpath("//*[@id='saveBtn']//*[text()='提交']").click()
-        alert = BeAlertBox(back_iframe="default")
-        msg = alert.get_msg()
-        if alert.title_contains("保存成功"):
-            log.info("保存配置成功")
-        else:
-            log.warn("保存配置失败，失败提示: {0}".format(msg))
-            alert.click_ok()
-        set_global_var("ResultMsg", msg, False)
-        return True
 
     def delete(self, obj_template):
         """
@@ -171,7 +178,7 @@ class Template(object):
         :return:
         """
         self.choose(template_name=obj_template)
-        self.browser.find_element_by_xpath("//*[@id='deleteBtn']//span[text()='删除']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='deleteBtn']").click()
         alert = BeAlertBox(back_iframe=False)
         msg = alert.get_msg()
         if alert.title_contains(obj_template, auto_click_ok=False):
@@ -182,9 +189,9 @@ class Template(object):
             if alert.title_contains("成功"):
                 log.info("{0} 删除成功".format(obj_template))
             else:
-                log.warn("{0} 删除失败，失败提示: {1}".format(obj_template, msg))
+                log.warning("{0} 删除失败，失败提示: {1}".format(obj_template, msg))
         else:
-            log.warn("{0} 删除失败，失败提示: {1}".format(obj_template, msg))
+            log.warning("{0} 删除失败，失败提示: {1}".format(obj_template, msg))
         set_global_var("ResultMsg", msg, False)
 
     def bind_netunit(self, obj_template, condition, assign_type, netunit_list=None):
@@ -195,8 +202,8 @@ class Template(object):
         :param assign_type: 分配方式
         """
         # 点击网元绑定
-        self.browser.find_element_by_xpath(
-            "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='网元绑定']".format(obj_template)).click()
+        self.browser.find_element(
+            By.XPATH, "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='网元绑定']".format(obj_template)).click()
 
         # 切换到绑定网元页面iframe
         wait = WebDriverWait(self.browser, 30)
@@ -209,17 +216,17 @@ class Template(object):
         # 网元名称
         if condition.__contains__("网元名称"):
             netunit_name = condition.get("网元名称")
-            self.browser.find_element_by_xpath("//*[@id='netunitName']/following-sibling::span/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(netunit_name)
+            self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(netunit_name)
             log.info("网元名称输入关键字: {}".format(netunit_name))
 
         # 生产厂家
         if condition.__contains__("生产厂家"):
             vendor = condition.get("生产厂家")
-            self.browser.find_element_by_xpath("//*[@id='vendorId']/following-sibling::span//a").click()
-            vendor_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
+            self.browser.find_element(By.XPATH, "//*[@id='vendorId']/following-sibling::span//a").click()
+            vendor_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
             action = ActionChains(self.browser)
             action.move_to_element(vendor_list).click().perform()
             log.info("生产厂家选择: {}".format(vendor))
@@ -227,21 +234,20 @@ class Template(object):
         # 设备型号
         if condition.__contains__("设备型号"):
             netunit_model = condition.get("设备型号")
-            self.browser.find_element_by_xpath("//*[@id='netunitModelId']/following-sibling::span/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                "//*[@id='netunitModelId']/following-sibling::span/input[1]").send_keys(netunit_model)
+            self.browser.find_element(By.XPATH, "//*[@id='netunitModelId']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='netunitModelId']/following-sibling::span/input[1]").send_keys(netunit_model)
             log.info("设备型号输入关键字: {}".format(netunit_model))
 
-        self.browser.find_element_by_xpath("//*[@id='searchBtn1']//span[text()='查询待选择']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='searchBtn1']//span[text()='查询待选择']").click()
         page_wait(timeout=180)
 
         # 分配方式
         if assign_type == "分配全部":
             if condition is None:
-                log.warn("绑定所有网元时，需要指定分配网元列表")
-                result = False
+                log.warning("绑定所有网元时，需要指定分配网元列表")
             else:
-                self.browser.find_element_by_xpath("//*[@id='allToQuoted']").click()
+                self.browser.find_element(By.XPATH, "//*[@id='allToQuoted']").click()
                 alert = BeAlertBox(back_iframe="default")
                 msg = alert.get_msg()
                 if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
@@ -252,22 +258,21 @@ class Template(object):
                     if alert.title_contains("分配成功"):
                         log.info("网元分配成功")
                     else:
-                        log.warn("网元分配失败，失败提示: {}".format(msg))
+                        log.warning("网元分配失败，失败提示: {}".format(msg))
                 else:
-                    log.warn("网元分配失败，失败提示: {}".format(msg))
+                    log.warning("网元分配失败，失败提示: {}".format(msg))
                 set_global_var("ResultMsg", msg, False)
-                result = True
 
         elif assign_type == "分配所选":
             if netunit_list is None:
-                log.warn("绑定所选网元时，需要指定分配网元列表")
-                result = False
+                log.warning("绑定所选网元时，需要指定分配网元列表")
             else:
                 for n in netunit_list:
-                    self.browser.find_element_by_xpath(
-                        "//*[@class='middle']/preceding-sibling::div[1]//*[@field='netunitName']/*[text()='{}']".format(n)).click()
+                    self.browser.find_element(
+                        By.XPATH, "//*[@class='middle']/preceding-sibling::div[1]//*[@field='netunitName']/*[text()='{}']".format(
+                            n)).click()
                     log.info("待分配列表选择网元: {}".format(n))
-                self.browser.find_element_by_xpath("//*[@id='allToQuoted']").click()
+                self.browser.find_element(By.XPATH, "//*[@id='allToQuoted']").click()
                 alert = BeAlertBox(back_iframe="default")
                 msg = alert.get_msg()
                 if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
@@ -278,14 +283,13 @@ class Template(object):
                     if alert.title_contains("分配成功"):
                         log.info("网元分配成功")
                     else:
-                        log.warn("网元分配失败，失败提示: {}".format(msg))
+                        log.warning("网元分配失败，失败提示: {}".format(msg))
                 else:
-                    log.warn("网元分配失败，失败提示: {}".format(msg))
+                    log.warning("网元分配失败，失败提示: {}".format(msg))
                 set_global_var("ResultMsg", msg, False)
-                result = True
 
         elif assign_type == "移除全部":
-            self.browser.find_element_by_xpath("//*[@id='allToQuoted']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='allToQuoted']").click()
             alert = BeAlertBox(back_iframe="default")
             msg = alert.get_msg()
             if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
@@ -296,22 +300,21 @@ class Template(object):
                 if alert.title_contains("移除成功"):
                     log.info("网元移除成功")
                 else:
-                    log.warn("网元移除失败，失败提示: {}".format(msg))
+                    log.warning("网元移除失败，失败提示: {}".format(msg))
             else:
-                log.warn("网元移除失败，失败提示: {}".format(msg))
+                log.warning("网元移除失败，失败提示: {}".format(msg))
             set_global_var("ResultMsg", msg, False)
-            result = True
 
         elif assign_type == "移除所选":
             if netunit_list is None:
-                log.warn("绑定所选网元时，需要指定分配网元列表")
-                result = False
+                log.warning("绑定所选网元时，需要指定分配网元列表")
             else:
                 for n in netunit_list:
-                    self.browser.find_element_by_xpath(
-                        "//*[@class='middle']/following-sibling::div[1]//*[@field='netunitName']/*[text()='{}']".format(n)).click()
+                    self.browser.find_element(
+                        By.XPATH, "//*[@class='middle']/following-sibling::div[1]//*[@field='netunitName']/*[text()='{}']".format(
+                            n)).click()
                     log.info("已分配列表选择网元: {}".format(n))
-                self.browser.find_element_by_xpath("//*[@id='allToQuoted']").click()
+                self.browser.find_element(By.XPATH, "//*[@id='allToQuoted']").click()
                 alert = BeAlertBox(back_iframe="default")
                 msg = alert.get_msg()
                 if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
@@ -322,25 +325,22 @@ class Template(object):
                     if alert.title_contains("移除成功"):
                         log.info("网元移除成功")
                     else:
-                        log.warn("网元移除失败，失败提示: {}".format(msg))
+                        log.warning("网元移除失败，失败提示: {}".format(msg))
                 else:
-                    log.warn("网元移除失败，失败提示: {}".format(msg))
+                    log.warning("网元移除失败，失败提示: {}".format(msg))
                 set_global_var("ResultMsg", msg, False)
-                result = True
 
         else:
-            log.warn("网元分配方式仅支持：分配全部、分配所选、移除全部、移除所选")
-            result = False
+            log.error("网元分配方式仅支持：分配全部、分配所选、移除全部、移除所选")
 
         # 重新进入到该页面iframe，方便循环操作
         self.browser.switch_to.frame(
-            self.browser.find_element_by_xpath("//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]"))
         self.browser.switch_to.frame(
-            self.browser.find_element_by_xpath("//iframe[contains(@src,'/html/nu/midJumpBatchCfgInfo.html')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'/html/nu/midJumpBatchCfgInfo.html')]"))
         self.browser.switch_to.frame(
-            self.browser.find_element_by_xpath("//iframe[contains(@src,'midJumpBatchCfgInfoNetunitQuote.html')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoNetunitQuote.html')]"))
         sleep(1)
-        return result
 
     def delivery(self, obj_template):
         """
@@ -348,8 +348,8 @@ class Template(object):
         :return:
         """
         # 点击配置下发
-        self.browser.find_element_by_xpath(
-            "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='配置下发']".format(obj_template)).click()
+        self.browser.find_element(
+            By.XPATH, "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='配置下发']".format(obj_template)).click()
 
         # 切换到配置下发页面iframe
         wait = WebDriverWait(self.browser, 30)
@@ -359,17 +359,14 @@ class Template(object):
 
         # 点击确认下发
         wait = WebDriverWait(self.browser, 30)
-        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='btn']//*[text()='确认下发']")))
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='btn']")))
         # 下发过程需等待片刻
         page_wait(timeout=180)
         alert = BeAlertBox(back_iframe="default")
         msg = alert.get_msg()
-        result = True
         if alert.title_contains("请到“登录配置确认”页面确认更改内容"):
             log.info("网元配置下发成功")
         else:
-            log.warn("网元配置下发失败，失败提示: {}".format(msg))
+            log.warning("网元配置下发失败，失败提示: {}".format(msg))
             alert.click_ok()
-            result = False
         set_global_var("ResultMsg", msg, False)
-        return result

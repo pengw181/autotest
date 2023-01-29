@@ -5,9 +5,9 @@
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-from service.lib.variable.globalVariable import *
 from client.page.script.css import change_color
 from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 def bar_style(theme, custom_theme_colors, custom_bg_color, bg_color_rgb, data_dis_direction, show_metrics,

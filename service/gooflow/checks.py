@@ -2,13 +2,12 @@
 # @Author: peng wei
 # @Time: 2021/7/20 上午11:15
 
+from datetime import datetime
 from service.lib.database.sqlFormat import get_sql
 from service.lib.database.SQLHelper import SQLUtil
 from service.lib.variable.globalVariable import *
-from config.loads import properties, db_config
-import re
-from datetime import datetime
 from service.lib.log.logger import log
+from config.loads import properties, db_config
 
 
 def check_db_data(db, schema, table_name, data, count):

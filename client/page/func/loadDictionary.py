@@ -2,8 +2,8 @@
 # @Author: peng wei
 # @Time: 2022/5/11 下午9:38
 
-from config.loads import properties
 from service.lib.log.logger import log
+from config.loads import properties
 
 
 def load_dictionary(dictionary_file_name):

@@ -2,11 +2,11 @@
 # @Author: peng wei
 # @Time: 2022/9/14 上午11:08
 
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
-from time import sleep
 
 
 class Toast:

@@ -2,16 +2,16 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:06
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
-from client.page.func.positionPanel import getPanelXpath
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.func.positionPanel import getPanelXpath
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -65,6 +65,9 @@ class Dictionary:
             By.XPATH, "//*[@id='editDiv']//*[@id='dictGroupName']/following-sibling::span/input[1]")))
         sleep(1)
         self.dict_page(dict_name, comment, dict_type, table_belong, item_key, item_value, filter_set)
+
+        # 点击保存
+        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_dict_save']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -98,6 +101,9 @@ class Dictionary:
             By.XPATH, "//*[@id='editDiv']//*[@id='dictGroupName']/following-sibling::span/input[1]")))
 
         self.dict_page(dict_name, comment, None, None, None, None, filter_set)
+
+        # 点击保存
+        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_dict_save']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -341,9 +347,6 @@ class Dictionary:
                     log.warning("条件 {0} 删除失败，失败提示: {1}".format(row_index, msg))
                     set_global_var("ResultMsg", msg, False)
                     return
-
-        # 点击保存
-        self.browser.find_element(By.XPATH, "//*[@funcid='AlarmPlatform_dict_save']").click()
 
     def set_dict_detail(self, dict_name, detail):
         """

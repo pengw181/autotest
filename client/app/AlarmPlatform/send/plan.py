@@ -2,18 +2,18 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:12
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
-from client.page.func.dateUtil import set_calendar
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.func.dateUtil import set_calendar
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.positionPanel import getPanelXpath
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -72,6 +72,9 @@ class SendPlan:
         sleep(1)
         self.send_plan_page(plan_name, send_type, msg_template, receiver, send_date, effect_start_date, effect_end_date,
                             send_start_time, send_end_time, remark)
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[contains(@data-options,'icon-ok')]").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -114,6 +117,9 @@ class SendPlan:
 
             self.send_plan_page(plan_name, send_type, msg_template, receiver, send_date, effect_start_date, effect_end_date,
                                 send_start_time, send_end_time, remark)
+
+            # 保存
+            self.browser.find_element(By.XPATH, "//*[contains(@data-options,'icon-ok')]").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("保存成功"):
@@ -249,9 +255,6 @@ class SendPlan:
             remark_textarea = self.browser.find_element(By.XPATH, "//*[@id='remark']")
             set_textarea(textarea=remark_textarea, msg=remark)
             log.info("设置备注: {0}".format(remark))
-
-        # 保存
-        self.browser.find_element(By.XPATH, "//*[contains(@data-options,'icon-ok')]").click()
 
     def update_status(self, plan_name, set_status, research=True):
         """

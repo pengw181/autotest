@@ -6,8 +6,9 @@
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from client.app.VisualModeler.process.draw.processInfo import Process
 from client.app.VisualModeler.process.draw.drawAction import DrawProcess
+from client.app.VisualModeler.process.draw.manualExec import ManualExecute
 from client.app.VisualModeler.process.node.business.reportDashboard import ReportDashboard
-from client.app.VisualModeler.commonInfo.template import Template
+from client.app.VisualModeler.commonInfo.template import Template, ZgDataManage, DoubleConfirm
 from client.app.VisualModeler.commonInfo.proxy import Proxy
 from client.app.VisualModeler.commonInfo.field import ProfessionField
 from client.app.VisualModeler.commonInfo.database import Database
@@ -31,6 +32,7 @@ from service.lib.log.logger import log
 
 @auto_enter_vm
 def actions(func, param):
+
     run_flag = True
 
     if func == "ChooseMenu":
@@ -96,6 +98,14 @@ def actions(func, param):
         action.combine(source_node_name=param.get("起始节点名称"), target_node_name=param.get("终止节点名称"),
                        logic=param.get("关联关系"))
 
+    elif func == "TestProcess":
+        action = ManualExecute(process_name=param.get("流程名称"))
+        action.test()
+
+    elif func == "FastRunProcess":
+        action = ManualExecute(process_name=param.get("流程名称"))
+        action.fast_run(params=param.get("参数列表"))
+
     # 报表节点仪表盘配置
     elif func == "AccessReportDashboard":
         action = ReportDashboard()
@@ -126,30 +136,122 @@ def actions(func, param):
         action.clear_dictionary(dictionary_name=param.get("字典名称"), fuzzy_match=param.get("模糊匹配"))
 
     # 网元模版配置
-    elif func == "AddTable":
+    elif func == "AddZgTemp":
         action = Template(temp_type=param.get("模版类型"))
-        action.add_table(table_name=param.get("表名"))
+        action.add_zg_temp(zg_temp_name=param.get("模版名称"))
 
-    elif func == "UpdateTable":
+    elif func == "UpdateZgTemp":
         action = Template(temp_type=param.get("模版类型"))
         update_map = param.get("修改内容")
-        action.update_table(table=param.get("表名"), table_name=update_map.get("表名"))
+        action.update_zg_temp(zg_temp=param.get("模版名称"), zg_temp_name=update_map.get("新模版名称"))
 
-    elif func == "TableColSet":
+    elif func == "SaveZgTempCol":
         action = Template(temp_type=param.get("模版类型"))
-        action.col_sets(table_name=param.get("表名"), col_set=param.get("列配置"))
+        action.col_sets(zg_temp_name=param.get("模版名称"), col_set=param.get("列配置"))
 
-    elif func == "DeleteTable":
+    elif func == "UpdateColSearch":
         action = Template(temp_type=param.get("模版类型"))
-        action.delete_table(table_name=param.get("表名"))
+        action.set_search(zg_temp_name=param.get("模版名称"), col_list=param.get("列名列表"))
 
-    elif func == "TableDataClear":
+    elif func == "UpdateColNull":
         action = Template(temp_type=param.get("模版类型"))
-        action.data_clear(table_name=param.get("表名"), fuzzy_match=param.get("模糊匹配"))
+        action.set_null(zg_temp_name=param.get("模版名称"), col_list=param.get("列名列表"))
 
-    elif func == "ListTemplate":
+    elif func == "UpdateColFrozen":
+        action = Template(temp_type=param.get("模版类型"))
+        action.set_frozen(zg_temp_name=param.get("模版名称"), col_list=param.get("列名列表"))
+
+    elif func == "DeleteZgTemp":
+        action = Template(temp_type=param.get("模版类型"))
+        action.delete_zg_temp(zg_temp_name=param.get("模版名称"))
+
+    elif func == "CopyZgTemp":
+        action = Template(temp_type=param.get("模版类型"))
+        action.copy_zg_temp(zg_temp_name=param.get("模版名称"), copy_name=param.get("新模版名称"))
+
+    elif func == "ZgTempPushAlarm":
+        action = Template(temp_type=param.get("模版类型"))
+        action.push_alarm(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempSyncAlarm":
+        action = Template(temp_type=param.get("模版类型"))
+        action.sync_alarm(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempRevokeAlarm":
+        action = Template(temp_type=param.get("模版类型"))
+        action.revoke_alarm(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempPushDashboard":
+        action = Template(temp_type=param.get("模版类型"))
+        action.push_dashboard(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempSyncDashboard":
+        action = Template(temp_type=param.get("模版类型"))
+        action.sync_dashboard(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempRevokeDashboard":
+        action = Template(temp_type=param.get("模版类型"))
+        action.revoke_dashboard(zg_temp_name=param.get("模版名称"))
+
+    elif func == "ZgTempDataClear":
+        action = Template(temp_type=param.get("模版类型"))
+        action.data_clear(zg_temp_name=param.get("模版名称"), fuzzy_match=param.get("模糊匹配"))
+
+    elif func == "ListZgTemp":
         action = Template(temp_type=param.get("模版类型"))
         action.search(query=param.get("查询条件"))
+
+    elif func == "ZgAddData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.add_data(data_info=param.get("数据信息"))
+
+    elif func == "ZgUpdateData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.update_data(netunit_name=param.get("网元名称"), data_info=param.get("数据信息"))
+
+    elif func == "ZgListData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.search_data(query=param.get("查询条件"))
+
+    elif func == "ZgDeleteData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.delete_data(query=param.get("查询条件"))
+
+    elif func == "ZgUploadData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.upload(file_path=param.get("文件路径"))
+
+    elif func == "ZgDownloadTempl":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.download_templ()
+
+    elif func == "ZgDownloadData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("表名"))
+        action.download()
+
+    elif func == "ZgClearData":
+        action = ZgDataManage(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.clear()
+
+    elif func == "ZgDataConfirmListData":
+        action = DoubleConfirm(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.search_data(query=param.get("查询条件"))
+
+    elif func == "ZgDataConfirmSelected":
+        action = DoubleConfirm(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.confirm_selected(ne_list=param.get("网元列表"), query=param.get("查询条件"))
+
+    elif func == "ZgDataConfirmAll":
+        action = DoubleConfirm(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.confirm_all(query=param.get("查询条件"))
+
+    elif func == "ZgDataRevokeSelected":
+        action = DoubleConfirm(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.revoke_selected(ne_list=param.get("网元列表"), query=param.get("查询条件"))
+
+    elif func == "ZgDataRevokeAll":
+        action = DoubleConfirm(temp_type=param.get("模版类型"), zg_temp_name=param.get("模版名称"))
+        action.revoke_all(query=param.get("查询条件"))
 
     # 代理管理
     elif func == "AddProxy":
@@ -282,8 +384,7 @@ def actions(func, param):
 
     elif func == "UpdateScriptFileContent":
         action = Script()
-        action.update_script_content(script_name=param.get("脚本名称"), ver_no=param.get("版本号"),
-                                     file_name=param.get("脚本文件名"),
+        action.update_script_content(script_name=param.get("脚本名称"), ver_no=param.get("版本号"), file_name=param.get("脚本文件名"),
                                      content=param.get("脚本内容"))
 
     elif func == "DeleteScript":
@@ -585,14 +686,14 @@ def actions(func, param):
     elif func == "UpdateEDataTpl":
         action = EDataTemplate(temp_type=param.get("模版类型"))
         update_map = param.get("修改内容")
-        action.update_table(obj=param.get("数据表名称"), table_name=update_map.get("数据表名称"),
+        action.update_table(table=param.get("数据表名称"), table_name=update_map.get("数据表名称"),
                             field=update_map.get("专业领域"), remark=update_map.get("备注"),
                             cmd=update_map.get("取参指令"), regexp_start=update_map.get("段开始特征行"),
                             regexp_end=update_map.get("段结束特征行"), sample=update_map.get("样例数据"))
 
     elif func == "DeleteEDataTpl":
         action = EDataTemplate(temp_type=param.get("模版类型"))
-        action.delete_table(obj=param.get("数据表名称"))
+        action.delete_table(table_name=param.get("数据表名称"))
 
     elif func == "EDataSetCol":
         action = EDataTemplate(temp_type=param.get("模版类型"))
@@ -634,7 +735,7 @@ def actions(func, param):
 
     elif func == "EDataDataClear":
         action = EDataTemplate(temp_type=param.get("模版类型"))
-        action.data_clear(obj=param.get("数据表名称"), fuzzy_match=param.get("模糊匹配"))
+        action.data_clear(table_name=param.get("数据表名称"), fuzzy_match=param.get("模糊匹配"))
 
     # 我的监控
     elif func == "ClickDashboardButton":
@@ -745,3 +846,76 @@ def actions(func, param):
         run_flag = False
 
     return run_flag
+
+
+""" 
+    {
+        "操作": "ZgDeleteData",
+        "参数": {
+            "模版类型": "网元基础信息",
+            "模版名称": "auto_网元基础信息表",
+            "查询条件": {
+                "网元名称": "auto_test_002"
+            }
+        }   
+    }
+    
+    {
+        "操作": "UpdateTask",
+        "参数": {
+            "任务名称": "auto_指令任务_date",
+            "修改内容": {
+                "任务名称": "auto_指令任务_date",
+                "配置定时任务": "开启",
+                "定时配置": {
+                    "首次执行时间": "now",
+                    "高级模式": "关闭",
+                    "间隔周期": "1",
+                    "间隔周期单位": "天"
+                
+                },
+                "任务说明": "auto_指令任务_date"
+            }
+        }   
+    }  
+    
+    
+    {
+        "操作": "UpdateTaskStatus",
+        "参数": {
+            "任务名称": "auto_指令任务_date",
+            "状态": "启用"
+        }   
+    }
+        
+    {
+        "操作": "DeleteTask",
+        "参数": {
+            "任务名称": "auto_指令任务_date"
+        }
+    }
+    
+    {
+        "操作": "TriggerTask",
+        "参数": {
+            "任务名称": "auto_指令任务_date"
+        }
+    }
+    
+    {
+        "操作": "TriggerTask",
+        "参数": {
+            "任务名称": "auto_流程_pw0315"
+        }
+    }
+    
+    
+    {
+        "操作": "CopyProcess",
+        "参数": {
+            "流程名称": "auto_流程_pw0315",
+            "主流程名称": "auto_流程_pw0315",
+            "子流程名称列表": "auto_流程_pw0315"
+        }
+    }
+"""

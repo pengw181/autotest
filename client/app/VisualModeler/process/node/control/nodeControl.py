@@ -2,18 +2,19 @@
 # @Author: peng wei
 # @Time: 2022/3/29 下午2:37
 
-from selenium.common.exceptions import NoSuchElementException
+
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from service.lib.variable.globalVariable import *
-from service.lib.log.logger import log
+from selenium.common.exceptions import NoSuchElementException
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.processVar import choose_var
 from client.page.func.input import set_text_enable_var
 from client.page.func.alertBox import BeAlertBox
-from ..oprt.condition import condition
+from client.app.VisualModeler.process.node.oprt.condition import condition
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
 
 
 class NodeControl:

@@ -3,13 +3,13 @@
 # @Time: 2021/7/21 上午10:17
 
 from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from client.page.func.regular import RegularCube
 from client.page.func.input import set_textarea
 from client.page.func.processVar import choose_var
 from client.page.func.alertBox import BeAlertBox
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

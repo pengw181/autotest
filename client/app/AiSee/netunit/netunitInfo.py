@@ -2,23 +2,34 @@
 # @Author: peng wei
 # @Time: 2021/9/17 下午4:03
 
-from service.lib.log.logger import log
-from service.lib.variable.globalVariable import *
+import json
+from time import sleep
 from selenium.webdriver import ActionChains
-from client.page.func.alertBox import BeAlertBox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from client.page.func.pageMaskWait import page_wait
-from client.app.AiSee.netunit.menu import choose_menu
-from time import sleep
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.positionPanel import getPanelXpath
+from client.page.web.mainPage import AiSee
+from client.app.AiSee.netunit.menu import choose_menu, choose_domain
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 class NetUnit(object):
 
     def __init__(self):
         self.browser = get_global_var("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=get_global_var("Domain"))
         choose_menu(menu="网元信息(自身)")
 
         # 切到网元信息配置页面
@@ -28,18 +39,91 @@ class NetUnit(object):
         page_wait(timeout=120)
         sleep(1)
 
-    def choose(self, netunit_name):
+    def search(self, query, need_choose=False):
         """
-        :param netunit_name: 网元名称
+        :param query: 查询条件，字典
+        :param need_choose: True/False
         """
-        input_ele = self.browser.find_element_by_xpath(
-            "//*[@id='netunitName']/following-sibling::span/input[1]")
-        input_ele.clear()
-        input_ele.send_keys(netunit_name)
-        self.browser.find_element_by_xpath("//*[@id='btn']//*[text()='查询']").click()
+        if not isinstance(query, dict):
+            raise TypeError("查询条件需要是字典格式")
+        log.info("查询条件: {0}".format(json.dumps(query, ensure_ascii=False)))
+        select_item = None
+
+        # 网元名称
+        if query.__contains__("网元名称"):
+            netunit_name = query.get("网元名称")
+            self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(
+                netunit_name)
+            select_item = netunit_name
+
+        # 网元类型
+        if query.__contains__("网元类型"):
+            level_type = query.get("网元类型")
+            self.browser.find_element(By.XPATH, "//*[@id='levelType']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}'".format(level_type)).click()
+
+        # 网元IP
+        if query.__contains__("网元IP"):
+            netunit_ip = query.get("网元IP")
+            self.browser.find_element(By.XPATH, "//*[@id='netunitIp']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(By.XPATH, "//*[@id='netunitIp']/following-sibling::span/input[1]").send_keys(
+                netunit_ip)
+
+        # 生产厂家
+        if query.__contains__("生产厂家"):
+            vendor = query.get("生产厂家")
+            self.browser.find_element(By.XPATH, "//*[@id='vendorId']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}'".format(vendor)).click()
+
+        # 设备型号
+        if query.__contains__("设备型号"):
+            model = query.get("设备型号")
+            self.browser.find_element(By.XPATH, "//*[@id='netunitModelId']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}'".format(model)).click()
+
+        # 机房信息
+        if query.__contains__("机房信息"):
+            room = query.get("机房信息")
+            self.browser.find_element(By.XPATH, "//*[@id='roomInfo']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(By.XPATH, "//*[@id='roomInfo']/following-sibling::span/input[1]").send_keys(
+                room)
+
+        # 查询
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
-        self.browser.find_element_by_xpath("//*[@field='netunitName']//*[@data-mtips='{}']".format(netunit_name)).click()
-        log.info("已选网元: {}".format(netunit_name))
+        alert = BeAlertBox(timeout=1, back_iframe=False)
+        if alert.exist_alert:
+            msg = alert.get_msg()
+            log.info("弹出框返回: {0}".format(msg))
+            set_global_var("ResultMsg", msg, False)
+            return
+        if need_choose:
+            if select_item:
+                try:
+                    self.browser.find_element(
+                        By.XPATH, "//*[@field='netunitName']//*[text()='{0}']".format(select_item)).click()
+                except NoSuchElementException:
+                    raise KeyError("未找到匹配数据")
+                log.info("选择: {0}".format(select_item))
+            else:
+                raise KeyError("条件不足，无法选择数据")
+    #
+    # def choose(self, netunit_name):
+    #     """
+    #     :param netunit_name: 网元名称
+    #     """
+    #     input_ele = self.browser.find_element(By.XPATH, 
+    #         "//*[@id='netunitName']/following-sibling::span/input[1]")
+    #     input_ele.clear()
+    #     input_ele.send_keys(netunit_name)
+    #     self.browser.find_element(By.XPATH, "//*[@id='btn']//*[text()='查询']").click()
+    #     page_wait()
+    #     self.browser.find_element(By.XPATH, "//*[@field='netunitName']//*[@data-mtips='{}']".format(netunit_name)).click()
+    #     log.info("已选网元: {}".format(netunit_name))
 
     def add(self, netunit_name, netunit_type, ip, vendor, netunit_model, state, maxCocurrentNum):
         """
@@ -50,19 +134,27 @@ class NetUnit(object):
         :param netunit_model: 设备型号
         :param state: 业务状态
         :param maxCocurrentNum: 最大并发数
-        :return:
         """
-        self.browser.find_element_by_xpath("//*[@id='addBtn']//*[text()='添加']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='addBtn']").click()
         self.browser.switch_to.frame(
-            self.browser.find_element_by_xpath("//iframe[contains(@src,'netunitInfoEdit.html?type=add')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'netunitInfoEdit.html?type=add')]"))
         sleep(1)
-        result = self.netunit_page(netunit_name=netunit_name, netunit_type=netunit_type, ip=ip, vendor=vendor,
-                                   netunit_model=netunit_model, state=state, maxCocurrentNum=maxCocurrentNum)
-        return result
+        self.netunit_page(netunit_name=netunit_name, netunit_type=netunit_type, ip=ip, vendor=vendor,
+                          netunit_model=netunit_model, state=state, maxCocurrentNum=maxCocurrentNum)
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+        alert = BeAlertBox(back_iframe="default")
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功"):
+            log.info("保存配置成功")
+        else:
+            log.warning("保存配置失败，失败提示: {0}".format(msg))
+            alert.click_ok()
+        set_global_var("ResultMsg", msg, False)
 
-    def update(self, obj_netunit, netunit_name, netunit_type, ip, vendor, netunit_model, state, maxCocurrentNum):
+    def update(self, netunit, netunit_name, netunit_type, ip, vendor, netunit_model, state, maxCocurrentNum):
         """
-        :param obj_netunit: 目标网元
+        :param netunit: 目标网元
         :param netunit_name: 网元名称
         :param netunit_type: 网元类型
         :param ip: 网元IP
@@ -70,13 +162,11 @@ class NetUnit(object):
         :param netunit_model: 设备型号
         :param state: 业务状态
         :param maxCocurrentNum: 最大并发数
-        :return:
         """
-        self.choose(netunit_name=obj_netunit)
-        self.browser.find_element_by_xpath("//*[@id='editBtn']//*[text()='修改']").click()
+        self.search(query={"网元名称": netunit}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
         exist = alert.exist_alert
-        result = True
         if exist:
             set_global_var("ResultMsg", alert.get_msg(), False)
         else:
@@ -87,9 +177,18 @@ class NetUnit(object):
             sleep(1)
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='ip']/preceding-sibling::input")))
-            result = self.netunit_page(netunit_name=netunit_name, netunit_type=netunit_type, ip=ip, vendor=vendor,
-                                       netunit_model=netunit_model, state=state, maxCocurrentNum=maxCocurrentNum)
-        return result
+            self.netunit_page(netunit_name=netunit_name, netunit_type=netunit_type, ip=ip, vendor=vendor,
+                              netunit_model=netunit_model, state=state, maxCocurrentNum=maxCocurrentNum)
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+            alert = BeAlertBox(back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("保存成功"):
+                log.info("保存配置成功")
+            else:
+                log.warning("保存配置失败，失败提示: {0}".format(msg))
+                alert.click_ok()
+            set_global_var("ResultMsg", msg, False)
 
     def netunit_page(self, netunit_name, netunit_type, ip, vendor, netunit_model, state, maxCocurrentNum):
         """
@@ -104,103 +203,99 @@ class NetUnit(object):
 
         # 网元名称
         if netunit_name:
-            self.browser.find_element_by_xpath("//*[@name='netunitName']/preceding-sibling::input").clear()
-            self.browser.find_element_by_xpath("//*[@name='netunitName']/preceding-sibling::input").send_keys(
+            self.browser.find_element(By.XPATH, "//*[@name='netunitName']/preceding-sibling::input").clear()
+            self.browser.find_element(By.XPATH, "//*[@name='netunitName']/preceding-sibling::input").send_keys(
                 netunit_name)
             log.info("设置网元名称: {}".format(netunit_name))
 
         # 网元类型
         if netunit_type:
-            self.browser.find_element_by_xpath("//*[@id='levelId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='levelId']/following-sibling::span//a").click()
             sleep(1)
-            type_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'levelId') and text()='{}']".format(netunit_type))
+            type_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'levelId') and text()='{}']".format(netunit_type))
             action = ActionChains(self.browser)
             action.move_to_element(type_list).click().perform()
             log.info("设置网元类型: {}".format(netunit_type))
 
         # 网元IP
         if ip:
-            self.browser.find_element_by_xpath("//*[@name='ip']/preceding-sibling::input").clear()
-            self.browser.find_element_by_xpath("//*[@name='ip']/preceding-sibling::input").send_keys(ip)
+            self.browser.find_element(By.XPATH, "//*[@name='ip']/preceding-sibling::input").clear()
+            self.browser.find_element(By.XPATH, "//*[@name='ip']/preceding-sibling::input").send_keys(ip)
             log.info("设置网元IP: {}".format(ip))
             sleep(1)
 
         # 生产厂家
         if vendor:
-            self.browser.find_element_by_xpath("//*[@id='vendorId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='vendorId']/following-sibling::span//a").click()
             sleep(1)
-            vendor_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
+            vendor_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
             action = ActionChains(self.browser)
             action.move_to_element(vendor_list).click().perform()
             log.info("设置生产厂家: {}".format(vendor))
 
         # 设备型号
         if netunit_model:
-            self.browser.find_element_by_xpath("//*[@id='netunitModelId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='netunitModelId']/following-sibling::span//a").click()
             sleep(1)
-            nu_model_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'netunitModelId') and text()='{}']".format(netunit_model))
+            nu_model_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'netunitModelId') and text()='{}']".format(netunit_model))
             action = ActionChains(self.browser)
             action.move_to_element(nu_model_list).click().perform()
             log.info("设置设备型号: {}".format(netunit_model))
 
         # 业务状态
         if state:
-            self.browser.find_element_by_xpath("//*[@id='stateId']/following-sibling::span//a").click()
+            self.browser.find_element(By.XPATH, "//*[@id='stateId']/following-sibling::span//a").click()
             sleep(1)
-            nu_model_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'stateId') and text()='{}']".format(state))
+            nu_model_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'stateId') and text()='{}']".format(state))
             action = ActionChains(self.browser)
             action.move_to_element(nu_model_list).click().perform()
             log.info("设置业务状态: {}".format(state))
 
         # 最大并发数
         if maxCocurrentNum:
-            self.browser.find_element_by_xpath("//*[@name='maxCocurrentNum']/preceding-sibling::input").clear()
-            self.browser.find_element_by_xpath(
-                "//*[@name='maxCocurrentNum']/preceding-sibling::input").send_keys(maxCocurrentNum)
+            self.browser.find_element(By.XPATH, "//*[@name='maxCocurrentNum']/preceding-sibling::input").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@name='maxCocurrentNum']/preceding-sibling::input").send_keys(maxCocurrentNum)
             log.info("设置最大并发数: {}".format(maxCocurrentNum))
 
         # 提交
-        self.browser.find_element_by_xpath("//*[@id='saveBtn']//*[text()='提交']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
         alert = BeAlertBox(back_iframe="default")
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
             log.info("保存配置成功")
         else:
-            log.warn("保存配置失败，失败提示: {0}".format(msg))
+            log.warning("保存配置失败，失败提示: {0}".format(msg))
             alert.click_ok()
         set_global_var("ResultMsg", msg, False)
-        return True
 
-    def delete(self, obj_netunit):
+    def delete(self, netunit_name):
         """
-        :param obj_netunit: 目标网元
-        :return:
+        :param netunit_name: 网元名称
         """
-        self.choose(netunit_name=obj_netunit)
-        self.browser.find_element_by_xpath("//*[@id='deleteBtn']//span[text()='删除']").click()
+        self.search(query={"网元名称": netunit_name}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='deleteBtn']").click()
         alert = BeAlertBox(back_iframe=False)
         msg = alert.get_msg()
-        if alert.title_contains(obj_netunit, auto_click_ok=False):
+        if alert.title_contains(netunit_name, auto_click_ok=False):
             alert.click_ok()
-            sleep(1)
             alert = BeAlertBox(back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("成功"):
-                log.info("{0} 删除成功".format(obj_netunit))
+                log.info("{0} 删除成功".format(netunit_name))
             else:
-                log.warn("{0} 删除失败，失败提示: {1}".format(obj_netunit, msg))
+                log.warning("{0} 删除失败，失败提示: {1}".format(netunit_name, msg))
         else:
-            log.warn("{0} 删除失败，失败提示: {1}".format(obj_netunit, msg))
+            log.warning("{0} 删除失败，失败提示: {1}".format(netunit_name, msg))
         set_global_var("ResultMsg", msg, False)
-        return True
 
-    def login_config(self, obj_netunit, login_model_name, terminal, cmd_config):
+    def login_config(self, netunit_name, login_model_name, terminal, cmd_config):
         """
-        :param obj_netunit: 目标网元
+        :param netunit_name: 网元名称
         :param login_model_name: 登录模式
         :param terminal: 终端配置，字典
         :param cmd_config: 指令配置，数组，包含终端指令、登录指令
@@ -284,8 +379,8 @@ class NetUnit(object):
             }
         }
         """
-        self.choose(netunit_name=obj_netunit)
-        self.browser.find_element_by_xpath("//*[@id='loginConfigBtn']//span[text()='登录模式配置']").click()
+        self.search(query={"网元名称": netunit_name}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='loginConfigBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
         exist = alert.exist_alert
         if exist:
@@ -309,15 +404,15 @@ class NetUnit(object):
             if terminal:
                 try:
                     # 如果已经配置了一条，则进行修改
-                    row_ele = self.browser.find_element_by_xpath(
-                        terminal_field + "//*[contains(@class,'rownumber') and text()='1']")
+                    row_ele = self.browser.find_element(
+                        By.XPATH, terminal_field + "//*[contains(@class,'rownumber') and text()='1']")
 
                     # 双击修改
                     action = ActionChains(self.browser)
                     action.move_to_element(row_ele).double_click().perform()
                 except NoSuchElementException:
                     # 该登录模式未配置信息，则添加
-                    self.browser.find_element_by_xpath(login_model_button_field + "//*[text()='添加']").click()
+                    self.browser.find_element(By.XPATH, login_model_button_field + "//*[text()='添加']").click()
                 finally:
                     sleep(1)
                     self.set_terminal(terminal_name=terminal.get("终端名称"), login_type=terminal.get("登录方式"),
@@ -326,7 +421,7 @@ class NetUnit(object):
                                       expected_str=terminal.get("期待返回符"), failed_str=terminal.get("失败返回符"),
                                       charset=terminal.get("字符集"), terminal_field=terminal_field)
                     # 保存终端配置
-                    self.browser.find_element_by_xpath(login_model_button_field + "//*[text()='保存']").click()
+                    self.browser.find_element(By.XPATH, login_model_button_field + "//*[text()='保存']").click()
                     alert = BeAlertBox(back_iframe="default")
                     msg = alert.get_msg()
                     if alert.title_contains("保存成功"):
@@ -338,16 +433,16 @@ class NetUnit(object):
                         if alert.title_contains("保存成功"):
                             log.info("保存登录模式成功")
                         else:
-                            log.warn("保存登录模式失败，失败提示: {0}".format(msg))
+                            log.warning("保存登录模式失败，失败提示: {0}".format(msg))
                     else:
-                        log.warn("保存登录模式失败，失败提示: {0}".format(msg))
+                        log.warning("保存登录模式失败，失败提示: {0}".format(msg))
                         alert.click_ok()
                     set_global_var("ResultMsg", msg, False)
 
             # 指令配置
             if cmd_config:
                 # 点击指令配置
-                self.browser.find_element_by_xpath(login_model_button_field + "//*[text()='指令配置']").click()
+                self.browser.find_element(By.XPATH, login_model_button_field + "//*[text()='指令配置']").click()
                 # 切换指令配置页面iframe
                 self.browser.switch_to.parent_frame()
                 wait = WebDriverWait(self.browser, 30)
@@ -366,15 +461,16 @@ class NetUnit(object):
                     # 终端指令支持配置多条
                     for tc in terminal_cmd:
                         try:
-                            row_ele = self.browser.find_element_by_xpath(
-                                terminal_cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(row_num))
+                            row_ele = self.browser.find_element(
+                                By.XPATH, terminal_cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
+                                    row_num))
                             # 如果已存在，则双击修改
                             action = ActionChains(self.browser)
                             action.move_to_element(row_ele).double_click().perform()
                             sleep(1)
                         except NoSuchElementException:
                             # 如果不存在，则点击添加按钮
-                            self.browser.find_element_by_xpath("//*[@id='cmdInfo_form']//*[text()='添加']").click()
+                            self.browser.find_element(By.XPATH, "//*[@id='cmdInfo_form']//*[text()='添加']").click()
                         finally:
                             self.set_cmd(cmd=tc.get("指令内容"), account=tc.get("账号名称"), expected_str=tc.get("期待返回符"),
                                          failed_str=tc.get("失败返回符"), hide_input_cmd=tc.get("隐藏输入指令"),
@@ -385,13 +481,13 @@ class NetUnit(object):
                             row_num += 1
 
                     # 保存终端指令
-                    self.browser.find_element_by_xpath("//*[@id='cmdInfo_form']//*[text()='保存']").click()
+                    self.browser.find_element(By.XPATH, "//*[@id='cmdInfo_form']//*[text()='保存']").click()
                     alert = BeAlertBox(back_iframe="default")
                     msg = alert.get_msg()
                     if alert.title_contains("保存成功"):
                         log.info("保存终端指令成功")
                     else:
-                        log.warn("保存终端指令失败，失败提示: {0}".format(msg))
+                        log.warning("保存终端指令失败，失败提示: {0}".format(msg))
                         alert.click_ok()
                     set_global_var("ResultMsg", msg, False)
 
@@ -406,8 +502,8 @@ class NetUnit(object):
                     # 登录指令支持配置多条
                     for lc in login_cmd:
                         try:
-                            row_ele = self.browser.find_element_by_xpath(
-                                login_cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
+                            row_ele = self.browser.find_element(
+                                By.XPATH, login_cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
                                     row_num))
                             # 如果已存在，则双击修改
                             action = ActionChains(self.browser)
@@ -415,7 +511,7 @@ class NetUnit(object):
                             sleep(1)
                         except NoSuchElementException:
                             # 如果不存在，则点击添加按钮
-                            self.browser.find_element_by_xpath("//*[@id='tb2']//*[text()='添加']").click()
+                            self.browser.find_element(By.XPATH, "//*[@id='tb2']//*[text()='添加']").click()
                         finally:
                             self.set_cmd(cmd=lc.get("指令内容"), account=lc.get("账号名称"), expected_str=lc.get("期待返回符"),
                                          failed_str=lc.get("失败返回符"), hide_input_cmd=lc.get("隐藏输入指令"),
@@ -426,7 +522,7 @@ class NetUnit(object):
                             row_num += 1
 
                     # 保存终端指令
-                    self.browser.find_element_by_xpath("//*[@id='tb2']//*[text()='保存']").click()
+                    self.browser.find_element(By.XPATH, "//*[@id='tb2']//*[text()='保存']").click()
                     alert = BeAlertBox(back_iframe="default")
                     msg = alert.get_msg()
                     if alert.title_contains("保存成功"):
@@ -438,10 +534,10 @@ class NetUnit(object):
                         if alert.title_contains("保存成功"):
                             log.info("保存登录指令成功")
                         else:
-                            log.warn("保存登录指令失败，失败提示: {0}".format(msg))
+                            log.warning("保存登录指令失败，失败提示: {0}".format(msg))
                             alert.click_ok()
                     else:
-                        log.warn("保存登录指令失败，失败提示: {0}".format(msg))
+                        log.warning("保存登录指令失败，失败提示: {0}".format(msg))
                         alert.click_ok()
                     set_global_var("ResultMsg", msg, False)
 
@@ -462,24 +558,24 @@ class NetUnit(object):
         """
         # 终端名称
         if terminal_name:
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='cid']//a").click()
-            terminal_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(terminal_name))
+            self.browser.find_element(By.XPATH, terminal_field + "//*[@field='cid']//a").click()
+            terminal_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(terminal_name))
             action = ActionChains(self.browser)
             action.move_to_element(terminal_list).click().perform()
             log.info("设置终端名称: {}".format(terminal_name))
             # 选完终端后，需要双击才能做修改
-            row_ele = self.browser.find_element_by_xpath(
-                terminal_field + "//*[contains(@class,'rownumber') and text()='1']")
+            row_ele = self.browser.find_element(
+                By.XPATH, terminal_field + "//*[contains(@class,'rownumber') and text()='1']")
             # 双击修改
             action = ActionChains(self.browser)
             action.move_to_element(row_ele).double_click().perform()
 
         # 登录方式
         if login_type:
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='loginMode']//a").click()
-            login_type_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(login_type))
+            self.browser.find_element(By.XPATH, terminal_field + "//*[@field='loginMode']//a").click()
+            login_type_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(login_type))
             for e in login_type_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -489,55 +585,57 @@ class NetUnit(object):
 
         # 用户名
         if username:
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='userName']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='userName']//*[@class='textbox']/input[1]").send_keys(username)
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='userName']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='userName']//*[@class='textbox']/input[1]").send_keys(username)
             log.info("设置用户名: {}".format(username))
 
         # 密码
         if password:
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='pwd']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='pwd']//*[@class='textbox']/input[1]").send_keys(password)
+            self.browser.find_element(By.XPATH, terminal_field + "//*[@field='pwd']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='pwd']//*[@class='textbox']/input[1]").send_keys(password)
             log.info("设置密码: {}".format(password))
             sleep(1)
 
         # IP
         if ip:
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='ip']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='ip']//*[@class='textbox']/input[1]").send_keys(ip)
+            self.browser.find_element(By.XPATH, terminal_field + "//*[@field='ip']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='ip']//*[@class='textbox']/input[1]").send_keys(ip)
             log.info("设置IP: {}".format(ip))
 
         # 端口
         if port:
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='port']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='port']//*[@class='textbox']/input[1]").send_keys(port)
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='port']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='port']//*[@class='textbox']/input[1]").send_keys(port)
             log.info("设置端口: {}".format(port))
 
         # 期待返回符
         if expected_str:
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='telnetReturn']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='telnetReturn']//*[@class='textbox']/input[1]").send_keys(expected_str)
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='telnetReturn']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='telnetReturn']//*[@class='textbox']/input[1]").send_keys(
+                expected_str)
             log.info("设置期待返回符: {}".format(expected_str))
 
         # 失败返回符
         if failed_str:
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='failReturn']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                terminal_field + "//*[@field='failReturn']//*[@class='textbox']/input[1]").send_keys(failed_str)
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='failReturn']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, terminal_field + "//*[@field='failReturn']//*[@class='textbox']/input[1]").send_keys(failed_str)
             log.info("设置失败返回符: {}".format(failed_str))
 
         # 字符集
         if charset:
-            self.browser.find_element_by_xpath(terminal_field + "//*[@field='charset']//a").click()
-            charset_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
+            self.browser.find_element(By.XPATH, terminal_field + "//*[@field='charset']//a").click()
+            charset_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
             for e in charset_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -565,40 +663,40 @@ class NetUnit(object):
         """
         # 指令内容
         if cmd:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
             log.info("设置指令内容: {}".format(cmd))
 
         # 账号名称
         if account:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='accountTempId']//a").click()
-            account_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(account))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='accountTempId']//a").click()
+            account_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(account))
             action = ActionChains(self.browser)
             action.move_to_element(account_list).click().perform()
             log.info("设置账号名称: {}".format(account))
 
         # 期待返回符
         if expected_str:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(expected_str)
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(expected_str)
             log.info("设置期待返回符: {}".format(expected_str))
 
         # 失败返回符
         if failed_str:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(failed_str)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(failed_str)
             log.info("设置失败返回符: {}".format(failed_str))
 
         # 隐藏输入指令
         if hide_input_cmd:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='sensitiveCmd']//a").click()
-            hide_input_cmd_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(hide_input_cmd))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='sensitiveCmd']//a").click()
+            hide_input_cmd_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(hide_input_cmd))
             for e in hide_input_cmd_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -608,33 +706,32 @@ class NetUnit(object):
 
         # 隐藏指令返回
         if hide_return:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(hide_return)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(hide_return)
             log.info("设置隐藏指令返回: {}".format(hide_return))
 
         # 退出命令
         if quit_cmd:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(quit_cmd)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(quit_cmd)
             log.info("设置退出命令: {}".format(quit_cmd))
 
         # 执行后等待时间
         if sleep_time:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(sleep_time)
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(sleep_time)
             log.info("设置执行后等待时间: {}".format(sleep_time))
 
         # 是否适配网元
         if translate_netunit:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='translateNetunit']//a").click()
-            translate_netunit_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(translate_netunit))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='translateNetunit']//a").click()
+            translate_netunit_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(translate_netunit))
             for e in translate_netunit_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -644,9 +741,9 @@ class NetUnit(object):
 
         # 字符集
         if charset:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='charset']//a").click()
-            charset_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='charset']//a").click()
+            charset_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
             for e in charset_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -656,9 +753,9 @@ class NetUnit(object):
 
         # 换行符
         if line_break:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='lineBreak']//a").click()
-            line_break_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(line_break))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='lineBreak']//a").click()
+            line_break_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(line_break))
             for e in line_break_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -668,11 +765,11 @@ class NetUnit(object):
 
         # 指令类型
         if cmd_type:
-            cmd_type_ele = self.browser.find_element_by_xpath(cmd_field + "//*[@field='isTemplCmd']//a")
+            cmd_type_ele = self.browser.find_element(By.XPATH, cmd_field + "//*[@field='isTemplCmd']//a")
             action = ActionChains(self.browser)
             action.move_to_element(cmd_type_ele).click().perform()
-            cmd_type_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(cmd_type))
+            cmd_type_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(cmd_type))
             for e in cmd_type_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -680,24 +777,124 @@ class NetUnit(object):
                     log.info("设置指令类型: {}".format(cmd_type))
                     break
 
-    def data_clear(self, obj_netunit, fuzzy_match=False):
+    def assign_rela(self, netunit_name, rela_type, ne_list, keyword):
         """
-        :param obj_netunit: 目标网元
+        # 分配网元关系
+        :param netunit_name: 网元名称
+        :param rela_type: 关系类型
+        :param ne_list: 网元列表
+        :param keyword: 关键字，设置关键字时，网元列表参数请传空
+        """
+        self.search(query={"网元名称": netunit_name}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='relaAssignBtn']").click()
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'netunitInfoRelaAssign.html')]")))
+        sleep(1)
+
+        # 关系类型
+        if rela_type:
+            self.browser.find_element(By.XPATH, "//*[@id='tabs']//*[text()='{0}']".format(rela_type)).click()
+            log.info("关系类型选择: {0}".format(rela_type))
+            page_wait()
+
+        # 网元列表
+        if ne_list:
+            if not isinstance(ne_list, list):
+                raise TypeError("网元列表格式不是数组")
+            if len(ne_list) > 0:
+                for ne in ne_list:
+                    self.browser.find_element(
+                        By.XPATH, "//*[@id='tabs']/following-sibling::div//*[@id='netunitName']/following-sibling::span[1]/input[1]").clear()
+                    self.browser.find_element(
+                        By.XPATH, "//*[@id='tabs']/following-sibling::div//*[@id='netunitName']/following-sibling::span[1]/input[1]").send_keys(ne)
+                    self.browser.find_element(By.XPATH, "//*[@id='searchBtn1']").click()
+                    page_wait()
+                    self.browser.find_element(
+                        By.XPATH, "//*[@id='tabs']/following-sibling::div//*[@field='netunitName']//*[text()='{0}']".format(ne)).click()
+                    # 分配所选
+                    self.browser.find_element(By.XPATH, "//*[@id='allToSelected']").click()
+                    alert = BeAlertBox(timeout=1, back_iframe="default")
+                    msg = alert.get_msg()
+                    if alert.title_contains("您确定需要分配所选数据吗", auto_click_ok=False):
+                        alert.click_ok()
+                        alert = BeAlertBox(timeout=10, back_iframe=False)
+                        msg = alert.get_msg()
+                        if alert.title_contains("分配成功"):
+                            log.info("分配网元: {0}".format(ne))
+
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                            # 切到网元信息配置页面
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//*[contains(@src,'/html/nu/netunitInfo.html')]")))
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'netunitInfoRelaAssign.html')]")))
+                        else:
+                            log.error("分配网元: {0}失败，失败原因: {1}".format(ne, msg))
+                            break
+                    else:
+                        log.error("分配网元: {0}失败，失败原因: {1}".format(ne, msg))
+                        break
+                    set_global_var("ResultMsg", msg, False)
+
+        # 关键字
+        if keyword:
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tabs']/following-sibling::div//*[@id='netunitName']/following-sibling::span[1]/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tabs']/following-sibling::div//*[@id='netunitName']/following-sibling::span[1]/input[1]").send_keys(
+                keyword)
+            self.browser.find_element(By.XPATH, "//*[@id='searchBtn1']").click()
+            page_wait()
+            # 分配所选
+            self.browser.find_element(By.XPATH, "//*[@id='allToSelected']").click()
+            alert = BeAlertBox(timeout=1, back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=10, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("分配成功"):
+                    log.info("按 {0} 查询后，分配网元成功".format(keyword))
+
+                    wait = WebDriverWait(self.browser, 30)
+                    wait.until(ec.frame_to_be_available_and_switch_to_it((
+                        By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                    # 切到网元信息配置页面
+                    wait = WebDriverWait(self.browser, 30)
+                    wait.until(ec.frame_to_be_available_and_switch_to_it((
+                        By.XPATH, "//*[contains(@src,'/html/nu/netunitInfo.html')]")))
+                    wait = WebDriverWait(self.browser, 30)
+                    wait.until(ec.frame_to_be_available_and_switch_to_it((
+                        By.XPATH, "//iframe[contains(@src,'netunitInfoRelaAssign.html')]")))
+                else:
+                    log.error("按 {0} 查询后，分配网元失败，失败原因: {1}".format(keyword, msg))
+            else:
+                log.error("按 {0} 查询后，分配网元失败，失败原因: {1}".format(keyword, msg))
+            set_global_var("ResultMsg", msg, False)
+
+    def data_clear(self, netunit_name, fuzzy_match=False):
+        """
+        :param netunit_name: 目标网元
         :param fuzzy_match: 是否模糊查询，使用关键字开头模糊查询
         """
         # 用于清除数据，在测试之前执行, 使用关键字开头模糊查询
-        self.browser.find_element_by_xpath("//*[@id='netunitName']/following-sibling::span/input[1]").clear()
-        self.browser.find_element_by_xpath(
-            "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(obj_netunit)
-        self.browser.find_element_by_xpath("//*[@id='btn']//*[text()='查询']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").clear()
+        self.browser.find_element(
+            By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(netunit_name)
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
-        sleep(1)
+        fuzzy_match = True if fuzzy_match == "是" else False
         if fuzzy_match:
-            record_element = self.browser.find_elements_by_xpath(
-                "//*[@field='netunitName']//*[starts-with(text(),'{0}')]".format(obj_netunit))
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@field='netunitName']//*[starts-with(text(),'{0}')]".format(netunit_name))
         else:
-            record_element = self.browser.find_elements_by_xpath(
-                "//*[@field='netunitName']//*[text()='{0}']".format(obj_netunit))
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@field='netunitName']//*[text()='{0}']".format(netunit_name))
         if len(record_element) > 0:
             exist_data = True
 
@@ -707,7 +904,7 @@ class NetUnit(object):
                 pe.click()
                 log.info("选择: {0}".format(search_result))
                 # 删除
-                self.browser.find_element_by_xpath("//*[text()='删除']").click()
+                self.browser.find_element(By.XPATH, "//*[text()='删除']").click()
                 alert = BeAlertBox(back_iframe="default")
                 msg = alert.get_msg()
                 if alert.title_contains("您确定需要删除{0}吗".format(search_result), auto_click_ok=False):
@@ -719,8 +916,8 @@ class NetUnit(object):
                         page_wait()
                         if fuzzy_match:
                             # 重新获取页面查询结果
-                            record_element = self.browser.find_elements_by_xpath(
-                                "//*[@field='netunitName']//*[starts-with(text(),'{0}')]".format(obj_netunit))
+                            record_element = self.browser.find_elements(
+                                By.XPATH, "//*[@field='netunitName']//*[starts-with(text(),'{0}')]".format(netunit_name))
                             if len(record_element) > 0:
                                 exist_data = True
                             else:
@@ -733,9 +930,9 @@ class NetUnit(object):
                         raise Exception("删除数据时出现未知异常: {0}".format(msg))
                 else:
                     # 无权操作
-                    log.warn("{0} 清理失败，失败提示: {1}".format(obj_netunit, msg))
+                    log.warning("{0} 清理失败，失败提示: {1}".format(netunit_name, msg))
                     set_global_var("ResultMsg", msg, False)
-
+                    break
         else:
             # 查询结果为空,结束处理
             log.info("查询不到满足条件的数据，无需清理")

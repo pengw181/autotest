@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 from client.page.func.processVar import choose_var
 from client.page.func.regular import RegularCube
 from client.page.func.input import set_textarea
+from client.page.func.alertBox import BeAlertBox
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
-from client.page.func.alertBox import BeAlertBox
 
 
 def section(output_var, input_var, value_type, begin_config, end_config, sample_data):

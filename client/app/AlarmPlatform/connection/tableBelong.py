@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:08
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -59,6 +59,9 @@ class TableBelong:
             By.XPATH, "//iframe[contains(@src,'/AlarmPlatform/html/dataConfig/tableBelong/addTableBelong.html')]")))
         sleep(1)
         self.table_belong_page(database_name, table_en_ame, table_cn_Name, table_object, table_period, remark)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -86,6 +89,9 @@ class TableBelong:
             By.XPATH, "//*[@id='editDiv']//*[@id='tableNameCh']/following-sibling::span/input[1]")))
 
         self.table_belong_page(None, None, table_cn_Name, None, None, remark)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -150,9 +156,6 @@ class TableBelong:
             remark_textarea = self.browser.find_element(By.XPATH, "//*[@id='remark']")
             set_textarea(remark_textarea, remark)
             log.info("设置备注: {0}".format(remark))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']//*[text()='提交']").click()
 
     def delete(self, table_cn_name):
         """

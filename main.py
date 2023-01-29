@@ -2,9 +2,9 @@
 # @Author: peng wei
 # @Time: 2021-05-06 14:57
 
-from service.src.report import getReportName
-from service.src.suite import createSuite
-from service.src import HTMLTestRunner
+from service.gooflow.report import getReportName
+from service.gooflow.suite import createSuite
+from service.gooflow import HTMLTestRunner
 
 
 def main():

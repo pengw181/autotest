@@ -2,11 +2,10 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:31
 
-
+from selenium.webdriver.common.by import By
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 from config.loads import properties
-from selenium.webdriver.common.by import By
 
 
 def upload(file_name, catalog=None, input_id='filebox_file_id_2'):

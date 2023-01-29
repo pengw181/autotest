@@ -111,6 +111,9 @@ class Mail:
                        send_server=send_server, send_port=send_port, receive_protocol=receive_protocol,
                        receive_server=receive_server, receive_port=receive_port, username=username, pwd=pwd,
                        proxy_name=proxy_name, platf_account=platf_account)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("成功"):
@@ -158,6 +161,9 @@ class Mail:
                            send_server=send_server, send_port=send_port, receive_protocol=receive_protocol,
                            receive_server=receive_server, receive_port=receive_port, username=username, pwd=pwd,
                            proxy_name=proxy_name, platf_account=platf_account)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("成功"):
@@ -310,9 +316,6 @@ class Mail:
             self.browser.find_element(
                 By.XPATH, "//*[contains(@id,'isPlatfAccount') and text()='{0}']".format(platf_account)).click()
             log.info("设置平台账号: {0}".format(platf_account))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
 
     def test(self, mail_addr):
         """

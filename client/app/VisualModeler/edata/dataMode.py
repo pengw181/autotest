@@ -3,11 +3,11 @@
 # @Time: 2022/2/21 下午4:02
 
 from time import sleep
+from selenium.webdriver.common.by import By
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.input import set_textarea
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
-from selenium.webdriver.common.by import By
 
 
 class DateModeEData:

@@ -4,7 +4,7 @@
 
 
 from service.lib.variable.globalVariable import *
-from client.page.resource.Crawler.chooseMenu import choose_menu
+from client.page.statics.Crawler.chooseMenu import choose_menu
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.alertBox import BeAlertBox
 from time import sleep

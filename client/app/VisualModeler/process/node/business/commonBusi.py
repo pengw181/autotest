@@ -2,9 +2,9 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:10
 
-from client.page.func.alertBox import BeAlertBox
 from time import sleep
 from selenium.webdriver.common.by import By
+from client.page.func.alertBox import BeAlertBox
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 

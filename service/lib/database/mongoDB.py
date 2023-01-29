@@ -3,8 +3,8 @@
 # @Time: 2021/9/16 下午10:10
 
 import pymongo
-from config.loads import mongo_config, properties
 from service.lib.log.logger import log
+from config.loads import mongo_config, properties
 
 
 class MongoDB:

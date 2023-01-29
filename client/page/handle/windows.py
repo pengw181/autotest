@@ -59,4 +59,4 @@ class WindowHandles:
             log.info(get_global_var("WinHandles"))
             self.browser.refresh()
         else:
-            log.info("窗口【{0}】不存在，无需关闭.".format(title))
+            log.debug("窗口【{0}】不存在，无需关闭.".format(title))

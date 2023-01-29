@@ -2,18 +2,18 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:07
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import NoSuchElementException
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.pagination import Pagination
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -67,6 +67,9 @@ class MsgTemplate:
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='template_name']")))
         sleep(1)
         self.msg_temp_page(rule_name, msg_temp_name, title, remark, config_model, result_tag, tag_config, input_template)
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@id='template_add']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -103,6 +106,9 @@ class MsgTemplate:
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='template_name']")))
 
             self.msg_temp_page(None, msg_temp_name, title, remark, config_model, result_tag, tag_config, input_template)
+
+            # 保存
+            self.browser.find_element(By.XPATH, "//*[@id='template_add']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("保存成功"):
@@ -332,9 +338,6 @@ class MsgTemplate:
             input_template_textarea = self.browser.find_element(By.XPATH, "//*[@id='input_template']")
             set_textarea(textarea=input_template_textarea, msg=input_template)
             log.info("模版输入设置值: {0}".format(input_template))
-
-        # 保存
-        self.browser.find_element(By.XPATH, "//*[@id='template_add']").click()
 
     def update_status(self, msg_temp_name, set_status, research=True):
         """

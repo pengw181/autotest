@@ -32,14 +32,12 @@ class JumpCmd(object):
         """
         :param cmd_name: 登录指令名称
         """
-        input_ele = self.browser.find_element_by_xpath(
-            "//*[@id='cmdTempName']/following-sibling::span/input[1]")
+        input_ele = self.browser.find_element(By.XPATH, "//*[@id='cmdTempName']/following-sibling::span/input[1]")
         input_ele.clear()
         input_ele.send_keys(cmd_name)
-        self.browser.find_element_by_xpath("//*[@id='btn']//*[text()='查询']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
-        self.browser.find_element_by_xpath(
-            "//*[@field='cmdTempName']//*[@data-mtips='{}']".format(cmd_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@field='cmdTempName']//*[@data-mtips='{}']".format(cmd_name)).click()
         log.info("已选登录指令: {}".format(cmd_name))
 
     def add(self, cmd_name, remark, cmd):
@@ -48,25 +46,22 @@ class JumpCmd(object):
         :param remark: 登录指令用途
         :param cmd: 指令配置
         """
-        self.browser.find_element_by_xpath("//*[@id='cmdTempName']/following-sibling::span/input[1]").clear()
-        self.browser.find_element_by_xpath("//*[@id='cmdTempName']/following-sibling::span/input[1]").send_keys(cmd_name)
-        self.browser.find_element_by_xpath("//*[@id='btn']//*[text()='查询']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='cmdTempName']/following-sibling::span/input[1]").clear()
+        self.browser.find_element(By.XPATH, "//*[@id='cmdTempName']/following-sibling::span/input[1]").send_keys(cmd_name)
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
         sleep(1)
-        result = False
         try:
-            self.browser.find_element_by_xpath("//*[@field='cmdTempName']//*[text()='{0}']".format(cmd_name))
+            self.browser.find_element(By.XPATH, "//*[@field='cmdTempName']//*[text()='{0}']".format(cmd_name))
             log.info("登录指令【{}】存在，开始修改".format(cmd_name))
-            result = self.update(obj_cmd=cmd_name, cmd_name=cmd_name, remark=remark, cmd=cmd)
+            self.update(obj_cmd=cmd_name, cmd_name=cmd_name, remark=remark, cmd=cmd)
         except NoSuchElementException:
             log.info("登录指令【{}】不存在，开始添加".format(cmd_name))
-            self.browser.find_element_by_xpath("//*[@id='addBtn']//*[text()='添加']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='addBtn']//*[text()='添加']").click()
             self.browser.switch_to.frame(
-                self.browser.find_element_by_xpath("//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html?type=add')]"))
+                self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html?type=add')]"))
             sleep(1)
-            result = self.jump_cmd_page(cmd_name=cmd_name, remark=remark, cmd=cmd)
-        finally:
-            return result
+            self.jump_cmd_page(cmd_name=cmd_name, remark=remark, cmd=cmd)
 
     def update(self, obj_cmd, cmd_name, remark, cmd):
         """
@@ -76,7 +71,7 @@ class JumpCmd(object):
         :param cmd: 指令配置
         """
         self.choose(cmd_name=obj_cmd)
-        self.browser.find_element_by_xpath("//*[@id='editBtn']//*[text()='修改']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
         exist = alert.exist_alert
         if exist:
@@ -89,9 +84,7 @@ class JumpCmd(object):
             sleep(1)
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='accountTempName']/preceding-sibling::input")))
-            result = self.jump_cmd_page(cmd_name=cmd_name, remark=remark, cmd=cmd)
-
-            return result
+            self.jump_cmd_page(cmd_name=cmd_name, remark=remark, cmd=cmd)
 
     def jump_cmd_page(self, cmd_name, remark, cmd):
         """
@@ -101,16 +94,16 @@ class JumpCmd(object):
         """
         # 登录指令名称
         if cmd_name:
-            self.browser.find_element_by_xpath("//*[@id='cmdTempName']/following-sibling::span[1]/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                "//*[@id='cmdTempName']/following-sibling::span[1]/input[1]").send_keys(cmd_name)
+            self.browser.find_element(By.XPATH, "//*[@id='cmdTempName']/following-sibling::span[1]/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='cmdTempName']/following-sibling::span[1]/input[1]").send_keys(cmd_name)
             log.info("设置登录指令名称: {}".format(cmd_name))
 
         # 登录指令用途
         if remark:
-            self.browser.find_element_by_xpath("//*[@id='remark']/following-sibling::span[1]/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                "//*[@id='remark']/following-sibling::span[1]/input[1]").send_keys(remark)
+            self.browser.find_element(By.XPATH, "//*[@id='remark']/following-sibling::span[1]/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='remark']/following-sibling::span[1]/input[1]").send_keys(remark)
             log.info("设置登录指令用途: {}".format(remark))
 
         # 指令配置
@@ -120,8 +113,8 @@ class JumpCmd(object):
 
             for c in cmd:
                 try:
-                    row_ele = self.browser.find_element_by_xpath(
-                        cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
+                    row_ele = self.browser.find_element(
+                        By.XPATH, cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
                             row_num))
                     # 如果已存在，则单击修改
                     action = ActionChains(self.browser)
@@ -129,7 +122,7 @@ class JumpCmd(object):
                     sleep(1)
                 except NoSuchElementException:
                     # 如果不存在，则点击添加按钮
-                    self.browser.find_element_by_xpath("//*[@onclick='appendCmd()']//*[text()='添加']").click()
+                    self.browser.find_element(By.XPATH, "//*[@onclick='appendCmd()']").click()
                 finally:
                     self.set_cmd(cmd=c.get("指令内容"), account=c.get("账号名称"), expected_str=c.get("期待返回符"),
                                  failed_str=c.get("失败返回符"), hide_input_cmd=c.get("隐藏输入指令"),
@@ -139,16 +132,15 @@ class JumpCmd(object):
                     row_num += 1
 
         # 提交
-        self.browser.find_element_by_xpath("//*[@id='saveBtn']//*[text()='提交']").click()
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
         alert = BeAlertBox(back_iframe="default")
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
             log.info("保存配置成功")
         else:
-            log.warn("保存配置失败，失败提示: {0}".format(msg))
+            log.warning("保存配置失败，失败提示: {0}".format(msg))
             alert.click_ok()
         set_global_var("ResultMsg", msg, False)
-        return True
 
     def set_cmd(self, cmd, account, expected_str, failed_str, hide_input_cmd, hide_return, quit_cmd, sleep_time,
                 translate_netunit, charset, line_break, cmd_field):
@@ -169,40 +161,41 @@ class JumpCmd(object):
         """
         # 指令内容
         if cmd:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
             log.info("设置指令内容: {}".format(cmd))
 
         # 账号名称
         if account:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='accountTempId']//a").click()
-            account_list = self.browser.find_element_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(account))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='accountTempId']//a").click()
+            account_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(account))
             action = ActionChains(self.browser)
             action.move_to_element(account_list).click().perform()
             log.info("设置账号名称: {}".format(account))
 
         # 期待返回符
         if expected_str:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(expected_str)
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(expected_str)
             log.info("设置期待返回符: {}".format(expected_str))
 
         # 失败返回符
         if failed_str:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(failed_str)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(
+                failed_str)
             log.info("设置失败返回符: {}".format(failed_str))
 
         # 隐藏输入指令
         if hide_input_cmd:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='sensitiveCmd']//a").click()
-            hide_input_cmd_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(hide_input_cmd))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='sensitiveCmd']//a").click()
+            hide_input_cmd_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(hide_input_cmd))
             for e in hide_input_cmd_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -212,33 +205,33 @@ class JumpCmd(object):
 
         # 隐藏指令返回
         if hide_return:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(hide_return)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(hide_return)
             log.info("设置隐藏指令返回: {}".format(hide_return))
 
         # 退出命令
         if quit_cmd:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(quit_cmd)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(quit_cmd)
             log.info("设置退出命令: {}".format(quit_cmd))
 
         # 执行后等待时间
         if sleep_time:
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
-            self.browser.find_element_by_xpath(
-                cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(sleep_time)
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(sleep_time)
             log.info("设置执行后等待时间: {}".format(sleep_time))
 
         # 是否适配网元
         if translate_netunit:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='translateNetunit']//a").click()
-            translate_netunit_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(translate_netunit))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='translateNetunit']//a").click()
+            translate_netunit_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(translate_netunit))
             for e in translate_netunit_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -248,9 +241,9 @@ class JumpCmd(object):
 
         # 字符集
         if charset:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='charset']//a").click()
-            charset_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='charset']//a").click()
+            charset_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(charset))
             for e in charset_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)
@@ -260,9 +253,9 @@ class JumpCmd(object):
 
         # 换行符
         if line_break:
-            self.browser.find_element_by_xpath(cmd_field + "//*[@field='lineBreak']//a").click()
-            line_break_list = self.browser.find_elements_by_xpath(
-                "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(line_break))
+            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='lineBreak']//a").click()
+            line_break_list = self.browser.find_elements(
+                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(line_break))
             for e in line_break_list:
                 if e.is_displayed():
                     action = ActionChains(self.browser)

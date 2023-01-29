@@ -3,7 +3,10 @@
 # @Time: 2021/7/21 上午10:12
 
 from time import sleep
-from .condition import condition
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from client.app.VisualModeler.process.node.oprt.condition import condition
 from client.page.func.alertBox import BeAlertBox
 from client.app.VisualModeler.process.node.oprt.cal.regular import regular
 from client.app.VisualModeler.process.node.oprt.cal.basic import basic
@@ -13,9 +16,6 @@ from client.app.VisualModeler.process.node.oprt.cal.networkAddr import network_a
 from client.app.VisualModeler.process.node.oprt.cal.section import section
 from client.app.VisualModeler.process.node.oprt.cal.sort import sort
 from client.app.VisualModeler.process.node.oprt.cal.wash import wash
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *

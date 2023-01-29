@@ -2,17 +2,17 @@
 # @Author: peng wei
 # @Time: 2021/8/17 下午4:09
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
-from client.page.func.positionPanel import getPanelXpath
-from client.page.func.alertBox import BeAlertBox
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.func.positionPanel import getPanelXpath
+from client.page.func.alertBox import BeAlertBox
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 

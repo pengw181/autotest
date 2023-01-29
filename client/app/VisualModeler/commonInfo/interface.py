@@ -107,6 +107,9 @@ class Interface:
                             data_type=data_type, interface_namespace=interface_namespace, interface_method=interface_method,
                             request_type=request_type, timeout=timeout, proxy_name=proxy_name, result_sample=result_sample,
                             request_header=request_header, request_parameter=request_parameter, request_body=request_body)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("成功"):
@@ -150,6 +153,9 @@ class Interface:
                             result_sample=result_sample,
                             request_header=request_header, request_parameter=request_parameter,
                             request_body=request_body)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("成功"):
@@ -179,7 +185,7 @@ class Interface:
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='interfaceName']/preceding-sibling::input")))
 
-            self.browser.find_element(By.XPATH, "//*[@id='testBtn']//*[text()='测试']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='testBtn']").click()
             alert = BeAlertBox(back_iframe=True, timeout=60)
             msg = alert.get_msg()
             if alert.title_contains("测试成功"):
@@ -431,9 +437,6 @@ class Interface:
                     # xml文本
                     set_textarea(textarea=request_body_content_textarea, msg=request_body_content)
                 log.info("设置请求体内容: {0}".format(request_body_content))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
 
     def delete(self, interface_name):
         """

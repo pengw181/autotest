@@ -2,13 +2,13 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午10:54
 
-from client.page.func.alertBox import BeAlertBox
 from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+from client.page.func.alertBox import BeAlertBox
 from client.page.func.processVar import choose_var
 from client.page.func.input import set_blob
 from client.page.func.loadData import load_sample
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

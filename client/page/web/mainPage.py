@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午2:24
 
+from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AiSee.menuXpath import *
-from time import sleep
+from client.page.statics.AiSee.menuXpath import *
+from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
 
 
 class AiSee:
@@ -19,6 +19,9 @@ class AiSee:
         self.browser = get_global_var("browser")
 
     def close_tips(self):
+        """
+        # 关闭提示
+        """
         sleep(1)
         try:
             self.browser.find_element(By.XPATH, "//button[@id='closeBtn']").click()
@@ -26,9 +29,12 @@ class AiSee:
             pass
 
     def enter_domain(self, belong, domain):
-
-        # belong: 广州市
-        # domain: 广州核心网
+        """
+        # 进入领域
+        :param belong: 归属，如广州市
+        :param domain: 领域，如广州核心网
+        :return:
+        """
         self.close_tips()
         text = "{0}>{1}".format(belong, domain)
         try:
@@ -41,45 +47,40 @@ class AiSee:
             log.error("找不到领域，belong: {0}, domain: {1}".format(belong, domain))
             return False
 
-    def choose_menu_func(self, func):
-
-        # func填写如：用户管理、网元管理
-        # 需要进入应用中心的菜单时，需要执行两次函数，一次传应用中心，一次传里面的云平台、告警平台、安全审计
-        try:
-            self.browser.find_element(By.XPATH, "//*[@class='menu']").click()
-            sleep(1)
-            self.browser.find_element(By.XPATH, bar_xpath.get(func)).click()
-            page_wait()
-            sleep(3)
-        except NoSuchElementException as e:
-            raise e
+    def choose_menu_func(self, menu):
+        """
+        :param menu: 填写如：用户管理、网元管理，或应用中心-云平台
+        """
+        self.browser.find_element(By.XPATH, "//*[@class='menu']").click()
+        sleep(1)
+        menu_list = menu.split("-")
+        for m in menu_list:
+            self.browser.find_element(By.XPATH, bar_xpath.get(m)).click()
+            log.info("Menu菜单点击【{0}】".format(m))
+        page_wait()
 
     def logout(self):
 
-        try:
-            self.browser.find_element(By.XPATH, "//*[@title='退出系统']").click()
-        except NoSuchElementException as e:
-            raise e
+        self.browser.find_element(By.XPATH, "//*[@title='退出系统']").click()
 
     def change_skin(self, color):
 
-        try:
-            self.browser.find_element(By.XPATH, "//*[@class='change']").click()
-            self.browser.find_element(By.XPATH, "//*[@class='color']/*[text()='{0}']".format(color)).click()
-        except NoSuchElementException as e:
-            raise e
+        self.browser.find_element(By.XPATH, "//*[@class='change']").click()
+        self.browser.find_element(By.XPATH, "//*[@class='color']/*[text()='{0}']".format(color)).click()
 
-    def modify_user_info(self, msg):
+    def modify_user_info(self, user_info):
+        """
+        # 设置用户信息
+        :param user_info: 用户信息
+        :return:
+        """
         # TODO
-        try:
-            self.browser.find_element(By.XPATH, "//*[@title='用户设置']").click()
-            self.browser.switch_to.frame(self.browser.find_element(By.XPATH, "../user/portalUserEditWin.html"))
+        self.browser.find_element(By.XPATH, "//*[@title='用户设置']").click()
+        self.browser.switch_to.frame(self.browser.find_element(By.XPATH, "../user/portalUserEditWin.html"))
 
-            """
-            输入参数进行修改
-            """
-        except NoSuchElementException:
-            raise
+        """
+        输入参数进行修改
+        """
 
     def in_menu(self, menu_name):
         try:

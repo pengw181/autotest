@@ -2,11 +2,11 @@
 # @Author: peng wei
 # @Time: 2021/11/9 下午4:54
 
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from time import sleep
-from .condition import condition
+from client.app.VisualModeler.process.node.oprt.condition import condition
 from client.page.func.processVar import choose_var
 from client.page.func.input import set_text_enable_var
 from client.page.func.pageMaskWait import page_wait

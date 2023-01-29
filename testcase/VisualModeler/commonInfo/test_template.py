@@ -3,7 +3,7 @@
 # @Time: 2022/8/30 下午5:13
 
 import unittest
-from service.src.screenShot import screenShot
+from service.gooflow.screenShot import screenShot
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 from service.gooflow.case import CaseWorker
@@ -21,10 +21,10 @@ class Template(unittest.TestCase):
     def test_1_field_clear(self):
         u"""网元模版配置管理，数据清理"""
         action = {
-            "操作": "TableDataClear",
+            "操作": "ZgTempDataClear",
             "参数": {
                 "模版类型": "网元基础信息",
-                "表名": "auto_网元基础信息表"
+                "模版名称": "auto_网元基础信息表"
             }
         }
         result = self.worker.action(action)
@@ -33,10 +33,10 @@ class Template(unittest.TestCase):
     def test_2_table_add(self):
         u"""网元基础信息，添加模版：auto_网元基础信息表"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元基础信息",
-                "表名": "auto_网元基础信息表"
+                "模版名称": "auto_网元基础信息表"
             }
         }
         msg = "保存成功"
@@ -48,10 +48,10 @@ class Template(unittest.TestCase):
     def test_3_field_clear(self):
         u"""网元模版配置管理，数据清理"""
         action = {
-            "操作": "TableDataClear",
+            "操作": "ZgTempDataClear",
             "参数": {
                 "模版类型": "网元辅助资料",
-                "表名": "auto_网元辅助资料"
+                "模版名称": "auto_网元辅助资料"
             }
         }
         result = self.worker.action(action)
@@ -60,10 +60,10 @@ class Template(unittest.TestCase):
     def test_4_table_add(self):
         u"""网元辅助资料，添加模版：auto_网元辅助资料"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元辅助资料",
-                "表名": "auto_网元辅助资料"
+                "模版名称": "auto_网元辅助资料"
             }
         }
         msg = "保存成功"
@@ -75,10 +75,10 @@ class Template(unittest.TestCase):
     def test_5_table_set_col(self):
         u"""网元辅助资料：auto_网元辅助资料，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元辅助资料",
-                "表名": "auto_网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -99,10 +99,10 @@ class Template(unittest.TestCase):
     def test_6_field_clear(self):
         u"""网元模版配置管理，数据清理"""
         action = {
-            "操作": "TableDataClear",
+            "操作": "ZgTempDataClear",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_",
+                "模版名称": "auto_",
                 "模糊匹配": "是"
             }
         }
@@ -112,10 +112,10 @@ class Template(unittest.TestCase):
     def test_7_table_add(self):
         u"""网元其它资料，添加模版：auto_网元其它资料"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料"
+                "模版名称": "auto_网元其它资料"
             }
         }
         msg = "保存成功"
@@ -127,10 +127,10 @@ class Template(unittest.TestCase):
     def test_8_table_set_col(self):
         u"""网元辅助资料：auto_网元辅助资料，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料",
+                "模版名称": "auto_网元其它资料",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -174,10 +174,10 @@ class Template(unittest.TestCase):
     def test_9_table_set_col(self):
         u"""网元其它资料：auto_网元其它资料，删除网元名称列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料",
+                "模版名称": "auto_网元其它资料",
                 "列配置": [
                     {
                         "操作类型": "删除",
@@ -195,10 +195,10 @@ class Template(unittest.TestCase):
     def test_10_table_add(self):
         u"""网元其它资料，添加模版：auto_测试告警表"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试告警表"
+                "模版名称": "auto_测试告警表"
             }
         }
         msg = "保存成功"
@@ -210,10 +210,10 @@ class Template(unittest.TestCase):
     def test_11_table_set_col(self):
         u"""网元其它资料：auto_测试告警表，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试告警表",
+                "模版名称": "auto_测试告警表",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -239,10 +239,10 @@ class Template(unittest.TestCase):
     def test_12_table_set_col(self):
         u"""网元其它资料：auto_测试告警表，删除网元名称列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试告警表",
+                "模版名称": "auto_测试告警表",
                 "列配置": [
                     {
                         "操作类型": "删除",
@@ -260,10 +260,10 @@ class Template(unittest.TestCase):
     def test_13_table_add(self):
         u"""网元其它资料，添加模版：auto_测试输出表"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试输出表"
+                "模版名称": "auto_测试输出表"
             }
         }
         msg = "保存成功"
@@ -275,10 +275,10 @@ class Template(unittest.TestCase):
     def test_14_table_set_col(self):
         u"""网元其它资料：auto_测试输出表，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试输出表",
+                "模版名称": "auto_测试输出表",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -304,10 +304,10 @@ class Template(unittest.TestCase):
     def test_15_table_set_col(self):
         u"""网元其它资料：auto_测试输出表，删除网元名称列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_测试输出表",
+                "模版名称": "auto_测试输出表",
                 "列配置": [
                     {
                         "操作类型": "删除",
@@ -325,10 +325,10 @@ class Template(unittest.TestCase):
     def test_16_table_add(self):
         u"""网元其它资料，添加模版：auto_网元其它资料_多类型"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_多类型"
+                "模版名称": "auto_网元其它资料_多类型"
             }
         }
         msg = "保存成功"
@@ -340,10 +340,10 @@ class Template(unittest.TestCase):
     def test_17_table_set_col(self):
         u"""网元其它资料：auto_网元其它资料_多类型，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_多类型",
+                "模版名称": "auto_网元其它资料_多类型",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -381,10 +381,10 @@ class Template(unittest.TestCase):
     def test_18_table_set_col(self):
         u"""网元其它资料：auto_网元其它资料_多类型，删除网元名称列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_多类型",
+                "模版名称": "auto_网元其它资料_多类型",
                 "列配置": [
                     {
                         "操作类型": "删除",
@@ -402,10 +402,10 @@ class Template(unittest.TestCase):
     def test_19_table_add(self):
         u"""网元其它资料，添加模版：auto_网元其它资料_vm仪表盘"""
         action = {
-            "操作": "AddTable",
+            "操作": "AddZgTemp",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_vm仪表盘"
+                "模版名称": "auto_网元其它资料_vm仪表盘"
             }
         }
         msg = "保存成功"
@@ -417,10 +417,10 @@ class Template(unittest.TestCase):
     def test_20_table_set_col(self):
         u"""网元其它资料：auto_网元其它资料_vm仪表盘，添加列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_vm仪表盘",
+                "模版名称": "auto_网元其它资料_vm仪表盘",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -452,10 +452,10 @@ class Template(unittest.TestCase):
     def test_21_table_set_col(self):
         u"""网元其它资料：auto_网元其它资料_vm仪表盘，删除网元名称列"""
         action = {
-            "操作": "TableColSet",
+            "操作": "SaveZgTempCol",
             "参数": {
                 "模版类型": "网元其它资料",
-                "表名": "auto_网元其它资料_vm仪表盘",
+                "模版名称": "auto_网元其它资料_vm仪表盘",
                 "列配置": [
                     {
                         "操作类型": "删除",

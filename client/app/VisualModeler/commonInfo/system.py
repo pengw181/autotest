@@ -130,6 +130,9 @@ class ThirdSystem:
         self.system_page(platform=platform, visit_url=visit_url, network_tag=network_tag, browser_type=browser_type,
                          browser_timeout=browser_timeout, session_timeout=session_timeout, data_type=data_type,
                          first_click_set=first_click_set, enable_proxy_set=enable_proxy_set, enable_login_set=enable_login_set)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("成功"):
@@ -174,6 +177,9 @@ class ThirdSystem:
                              browser_timeout=browser_timeout, session_timeout=session_timeout, data_type=data_type,
                              first_click_set=first_click_set, enable_proxy_set=enable_proxy_set,
                              enable_login_set=enable_login_set)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("保存成功"):
@@ -275,9 +281,6 @@ class ThirdSystem:
                               enter_after_login_set=enable_login_set.get("是否在输入账号密码后运行"),
                               verification_set=enable_login_set.get("是否开启验证码"),
                               phone_code_set=enable_login_set.get("是否开启手机验证码"))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
 
     # 是否优先点击页面元素
     def first_click_element(self, enable_flag, retry_first_click_flag, element_set):

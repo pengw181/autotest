@@ -115,6 +115,9 @@ class FTP:
 
         self.ftp_page(server_name=server_name, ip=ip, port=port, username=username, pwd=pwd, server_type=server_type,
                       encoding=encoding, data_type=data_type)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("成功"):
@@ -154,6 +157,9 @@ class FTP:
 
             self.ftp_page(server_name=server_name, ip=ip, port=port, username=username, pwd=pwd, server_type=server_type,
                           encoding=encoding, data_type=data_type)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("成功"):
@@ -233,9 +239,6 @@ class FTP:
             self.browser.find_element(
                 By.XPATH, "//*[contains(@id,'dataTypeId') and text()='{0}']".format(data_type)).click()
             log.info("设置数据类型: {0}".format(data_type))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
 
     def test(self, server_name):
         """

@@ -151,6 +151,9 @@ class Process:
 
         self.process_page(process_name=process_name, field=field, process_type=process_type, exec_mode=exec_mode,
                           process_desc=process_desc, advance_set=advance_set)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[text()='提交']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -178,6 +181,9 @@ class Process:
 
         self.process_page(process_name=process_name, field=field, exec_mode=exec_mode, process_desc=process_desc,
                           advance_set=advance_set)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[text()='提交']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -252,9 +258,6 @@ class Process:
         if advance_set:
             self.advance_set(exception_end=advance_set.get("节点异常终止流程"), process_var=advance_set.get("自定义流程变量"),
                              err_output=advance_set.get("输出异常"))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[text()='提交']").click()
 
     def advance_set(self, exception_end=None, process_var=None, err_output=None):
         # 流程高级配置

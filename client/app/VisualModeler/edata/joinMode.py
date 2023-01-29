@@ -3,11 +3,11 @@
 # @Time: 2022/2/21 下午4:02
 
 from time import sleep
-from client.page.func.alertBox import BeAlertBox
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.action_chains import ActionChains
+from client.page.func.alertBox import BeAlertBox
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

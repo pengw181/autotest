@@ -3,7 +3,7 @@
 # @Time: 2021/12/24 下午3:13
 
 from client.page.wrapper.autoLogin import auto_enter_vm, enter_platform
-from client.app.AlarmPlatform.connection.databaseConfig import DatabaseConfig
+from client.app.AlarmPlatform.connection.database import DatabaseConfig
 from client.app.AlarmPlatform.connection.tableBelong import TableBelong
 from client.app.AlarmPlatform.connection.ftp import FTP
 from client.app.AlarmPlatform.config.metadata import MetaData
@@ -292,10 +292,13 @@ def actions(func, param):
         "参数": {
             "推送计划名称": "auto_推送计划",
             "修改内容": {
-                "推送计划名称": "",
-                "推送类型": "",
-                "消息模版": "",
-                "接收对象": "",
+                "推送计划名称": "auto_推送计划",
+                "推送类型": ["邮件"],
+                "消息模版": "auto_消息模版_流程运行结果",
+                "接收对象": {
+                    "接收类型": "组织",
+                    "接收人": ["auto"]
+                },
                 "推送日期": "",
                 "有效开始日期": "",
                 "有效结束日期": "",

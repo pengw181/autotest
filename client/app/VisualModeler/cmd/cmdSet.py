@@ -2,16 +2,16 @@
 # @Author: peng wei
 # @Time: 2021/8/17 下午4:09
 
+from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
-from client.page.func.alertBox import BeAlertBox
-from client.page.func.level import choose_level
-from client.page.func.input import set_textarea
-from time import sleep
-from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.level import choose_level
+from client.page.func.input import set_textarea
+from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
 from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
@@ -205,6 +205,19 @@ class CmdSet:
                       personal_cmd=personal_cmd, cmd_timeout=cmd_timeout, command=command, remark=remark,
                       rulerx_analyzer=rulerx_analyzer, cmd_pagedown=cmd_pagedown, expected_return=expected_return,
                       sensitive_regex=sensitive_regex)
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='cmdSet-submit']").click()
+        alert = BeAlertBox()
+        if alert.exist_alert:
+            msg = alert.get_msg()
+            if alert.title_contains("保存成功"):
+                log.info("指令集保存成功")
+            else:
+                log.warning("指令集保存失败，失败提示: {0}".format(msg))
+        else:
+            log.warning("没有弹出框提示信息")
+            msg = None
+        set_global_var("ResultMsg", msg, False)
 
     def update(self, cmd_info, cmd_name, cmd_category, cmd_use, public_cmd, sensitive_cmd, cmd_timeout, command, remark,
                rulerx_analyzer, cmd_pagedown, expected_return, sensitive_regex):
@@ -238,6 +251,19 @@ class CmdSet:
                       sensitive_cmd=sensitive_cmd, cmd_timeout=cmd_timeout, command=command, remark=remark,
                       rulerx_analyzer=rulerx_analyzer, cmd_pagedown=cmd_pagedown, expected_return=expected_return,
                       sensitive_regex=sensitive_regex)
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='cmdSet-submit']").click()
+        alert = BeAlertBox()
+        if alert.exist_alert:
+            msg = alert.get_msg()
+            if alert.title_contains("保存成功"):
+                log.info("指令集保存成功")
+            else:
+                log.warning("指令集保存失败，失败提示: {0}".format(msg))
+        else:
+            log.warning("没有弹出框提示信息")
+            msg = None
+        set_global_var("ResultMsg", msg, False)
 
     def cmd_page(self, cmd_name, cmd_category, cmd_use,  public_cmd, sensitive_cmd, cmd_timeout, command, remark,
                  rulerx_analyzer, cmd_pagedown, expected_return, sensitive_regex, level=None, vendor=None,
@@ -401,20 +427,6 @@ class CmdSet:
             self.browser.find_element(By.XPATH, "//*[@id='sensitiveRegex']/following-sibling::span/input[1]").send_keys(
                 sensitive_regex)
             log.info("设置隐藏指令返回: {0}".format(sensitive_regex))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='cmdSet-submit']").click()
-        alert = BeAlertBox()
-        if alert.exist_alert:
-            msg = alert.get_msg()
-            if alert.title_contains("保存成功"):
-                log.info("指令集保存成功")
-            else:
-                log.warning("指令集保存失败，失败提示: {0}".format(msg))
-        else:
-            log.warning("没有弹出框提示信息")
-            msg = None
-        set_global_var("ResultMsg", msg, False)
 
     def set_cmd_analyzer(self, analyzer):
         """

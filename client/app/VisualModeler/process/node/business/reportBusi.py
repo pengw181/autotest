@@ -2,16 +2,16 @@
 # @Author: peng wei
 # @Time: 2022/2/10 上午10:41
 
-from client.page.func.alertBox import BeAlertBox
 from time import sleep
-from client.page.func.processVar import choose_var
-from client.page.func.input import set_textarea
-from client.page.func.loadData import load_sample
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.func.pageMaskWait import page_wait
 from selenium.webdriver import ActionChains
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.processVar import choose_var
+from client.page.func.input import set_textarea
+from client.page.func.loadData import load_sample
+from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

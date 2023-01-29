@@ -2,21 +2,21 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:07
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
-from client.page.func.tableData import get_table_data2
+from time import sleep
+from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver import ActionChains
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.func.tableData import get_table_data2
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.pagination import Pagination
 from client.page.func.dateUtil import set_calendar, set_laydate
 from service.lib.tools.dateCalculation import calculation
-from time import sleep
-from datetime import datetime
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 

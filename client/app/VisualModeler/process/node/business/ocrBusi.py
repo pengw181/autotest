@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午10:58
 
-from client.page.func.alertBox import BeAlertBox
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException
 from client.page.func.chooseDir import choose_ftp_dir, choose_file_dir
 from client.page.func.regular import RegularCube
 from client.page.func.input import set_text_enable_var
-from time import sleep
-from selenium.common.exceptions import NoSuchElementException
+from client.page.func.alertBox import BeAlertBox
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

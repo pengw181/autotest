@@ -6,9 +6,9 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from client.page.func.processVar import choose_var
 from client.page.func.regular import RegularCube
+from client.page.func.alertBox import BeAlertBox
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
-from client.page.func.alertBox import BeAlertBox
 
 
 def wash(output_var, input_var, value_type, wash_direction, time_wash, key_wash):

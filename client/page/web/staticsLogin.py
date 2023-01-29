@@ -3,14 +3,14 @@
 # @Time: 2021/9/10 下午3:48
 
 from time import sleep
-from service.lib.log.logger import log
 from selenium.webdriver.common.by import By
 from client.page.browser.initBrowser import initBrowser
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.pageMaskWait import page_wait
 from client.page.handle.windows import WindowHandles
-from config.loads import properties
 from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
+from config.loads import properties
 
 
 def login_tool(system_name, username=None, password=None, encryption=None, tokenId=None, redirect_url=None, appId=None,

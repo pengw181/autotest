@@ -2,10 +2,10 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午4:30
 
-from client.page.func.processVar import choose_var
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from client.page.func.processVar import choose_var
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

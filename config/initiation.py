@@ -4,10 +4,10 @@
 
 import os
 from datetime import datetime
-from config.loads import properties
 from service.lib.log.logger import log
 from service.lib.database.SQLHelper import SQLUtil
 from service.lib.variable.globalVariable import *
+from config.loads import properties
 from config.branch.v31_postgres import serviceInit as v31_postgres_init
 from config.branch.v31_oracle import serviceInit as v31_oracle_init
 from config.branch.v31_maria import serviceInit as v31_maria_init
@@ -104,6 +104,9 @@ def initiation_work():
     set_global_var("YM", now.strftime('%Y%m'))
     set_global_var("YMD", now.strftime('%Y%m%d'))
 
+    # 个性化业务参数初始化
+    init.initServer()
+
     if application == "VisualModeler":
 
         # 设置当前默认数据库
@@ -143,8 +146,8 @@ def initiation_work():
         # 系统目录
         sql_util = SQLUtil(db=get_global_var("Database"), schema="main")
         sql = """ SELECT A.CATALOG_PATH AS catalogPath FROM TN_CATALOG_DEF A
-                            WHERE A.CATALOG_TYPE = '1'
-                            AND A.BELONG_ID = '{0}' AND A.DOMAIN_ID = '{1}'""".format(
+                    WHERE A.CATALOG_TYPE = '1'
+                    AND A.BELONG_ID = '{0}' AND A.DOMAIN_ID = '{1}'""".format(
             get_global_var("BelongID"), get_global_var("DomainID"))
         set_global_var("SystemCatalogPath", sql_util.select(sql))
 
@@ -167,9 +170,6 @@ def initiation_work():
         set_global_var("TreeUser2", current_user_name)
         set_global_var("TreeOrg1", "海珠区事业办")
         set_global_var("TreeOrg2", "鱼珠办公室")
-
-    # 其它业务参数初始化
-    init.initServer()
 
     log.debug("加载业务参数配置...")
     for key, value in global_set.get("service").items():

@@ -2,10 +2,10 @@
 # @Author: peng wei
 # @Time: 2021/8/18 下午5:31
 
-from client.page.func.alertBox import BeAlertBox
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from client.page.func.alertBox import BeAlertBox
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

@@ -3,16 +3,16 @@
 # @Time: 2021/7/20 上午11:14
 
 import json
-from service.lib.variable.globalVariable import *
-from datetime import datetime
 from time import sleep
-from service.gooflow.checks import check_db_data, check_msg
+from datetime import datetime
+from service.lib.variable.globalVariable import *
 from service.lib.tools.updateData import update_dict_by_path
 from service.lib.download.download import exist_download_file
 from service.lib.database.SQLHelper import SQLUtil
 from service.lib.database.mongoDB import MongoDB
-from config.schema import get_schema
 from service.lib.log.logger import log
+from service.gooflow.checks import check_db_data, check_msg
+from config.schema import get_schema
 
 
 def compareData(checks):

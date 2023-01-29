@@ -2,6 +2,7 @@
 # @Author: peng wei
 # @Time: 2022/8/17 下午5:33
 
+from time import sleep
 from selenium.webdriver.common.by import By
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
@@ -17,6 +18,7 @@ def getPanelXpath():
     if len(panels) == 0:
         log.error("无法定位任何panel")
     else:
+        sleep(1)
         for panel in panels:
             if panel.is_displayed():
                 panel_attr_style = panel.get_attribute("style")
@@ -28,7 +30,7 @@ def getPanelXpath():
                     z_index = match_obj.group(1)
                     panel_xpath = "//*[contains(@class,'panel-htop') and contains(@style, '{0}')]".format(z_index)
                     break
-    log.info("panel_xpath: {0}".format(panel_xpath))
+    log.debug("panel_xpath: {0}".format(panel_xpath))
     return panel_xpath
 
 

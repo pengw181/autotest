@@ -3,7 +3,6 @@
 # @Time: 2022/2/21 下午4:02
 
 from time import sleep
-from client.page.func.alertBox import BeAlertBox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -12,6 +11,7 @@ from client.page.func.level import choose_level
 from client.page.func.regular import RegularCube
 from client.page.func.input import set_textarea
 from client.page.func.loadData import load_sample
+from client.page.func.alertBox import BeAlertBox
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

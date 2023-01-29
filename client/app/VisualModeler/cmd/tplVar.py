@@ -5,10 +5,10 @@
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from service.lib.variable.globalVariable import *
-from service.lib.log.logger import log
 from client.page.func.regexp import regular_cube
 from client.page.func.pageMaskWait import page_wait
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
 
 
 class VarEditor:

@@ -6,8 +6,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from service.lib.log.logger import log
 from client.page.func.positionPanel import getPanelXpath
+from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 
 

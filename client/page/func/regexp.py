@@ -2,13 +2,13 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:29
 
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException
 from time import sleep
+from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from datetime import datetime
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.input import set_textarea
 from client.page.func.loadData import load_sample

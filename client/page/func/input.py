@@ -2,8 +2,8 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:21
 
-from selenium.webdriver.common.keys import Keys
 from time import sleep
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec

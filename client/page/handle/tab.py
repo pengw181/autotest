@@ -4,8 +4,8 @@
 
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from client.page.resource.VisualModeler.tabXpath import tab_xpath as visual_tab
-from client.page.resource.Crawler.tabXpath import tab_xpath as crawler_tab
+from client.page.statics.VisualModeler.tabXpath import tab_xpath as visual_tab
+from client.page.statics.Crawler.tabXpath import tab_xpath as crawler_tab
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
@@ -43,12 +43,12 @@ class TabHandles:
         if title not in self.table_handles.keys():
             self.table_handles[title] = get_tab_xpath(title)
             set_global_var("TableHandles", self.table_handles)
-            log.info("tab列表增加: %s, %s" % (title, get_tab_xpath(title)))
+            log.info("tab列表增加: %s" % title)
         log.info("当前tab句柄信息: {0}".format(get_global_var("TableHandles")))
 
     def switch(self, title):
         try:
             self.browser.find_element(By.XPATH, self.table_handles.get(title)).click()
-            log.info("切换到tab页: {0}，{1}".format(title, self.table_handles.get(title)))
+            log.info("切换到tab页: {0}".format(title))
         except NoSuchElementException:
             raise "tab {0} 不存在！！！".format(title)

@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午11:06
 
-from client.page.func.alertBox import BeAlertBox
 from time import sleep
-from client.page.func.processVar import choose_var
-from client.page.func.input import set_blob
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.func.pageMaskWait import page_wait
 from selenium.common.exceptions import NoSuchElementException
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.processVar import choose_var
+from client.page.func.input import set_blob
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

@@ -2,21 +2,24 @@
 # @Author: peng wei
 # @Time: 2022/3/21 下午2:25
 
-from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
+import json
 from time import sleep
-from client.page.func.alertBox import BeAlertBox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.level import choose_level
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.positionPanel import getPanelXpath
+from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
+from client.app.VisualModeler.edata.tableMode import TableModeEData as TableMode
+from client.app.VisualModeler.edata.normalMode import NormalModeEData as NormalMode
+from client.app.VisualModeler.edata.sectionMode import SectionModeEData as SectionMode
+from client.app.VisualModeler.edata.dataMode import DateModeEData as DataMode
+from client.app.VisualModeler.edata.joinMode import JoinModeEData as JoinMode
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
-from .tableMode import TableModeEData as TableMode
-from .normalMode import NormalModeEData as NormalMode
-from .sectionMode import SectionModeEData as SectionMode
-from .dataMode import DateModeEData as DataMode
-from .joinMode import JoinModeEData as JoinMode
 
 
 class EDataTemplate:
@@ -119,27 +122,69 @@ class EDataTemplate:
         wait.until(ec.frame_to_be_available_and_switch_to_it((By.XPATH, self.tab_iframe_xpath)))
         sleep(1)
 
-    def choose(self, table_name):
+    def search(self, query, need_choose=False):
         """
-        :param table_name: 表名
+        :param query: 查询条件，字典
+        :param need_choose: True/False
         """
-        self.browser.find_element(
-            By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").clear()
-        self.browser.find_element(
-            By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").send_keys(table_name)
-        # 点击查询
+        if not isinstance(query, dict):
+            raise TypeError("查询条件需要是字典格式")
+        log.info("查询条件: {0}".format(json.dumps(query, ensure_ascii=False)))
+        select_item = None
+
+        # 数据表名称
+        if query.__contains__("数据表名称"):
+            table_name = query.get("数据表名称")
+            self.browser.find_element(
+                By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").send_keys(
+                table_name)
+            select_item = table_name
+
+        # 是否启用
+        if query.__contains__("是否启用"):
+            temp_status = query.get("是否启用")
+            self.browser.find_element(By.XPATH, "//*[@id='tempStatus']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(
+                By.XPATH, panel_xpath + "//*[contains(@id,'tempStatus') and text()='{0}']".format(temp_status)).click()
+
+        # 是否告警
+        if query.__contains__("是否告警"):
+            is_alarm = query.get("是否告警")
+            self.browser.find_element(By.XPATH, "//*[@id='isAlarm']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(
+                By.XPATH, panel_xpath + "//*[contains(@id,'isAlarm') and text()='{0}']".format(is_alarm)).click()
+
+        # 专业领域
+        if query.__contains__("专业领域"):
+            field = query.get("专业领域")
+            self.browser.find_element(By.XPATH, "//*[@id='tempTypeId']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(
+                By.XPATH, panel_xpath + "//*[contains(@id,'tempTypeId') and text()='{0}']".format(field)).click()
+
+        # 查询
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-query']").click()
         page_wait()
-        templates = self.browser.find_elements(
-            By.XPATH, "//*[contains(@id,'edataTmplTab')]/*[@field='tableNameCh']//*[text()='{0}']".format(table_name))
-        if len(templates) > 0:
-            for element in templates:
-                if element.is_displayed():
-                    element.click()
-                    log.info("已选择: {0}".format(table_name))
-                    break
-        else:
-            raise KeyError("{0} 找不到数据拼盘: {1}".format(self.temp_type, table_name))
+        alert = BeAlertBox(timeout=1, back_iframe=False)
+        if alert.exist_alert:
+            msg = alert.get_msg()
+            log.info("弹出框返回: {0}".format(msg))
+            set_global_var("ResultMsg", msg, False)
+            return
+        if need_choose:
+            if select_item:
+                try:
+                    self.browser.find_element(
+                        By.XPATH, self.tab_xpath + "//*[@field='tableNameCh']//*[text()='{0}']".format(select_item)).click()
+                except NoSuchElementException:
+                    raise KeyError("未找到匹配数据")
+                log.info("选择: {0}".format(select_item))
+            else:
+                raise KeyError("条件不足，无法选择数据")
 
     def add_table(self, table_name, field, remark, cmd, regexp_start, regexp_end, sample):
         """
@@ -194,9 +239,9 @@ class EDataTemplate:
             log.warning("{0} 添加失败，失败提示: {1}".format(table_name, msg))
         set_global_var("ResultMsg", msg, False)
 
-    def update_table(self, obj, table_name, field, remark, cmd, regexp_start, regexp_end, sample):
+    def update_table(self, table, table_name, field, remark, cmd, regexp_start, regexp_end, sample):
         """
-        :param obj: 数据表名称
+        :param table: 数据表名称
         :param table_name: 数据表名称
         :param field: 专业领域
         :param remark: 备注
@@ -206,7 +251,7 @@ class EDataTemplate:
         :param sample: 样例数据，数组或文件名，分段模式使用
         """
         log.info("开始修改数据")
-        self.choose(obj)
+        self.search(query={"数据表名称": table}, need_choose=True)
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-update']").click()
 
         # 鉴于数据权限问题，在修改/删除数据时，需要判断是否有弹出框提示无权操作
@@ -227,16 +272,16 @@ class EDataTemplate:
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]")))
 
             if self.temp_type == "二维表模式":
-                self.eData.table_name_page(obj, table_name, field, remark)
+                self.eData.table_name_page(table, table_name, field, remark)
 
             elif self.temp_type == "列更新模式":
-                self.eData.table_name_page(obj, table_name, field, remark)
+                self.eData.table_name_page(table, table_name, field, remark)
 
             elif self.temp_type == "分段模式":
-                self.eData.table_name_page(obj, table_name, field, remark, cmd, regexp_start, regexp_end, sample)
+                self.eData.table_name_page(table, table_name, field, remark, cmd, regexp_start, regexp_end, sample)
 
             elif self.temp_type == "数据模式":
-                self.eData.table_name_page(obj, table_name, field, remark)
+                self.eData.table_name_page(table, table_name, field, remark)
 
             elif self.temp_type == "合并模式":
                 raise KeyError("合并模式不支持该方法")
@@ -250,9 +295,9 @@ class EDataTemplate:
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("保存成功"):
-                log.info("{0} 修改成功".format(obj))
+                log.info("{0} 修改成功".format(table))
             else:
-                log.warning("{0} 修改失败，失败提示: {1}".format(obj, msg))
+                log.warning("{0} 修改失败，失败提示: {1}".format(table, msg))
             set_global_var("ResultMsg", msg, False)
 
     def set_cols(self, table_name, col_set):
@@ -260,7 +305,7 @@ class EDataTemplate:
         :param table_name: 数据表名称
         :param col_set: 列配置，数组
         """
-        self.choose(table_name)
+        self.search(query={"数据表名称": table_name}, need_choose=True)
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-update']").click()
 
         # 鉴于数据权限问题，在修改/删除数据时，需要判断是否有弹出框提示无权操作
@@ -450,7 +495,7 @@ class EDataTemplate:
         :param rulerX: 指令解析模版
         :param result_bind: 二维表结果绑定
         """
-        self.choose(table_name)
+        self.search(query={"数据表名称": table_name}, need_choose=True)
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-update']").click()
 
         # 鉴于数据权限问题，在修改/删除数据时，需要判断是否有弹出框提示无权操作
@@ -522,7 +567,7 @@ class EDataTemplate:
         """
         if self.temp_type in ["二维表模式", "列更新模式", "分段模式"]:
             # 选择表
-            self.choose(table_name)
+            self.search(query={"数据表名称": table_name}, need_choose=True)
 
             # 点击绑定网元
             self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-bindNE']").click()
@@ -656,20 +701,20 @@ class EDataTemplate:
         else:
             raise KeyError("【{0}】不需要绑定网元")
 
-    def get_table_status(self, table_name, need_query=False):
+    def get_table_status(self, table_name):
         """
-        # 获取第一条数据当前状态
+        # 获取数据当前状态
         :param table_name: 数据表名称
-        :param need_query: 是否查询
         :return: True/False
         """
-        if need_query:
-            self.choose(table_name)
 
-        # 获取第一条数据当前状态
-        js = 'return $(".switchbutton")[0].checked;'
+        record = self.browser.find_element(
+            By.XPATH, "//*[@field='tableNameCh']//*[text()='{0}']/../../..".format(table_name))
+        row_index = record.get_attribute("datagrid-row-index")
+
+        # 获取数据当前状态
+        js = 'return $(".switchbutton")[{0}].checked;'.format(row_index)
         current_status = self.browser.execute_script(js)
-        # log.info("【状态】勾选状态: {0}".format(current_status))
         return current_status
 
     def update_status(self, table_name, set_status, need_query=True):
@@ -681,7 +726,7 @@ class EDataTemplate:
         """
         # 选择表
         if need_query:
-            self.choose(table_name)
+            self.search(query={"数据表名称": table_name})
         current_status = self.get_table_status(table_name)
 
         if set_status == "启用":
@@ -743,30 +788,30 @@ class EDataTemplate:
         else:
             raise KeyError("状态只支持启用/禁用，当前值: {0}".format(set_status))
 
-    def delete_table(self, obj):
+    def delete_table(self, table_name):
         """
-        :param obj: 数据表名称
+        :param table_name: 数据表名称
         """
         log.info("开始删除数据")
-        self.choose(obj)
+        self.search(query={"数据表名称": table_name}, need_choose=True)
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-del']").click()
 
         alert = BeAlertBox(timeout=3)
         msg = alert.get_msg()
-        if alert.title_contains("您确定需要删除{0}吗".format(obj), auto_click_ok=False):
+        if alert.title_contains("您确定需要删除{0}吗".format(table_name), auto_click_ok=False):
             alert.click_ok()
             alert = BeAlertBox(back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("删除成功"):
-                log.info("{0} 删除成功".format(obj))
+                log.info("{0} 删除成功".format(table_name))
             else:
-                log.warning("{0} 删除失败，失败提示: {1}".format(obj, msg))
+                log.warning("{0} 删除失败，失败提示: {1}".format(table_name, msg))
         else:
             # 无权操作
-            log.warning("{0} 删除失败，失败提示: {1}".format(obj, msg))
+            log.warning("{0} 删除失败，失败提示: {1}".format(table_name, msg))
         set_global_var("ResultMsg", msg, False)
 
-    def data_clear(self, obj, fuzzy_match=False):
+    def data_clear(self, table_name, fuzzy_match=False):
         """
         :param obj: 数据表名称
         :param fuzzy_match: 模糊匹配
@@ -776,7 +821,7 @@ class EDataTemplate:
         self.browser.find_element(
             By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").clear()
         self.browser.find_element(
-            By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").send_keys(obj)
+            By.XPATH, self.tab_xpath + "//*[@id='tableName']/following-sibling::span/input[1]").send_keys(table_name)
         # 点击查询
         self.browser.find_element(By.XPATH, self.tab_xpath + "//*[@id='edata-query']").click()
         page_wait()
@@ -784,10 +829,10 @@ class EDataTemplate:
         if fuzzy_match:
             record_element = self.browser.find_elements(
                 By.XPATH, "//*[contains(@id,'edataTmplTab')]/*[@field='tableNameCh']//*[starts-with(text(),'{0}')]".format(
-                    obj))
+                    table_name))
         else:
             record_element = self.browser.find_elements(
-                By.XPATH, "//*[contains(@id,'edataTmplTab')]/*[@field='tableNameCh']//*[text()='{0}']".format(obj))
+                By.XPATH, "//*[contains(@id,'edataTmplTab')]/*[@field='tableNameCh']//*[text()='{0}']".format(table_name))
         if len(record_element) > 0:
             exist_data = True
 
@@ -821,7 +866,7 @@ class EDataTemplate:
                             # 重新获取页面查询结果
                             record_element = self.browser.find_elements(
                                 By.XPATH, "//*[contains(@id,'edataTmplTab')]/*[@field='tableNameCh']//*[starts-with(text(),'{0}')]".format(
-                                    obj))
+                                    table_name))
                             if len(record_element) > 0:
                                 exist_data = True
                             else:
@@ -834,7 +879,7 @@ class EDataTemplate:
                         raise Exception("删除数据时出现未知异常: {0}".format(msg))
                 else:
                     # 无权操作
-                    log.warning("{0} 清理失败，失败提示: {1}".format(obj, msg))
+                    log.warning("{0} 清理失败，失败提示: {1}".format(table_name, msg))
                     set_global_var("ResultMsg", msg, False)
                     break
         else:

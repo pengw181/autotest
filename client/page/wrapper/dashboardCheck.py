@@ -2,10 +2,10 @@
 # @Author: peng wei
 # @Time: 2022/5/26 上午10:54
 
-from selenium.webdriver.common.by import By
-from service.lib.variable.globalVariable import get_global_var
-from client.page.script.css import setVisible
 from time import sleep
+from selenium.webdriver.common.by import By
+from client.page.script.css import setVisible
+from service.lib.variable.globalVariable import get_global_var
 
 
 # 关闭并进入仪表盘配置页面

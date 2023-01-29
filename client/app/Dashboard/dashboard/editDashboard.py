@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2022/4/24 下午5:16
 
-from service.lib.variable.globalVariable import *
-from service.lib.log.logger import log
-from client.page.func.pageMaskWait import page_wait
+from time import sleep
 from selenium.webdriver.common.by import By
-from client.page.func.toast import Toast
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from client.page.func.toast import Toast
+from client.page.func.pageMaskWait import page_wait
 from client.page.wrapper.dashboardCheck import closeAndEnterDashboard
-from time import sleep
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
 
 
 class EditDashboard:

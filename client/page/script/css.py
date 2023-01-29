@@ -4,6 +4,7 @@
 
 from time import sleep
 
+
 def change_color(browser, color):
     """
     # 可视化图样式配置设置【背景颜色】

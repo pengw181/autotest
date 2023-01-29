@@ -2,8 +2,8 @@
 # @Author: peng wei
 # @Time: 2021/11/8 下午3:33
 
-from config.loads import properties
 from service.lib.log.logger import log
+from config.loads import properties
 
 
 def load_sample(sample_file_name):

@@ -2,11 +2,11 @@
 # @Author: peng wei
 # @Time: 2022/4/13 上午11:22
 
+from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from time import sleep
 from client.page.func.processVar import choose_var, choose_inner_var
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.input import set_textarea, set_text_enable_var

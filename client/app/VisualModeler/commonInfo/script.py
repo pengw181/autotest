@@ -97,6 +97,9 @@ class Script:
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='scriptName']/preceding-sibling::input")))
 
         self.script_page(script_name=script_name, script_type=script_type, data_type=data_type)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@onclick='saveScriptCfgInfo()']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("操作成功"):
@@ -130,6 +133,9 @@ class Script:
             wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='scriptName']/preceding-sibling::input")))
 
             self.script_page(script_name=script_name, data_type=data_type)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@onclick='saveScriptCfgInfo()']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("操作成功"):
@@ -167,9 +173,6 @@ class Script:
             self.browser.find_element(
                 By.XPATH, "//*[contains(@id,'dataTypeId') and text()='{0}']".format(data_type)).click()
             log.info("设置数据类型: {0}".format(data_type))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@onclick='saveScriptCfgInfo()']//*[text()='保存']").click()
 
     def choose_version(self, script_name, ver_no):
         """
@@ -233,7 +236,7 @@ class Script:
         for order, new_param in params:
             self.browser.find_element(
                 By.XPATH, "//*[@id='inId{0}']/following-sibling::span[1]/input[1]".format(order)).clear()
-            # self.browser.find_element(By.XPATH,
+            # self.browser.find_element(By.XPATH, 
             #     "//*[@id='inId{0}']/following-sibling::span[1]/input[1]".format(order)).click()
             self.browser.find_element(
                 By.XPATH, "//*[@id='inId{0}']/following-sibling::span[1]/input[1]".format(order)).send_keys(new_param)
@@ -499,7 +502,7 @@ class Script:
                 log.info("版本【{0}】提交审批返回：{1}".format(ver_no, msg))
                 log.info("等待自动审批...")
                 # sleep(5)
-                # self.browser.find_element(By.XPATH,
+                # self.browser.find_element(By.XPATH, 
                 #     "//*[@id='scriptVersionRefresh']//*[contains(@class,'reload')]").click()
             else:
                 log.warning("版本【{0}】提交审批失败，失败提示: {1}".format(ver_no, msg))

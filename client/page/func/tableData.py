@@ -3,9 +3,9 @@
 # @Time: 2021/10/22 下午3:30
 
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
-from selenium.common.exceptions import NoSuchElementException
 
 
 def get_table_data(data_table_xpath, column_table_xpath=None, limit=20, return_column=False):

@@ -2,19 +2,19 @@
 # @Author: peng wei
 # @Time: 2022/6/16 下午3:40
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
-from client.page.func.alertBox import BeAlertBox
-from service.lib.tools.dateCalculation import calculation
-from client.page.func.dateUtil import set_calendar
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.func.alertBox import BeAlertBox
+from client.page.func.dateUtil import set_calendar
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
-from time import sleep
+from service.lib.tools.dateCalculation import calculation
 from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 class TaskManage:
@@ -59,6 +59,16 @@ class TaskManage:
         sleep(1)
         self.taskPage(task_name, task_type, bind_task, time_turner, timing_conf, remark)
 
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+        alter = BeAlertBox()
+        msg = alter.get_msg()
+        if alter.title_contains("保存成功"):
+            log.info("{0}保存成功".format(task_name))
+        else:
+            log.info("{0}保存失败，失败原因: {1}".format(task_name, msg))
+        set_global_var("ResultMsg", msg, False)
+
     def update(self, task, task_name, time_turner, timing_conf, remark):
         """
         :param task: 任务名称
@@ -80,6 +90,16 @@ class TaskManage:
                 By.XPATH, "//iframe[contains(@src, '/VisualModeler/html/naga/taskManConfInfoEdit.html')]")))
             sleep(1)
             self.taskPage(task_name, None, None, time_turner, timing_conf, remark)
+
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+            alter = BeAlertBox()
+            msg = alter.get_msg()
+            if alter.title_contains("保存成功"):
+                log.info("{0}保存成功".format(task_name))
+            else:
+                log.info("{0}保存失败，失败原因: {1}".format(task_name, msg))
+            set_global_var("ResultMsg", msg, False)
 
     def taskPage(self, task_name, task_type, bind_task, time_turner, timing_conf, remark):
         """
@@ -191,16 +211,6 @@ class TaskManage:
             remark_textarea = self.browser.find_element(By.XPATH, "//*[@id='taskDesc']/following-sibling::span/textarea")
             set_textarea(textarea=remark_textarea, msg=remark)
             log.info("设置任务说明: {0}".format(remark))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
-        alter = BeAlertBox()
-        msg = alter.get_msg()
-        if alter.title_contains("保存成功"):
-            log.info("{0}保存成功".format(task_name))
-        else:
-            log.info("{0}保存失败，失败原因: {1}".format(task_name, msg))
-        set_global_var("ResultMsg", msg, False)
 
     def updateStatus(self, task_name, status):
         """

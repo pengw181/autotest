@@ -3,11 +3,11 @@
 # @Time: 2022/8/25 下午4:12
 
 import traceback
-from config.initiation import initiation_work
 from service.lib.variable.globalVariable import *
 from service.gooflow.precondition import preconditions
 from service.gooflow.operations import basicRun
 from service.gooflow.compares import compareData
+from config.initiation import initiation_work
 
 
 class CaseWorker:

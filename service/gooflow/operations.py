@@ -2,9 +2,9 @@
 # @Author: peng wei
 # @Time: 2022/8/23 下午9:30
 
-from datetime import datetime
 import json
 from time import sleep
+from datetime import datetime
 from client.page.web.loginPage import login
 from client.page.web.mainPage import AiSee
 from service.lib.log.logger import log

@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/9/17 下午4:56
 
+from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.regular import RegularCube
 from client.page.func.input import set_textarea
-from time import sleep
 from client.app.VisualModeler.doctorwho.doctorWho import DoctorWho
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *

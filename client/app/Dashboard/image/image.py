@@ -7,12 +7,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from service.lib.variable.globalVariable import *
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.toast import Toast
 from client.page.wrapper.dashboardCheck import closeAndEnterDashboard
-from service.lib.log.logger import log
 from client.app.Dashboard.image.util.imageType import getImageType
 from client.app.Dashboard.image.style.bar import bar_style
 from client.app.Dashboard.image.style.line import line_style
@@ -22,6 +20,8 @@ from client.app.Dashboard.image.style.radar import radar_style
 from client.app.Dashboard.image.style.table import table_style
 from client.app.Dashboard.image.style.rectangle import rectangle_style
 from client.app.Dashboard.image.style.map import map_style
+from service.lib.log.logger import log
+from service.lib.variable.globalVariable import *
 
 
 @closeAndEnterDashboard

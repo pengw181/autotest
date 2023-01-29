@@ -2,17 +2,17 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午3:30
 
-from client.page.handle.windows import WindowHandles
-from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver import ActionChains
+from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
 from client.app.VisualModeler.process.draw.processInfo import Process
 from client.app.VisualModeler.process.draw.node import Node
 from client.app.VisualModeler.process.draw.processJson import ProcessNodeJson
 from client.page.func.alertBox import BeAlertBox
-from time import sleep
+from client.page.handle.windows import WindowHandles
 from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *

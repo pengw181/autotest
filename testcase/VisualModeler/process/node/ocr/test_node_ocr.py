@@ -3,7 +3,7 @@
 # @Time: 2022/9/7 下午6:35
 
 import unittest
-from service.src.screenShot import screenShot
+from service.gooflow.screenShot import screenShot
 from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 from service.gooflow.case import CaseWorker

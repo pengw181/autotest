@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:05
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
-from client.page.func.input import set_textarea
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.func.input import set_textarea
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -65,6 +65,9 @@ class MetaData:
         sleep(1)
         self.metadata_page(metadata_name, database, table_belong, data_delay, remark, time_field, time_field_format,
                            prepare_field, selected_field)
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@id='saveButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -96,6 +99,9 @@ class MetaData:
 
         self.metadata_page(metadata_name, None, None, data_delay, remark, None, None, prepare_field,
                            selected_field)
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@id='saveButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -202,7 +208,8 @@ class MetaData:
         if prepare_field:
             # 先清空已被选择字段
             selected_ele = self.browser.find_elements(
-                By.XPATH, "//*[@id='prepareFieldAreaDivRow']/div/div[2]/div/div[2]//*[contains(@id,'prepareFieldAreaDiv') and contains(@class,'selected')]")
+                By.XPATH, "//*[@id='prepareFieldAreaDivRow']/div/div[2]/div/div[2]//*[contains(@id,'prepareFieldAreaDiv') "
+                          "and contains(@class,'selected')]")
             if len(selected_ele) > 0:
                 for s in selected_ele:
                     s.click()
@@ -261,9 +268,6 @@ class MetaData:
                     log.info("{0}设置完成".format(key))
             else:
                 raise KeyError("已选字段不是字典格式")
-
-        # 保存
-        self.browser.find_element(By.XPATH, "//*[@id='saveButtonId']//*[text()='保存']").click()
 
     def delete(self, metadata_name):
         """

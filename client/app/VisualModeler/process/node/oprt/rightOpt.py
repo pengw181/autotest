@@ -2,17 +2,17 @@
 # @Author: peng wei
 # @Time: 2021/7/21 上午10:09
 
-from .calculation import CalculationCenter
-from client.app.VisualModeler.process.node.oprt.loop import *
+from time import sleep
+from datetime import datetime
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from time import sleep
+from client.app.VisualModeler.process.node.oprt.calculation import CalculationCenter
+from client.app.VisualModeler.process.node.oprt.loop import var_loop, times_loop, condition_loop
 from client.page.func.alertBox import BeAlertBox
 from client.page.func.dateUtil import set_calendar
-from datetime import datetime
 from client.page.func.pageMaskWait import page_wait
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
@@ -141,10 +141,7 @@ def opt_action(array):
         r_opt = tree_step.get("右键操作")
         if r_opt == "添加条件":
             condition_set = tree_step.get("条件配置")
-            if condition_set.get("else") == "是":
-                flag = True
-            else:
-                flag = False
+            flag = True if condition_set.get("else") == "是" else False
             opt_tree.add_if(if_array=condition_set.get("if"), enable_else=flag)
 
         elif r_opt == "添加循环":
@@ -176,10 +173,7 @@ def opt_action(array):
             else:
                 # 添加子流程
                 subprocess_info = tree_step.get("子流程配置")
-                if subprocess_info.get("节点异常终止流程") == "是":
-                    flag = True
-                else:
-                    flag = False
+                flag = True if subprocess_info.get("节点异常终止流程") == "是" else False
                 opt_tree.add_subprocess(process_name=subprocess_info.get("流程名称"), field=subprocess_info.get("专业领域"),
                                         process_type=subprocess_info.get("流程类型"), process_desc=subprocess_info.get("流程说明"),
                                         except_abort=flag, cond=cond)

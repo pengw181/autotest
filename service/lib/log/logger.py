@@ -4,8 +4,8 @@
 
 import logging
 import os
-from config.loads import properties
 from service.lib.variable.globalVariable import *
+from config.loads import properties
 
 
 def get_logger():

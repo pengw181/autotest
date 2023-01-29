@@ -99,7 +99,8 @@ class AiModel:
 
         self.algorithm_page(application_mode, algorithm, model_name, model_desc, train_scale, test_scale, timeout,
                             file_name, params, columns)
-
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='saveButton']//*[text()='提交']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("操作成功"):
@@ -138,6 +139,8 @@ class AiModel:
 
             self.algorithm_page(None, None, model_name, model_desc, train_scale, test_scale, timeout, file_name, params,
                                 columns)
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='saveButton']//*[text()='提交']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("修改成功"):
@@ -241,9 +244,6 @@ class AiModel:
             algorithm_obj = self.browser.find_element(By.XPATH, "//*[@name='algorithm']")
             algorithm = algorithm_obj.get_attribute("value")
             self.ai_col_set(algorithm=self.get_algorithm(algorithm), col_sets=columns)
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='saveButton']//*[text()='提交']").click()
 
     @staticmethod
     def get_algorithm(algorithm):

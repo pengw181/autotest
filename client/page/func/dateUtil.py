@@ -6,7 +6,6 @@ from datetime import datetime
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import NoSuchElementException
-# from common.log.logger import log
 from service.lib.variable.globalVariable import *
 
 

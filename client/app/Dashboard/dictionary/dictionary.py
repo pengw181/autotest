@@ -2,20 +2,20 @@
 # @Author: peng wei
 # @Time: 2022/4/25 下午3:10
 
+from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
-from service.lib.variable.globalVariable import *
-from service.lib.log.logger import log
 from client.page.func.toast import Toast
 from client.page.func.input import set_textarea
 from client.page.func.loadDictionary import load_dictionary
 from client.page.func.pageMaskWait import page_wait
 from client.page.func.alertBox import BeAlertBox
 from client.page.wrapper.dashboardCheck import closeAndEnterDashboard
-from time import sleep
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
 
 
 @closeAndEnterDashboard

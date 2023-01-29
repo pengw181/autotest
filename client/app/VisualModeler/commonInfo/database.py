@@ -104,6 +104,8 @@ class Database:
 
         self.database_page(db_name=db_name, db_driver=db_driver, db_url=db_url, username=username, pwd=pwd,
                            belong_type=belong_type, data_type=data_type)
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
@@ -141,6 +143,8 @@ class Database:
 
             self.database_page(db_name=db_name, db_driver=db_driver, db_url=db_url, username=username, pwd=pwd,
                                belong_type=belong_type, data_type=data_type)
+            # 提交
+            self.browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
             alert = BeAlertBox()
             msg = alert.get_msg()
             if alert.title_contains("保存成功"):
@@ -209,9 +213,6 @@ class Database:
             self.browser.find_element(
                 By.XPATH, "//*[contains(@id,'dataTypeId') and text()='{0}']".format(data_type)).click()
             log.info("设置数据类型: {0}".format(data_type))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
 
     def test(self, db_name):
         """

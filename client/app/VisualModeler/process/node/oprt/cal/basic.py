@@ -3,9 +3,9 @@
 # @Time: 2021/7/21 上午10:26
 
 from time import sleep
-from ..condition import condition
 from selenium.webdriver.common.by import By
 from client.page.func.processVar import choose_var
+from client.app.VisualModeler.process.node.oprt.condition import condition
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 

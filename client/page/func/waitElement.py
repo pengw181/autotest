@@ -2,11 +2,11 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:24
 
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from time import sleep
 from service.lib.variable.globalVariable import *
 
 
@@ -62,3 +62,14 @@ class WaitElement:
             else:
                 raise NoSuchElementException("找不到元素, xpath: {0}".format(xpath))
         return exist
+
+    def until_displayed(self, xpath):
+        element = None
+        elements = self.browser.find_elements(By.XPATH, xpath)
+        if len(elements) == 0:
+            element = None
+        for e in elements:
+            if e.is_displayed():
+                element = e
+                break
+        return element

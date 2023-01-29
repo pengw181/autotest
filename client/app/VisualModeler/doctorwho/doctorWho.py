@@ -2,14 +2,14 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午2:50
 
-from client.page.handle.windows import WindowHandles
-from client.page.handle.tab import TabHandles
-from selenium.common.exceptions import NoSuchElementException
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.VisualModeler.menuXpath import *
-from time import sleep
+from selenium.common.exceptions import NoSuchElementException
+from client.page.handle.windows import WindowHandles
+from client.page.handle.tab import TabHandles
+from client.page.statics.VisualModeler.menuXpath import *
 from service.lib.log.logger import log
 from service.lib.variable.globalVariable import *
 
@@ -44,6 +44,7 @@ class DoctorWho:
         self.current_win_handle.close(title="流程图编辑器")
         self.current_win_handle.close(title="告警平台")
         self.current_win_handle.close(title="仪表盘主配置页")
+        self.current_win_handle.close(title="数据管理")
         sleep(1)
 
         # 切换到vm窗口

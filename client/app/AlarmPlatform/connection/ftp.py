@@ -2,14 +2,14 @@
 # @Author: peng wei
 # @Time: 2021/12/24 下午3:08
 
-from service.lib.variable.globalVariable import *
-from client.page.func.pageMaskWait import page_wait
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from client.page.resource.AlarmPlatform.chooseMenu import choose_menu
+from client.page.func.pageMaskWait import page_wait
+from client.page.statics.AlarmPlatform.chooseMenu import choose_menu
 from client.page.func.alertBox import BeAlertBox
-from time import sleep
+from service.lib.variable.globalVariable import *
 from service.lib.log.logger import log
 
 
@@ -57,6 +57,9 @@ class FTP:
             By.XPATH, "//iframe[contains(@src,'/AlarmPlatform/html/dataConfig/ftpConfig/addFtpConfig.html')]")))
         sleep(1)
         self.ftp_page(ftp_name, host, port, username, password)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -87,6 +90,9 @@ class FTP:
             By.XPATH, "//*[@id='editDiv']//*[@id='ftpName']/following-sibling::span/input[1]")))
 
         self.ftp_page(ftp_name, host, port, username, password)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']").click()
         alert = BeAlertBox()
         msg = alert.get_msg()
         if alert.title_contains("提交成功"):
@@ -143,9 +149,6 @@ class FTP:
                 By.XPATH, "//*[@id='editDiv']//*[@id='ftpPassword']/following-sibling::span/input[1]").send_keys(password)
             sleep(1)
             log.info("设置密码: {0}".format(password))
-
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='submitButtonId']//*[text()='提交']").click()
 
     def test(self, ftp_name):
         """

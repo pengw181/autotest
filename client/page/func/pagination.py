@@ -2,15 +2,15 @@
 # @Author: peng wei
 # @Time: 2021/8/19 下午4:00
 
-from service.lib.variable.globalVariable import *
-from service.lib.log.logger import log
-from selenium.common.exceptions import NoSuchElementException
+from time import sleep
+from pykeyboard import PyKeyboard
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException
+from service.lib.variable.globalVariable import *
+from service.lib.log.logger import log
 from client.page.func.pageMaskWait import page_wait
-from time import sleep
-from pykeyboard import PyKeyboard
 
 
 class Pagination:

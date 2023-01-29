@@ -2,19 +2,19 @@
 # @Author: peng wei
 # @Time: 2022/2/10 下午3:46
 
-from service.lib.variable.globalVariable import *
+from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
+from selenium.webdriver import ActionChains
 from client.page.handle.windows import WindowHandles
 from client.page.func.pageMaskWait import page_wait
 from client.app.Dashboard.image.image import Image
 from client.app.Dashboard.dashboard.editDashboard import EditDashboard
 from client.app.Dashboard.dictionary.dictionary import Dictionary
 from client.app.VisualModeler.process.draw.processInfo import Process
-from time import sleep
-from selenium.common.exceptions import NoSuchElementException, NoSuchWindowException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver import ActionChains
+from service.lib.variable.globalVariable import *
 
 
 class ReportDashboard:
