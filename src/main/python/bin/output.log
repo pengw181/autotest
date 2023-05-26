@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/pengwei/Desktop/WebAppUnit/src/main/python/bin/start.py", line 6, in <module>
+    from src.main.python.core.gooflow.case import loadCase
+ModuleNotFoundError: No module named 'src'

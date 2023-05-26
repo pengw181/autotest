@@ -1,0 +1,37 @@
+controller:
+  path: /Users/pengwei/Desktop/测试用例集/3.3/
+
+testcase:
+  path: /Users/pengwei/Desktop/测试用例集/3.3/
+  runAll: False
+  continueRunWhenError: False
+  runLevel:
+    - 高
+    - 中
+    - 低
+
+report:
+  build: False
+
+login:
+  url: http://192.168.88.116:9331/AiSee/html/login/login.html
+  systemUrl: https://192.168.88.116:9109/statics/html/login.html#
+  belongId: 440100
+  domainId: AiSeeCore
+  belong: 广州市
+  domain: 广州核心网
+  username: pw
+  password: 1qazXSW@
+
+thirdSystem:
+  url: http://192.168.88.116:9331
+  https: https://192.168.88.116:9336
+
+netunit:
+  - auto_test_001
+  - auto_test_002
+  - auto_test_003
+
+email:
+  password: P!w0401030990
+  outlookPassword: Pw0401030990

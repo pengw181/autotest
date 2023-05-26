@@ -1,6 +1,6 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.org/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 verify_ssl = true
 
 [dev-packages]
@@ -16,6 +16,10 @@ psycopg2 = "*"
 cx-oracle = "*"
 python-dateutil = "*"
 selenium = "==4.0.0"
+pyyaml = {version = "==6.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
+pandas = "*"
+flask = "*"
+pyautogui = "*"
 
 [requires]
 python_version = "3.9"
