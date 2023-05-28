@@ -15,6 +15,7 @@ def saveScreenShot():
     screenShot_file_path = base_path + folder_id + "/"
     if not os.path.exists(screenShot_file_path):
         os.mkdir(screenShot_file_path)
+    log.info(screenShot_file_path)
     timestamp = datetime.strftime(datetime.now(), "%Y_%m_%d_%H_%M_%S") + str(datetime.now().microsecond)
     suffix = gbl.service.get("screenImageSuffix")
     file_name = "Webdriver_" + timestamp + suffix

@@ -223,7 +223,96 @@ class CmdNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_10_process_node_line(self):
+    def test_10_process_node_add(self):
+        u"""画流程图，添加一个指令节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_流程_指令按网元类型",
+                "节点类型": "指令节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_11_process_node_business_conf(self):
+        u"""配置指令节点，多网元类型，类型MME"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_指令按网元类型",
+                "节点类型": "指令节点",
+                "节点名称": "指令节点",
+                "业务配置": {
+                    "节点名称": "多网元类型",
+                    "成员选择": "",
+                    "网元选择": "",
+                    "选择方式": "网元类型",
+                    "场景标识": "无",
+                    "配置": {
+                        "层级": "4G,4G_MME",
+                        "成员名称": "auto_",
+                        "状态": "带业务",
+                        "层级成员个数": "是",
+                        "网元类型": "MME",
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "网元个数": "是",
+                        "指令": {
+                            "auto_指令_date": {
+                                "解析模版": "auto_解析模板_解析date"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_12_process_node_business_conf(self):
+        u"""配置指令节点，多网元类型，类型CSCE"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_指令按网元类型",
+                "节点类型": "指令节点",
+                "节点名称": "多网元类型",
+                "业务配置": {
+                    "节点名称": "多网元类型",
+                    "成员选择": "",
+                    "网元选择": "",
+                    "配置": {
+                        "层级": "4G,4G_CSCE",
+                        "成员名称": "auto_",
+                        "状态": "带业务",
+                        "层级成员个数": "是",
+                        "网元类型": "CSCE",
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "网元个数": "是",
+                        "指令": {
+                            "auto_指令_ping": {
+                                "解析模版": "auto_解析模板_解析ping"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_13_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
         action = {
             "操作": "LineNode",
@@ -240,7 +329,7 @@ class CmdNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_11_process_node_line(self):
+    def test_14_process_node_line(self):
         u"""节点参数设置连线到节点：按网元类型"""
         action = {
             "操作": "LineNode",
@@ -257,7 +346,24 @@ class CmdNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_12_process_node_add(self):
+    def test_15_process_node_line(self):
+        u"""节点按网元类型连线到节点：多网元类型"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_流程_指令按网元类型",
+                "起始节点名称": "按网元类型",
+                "终止节点名称": "多网元类型",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_16_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
@@ -272,7 +378,7 @@ class CmdNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_13_process_node_end_conf(self):
+    def test_17_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
@@ -287,13 +393,13 @@ class CmdNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_14_process_node_line(self):
-        u"""节点按网元类型连线到结束节点"""
+    def test_18_process_node_line(self):
+        u"""节点多网元类型连线到结束节点"""
         action = {
             "操作": "LineNode",
             "参数": {
                 "流程名称": "auto_流程_指令按网元类型",
-                "起始节点名称": "按网元类型",
+                "起始节点名称": "多网元类型",
                 "终止节点名称": "正常",
                 "关联关系": "满足"
             }

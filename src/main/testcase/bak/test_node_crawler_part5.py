@@ -51,8 +51,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_145_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加步骤"""
@@ -80,8 +80,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_146_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加循环，按变量列表"""
@@ -110,8 +110,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_147_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加循环，按次数"""
@@ -158,8 +158,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_148_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加循环，按条件"""
@@ -212,8 +212,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_149_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加步骤"""
@@ -241,8 +241,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_150_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加循环，按步骤"""
@@ -271,8 +271,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_151_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树删除步骤"""
@@ -295,8 +295,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_152_process_node_business_conf(self):
         u"""可视化操作模拟节点，元素列表删除被操作数引用的元素"""
@@ -319,8 +319,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "业务配置中操作树步骤引用"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_153_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树删除循环"""
@@ -343,8 +343,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_154_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树删除条件"""
@@ -367,8 +367,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_155_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加步骤"""
@@ -396,8 +396,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_156_process_node_business_conf(self):
         u"""可视化操作模拟节点，开启高级配置"""
@@ -419,8 +419,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_157_process_node_business_conf(self):
         u"""可视化操作模拟节点，关闭高级配置"""
@@ -440,8 +440,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_158_process_node_fetch_conf(self):
         u"""节点添加取数配置"""
@@ -462,8 +462,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_159_process_node_fetch_conf(self):
         u"""节点修改取数配置"""
@@ -485,8 +485,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_160_process_node_business_conf(self):
         u"""操作树删除步骤，该步骤已被取数配置引用"""
@@ -509,8 +509,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作步骤被取数配置引用，请及时修改取数配置项"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_161_process_node_fetch_conf(self):
         u"""节点删除取数配置"""
@@ -529,8 +529,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_162_process_node_business_conf(self):
         u"""可视化操作模拟节点，操作树添加步骤"""
@@ -556,8 +556,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_163_process_node_fetch_conf(self):
         u"""节点添加取数配置"""
@@ -578,8 +578,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_164_process_node_fetch_conf(self):
         u"""节点添加取数配置，变量名已存在"""
@@ -600,8 +600,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "该变量已存在"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_165_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
@@ -617,8 +617,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_166_process_node_line(self):
         u"""节点参数设置连线到节点：表格取数"""
@@ -634,8 +634,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_167_process_node_line(self):
         u"""节点表格取数连线到节点：文件下载"""
@@ -651,8 +651,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_168_process_node_line(self):
         u"""节点文件下载连线到节点：附件上传"""
@@ -668,8 +668,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_169_process_node_line(self):
         u"""节点附件上传连线到节点：添加多种动作"""
@@ -685,8 +685,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_170_process_node_line(self):
         u"""节点添加多种动作连线到节点：修改元素"""
@@ -702,8 +702,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     @unittest.skip
     def test_171_process_node_line(self):
@@ -720,8 +720,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_172_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
@@ -735,8 +735,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_173_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
@@ -750,8 +750,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_174_process_node_line(self):
         u"""节点修改元素连线到结束节点"""
@@ -767,8 +767,8 @@ class CrawlerNodePart5(unittest.TestCase):
         msg = "操作成功"
         result = self.worker.action(action)
         assert result
-        log.info(gbl.service.get("ResultMsg"))
-        assert gbl.service.get("ResultMsg").startswith(msg)
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")

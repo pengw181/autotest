@@ -3,6 +3,7 @@
 # @Time: 2021/8/17 下午3:44
 
 import os
+import shutil
 from datetime import datetime
 from src.main.python.lib.logger import log
 from src.main.python.db.SQLHelper import SQLUtil
@@ -14,7 +15,6 @@ class Initiation:
 
     def __init__(self):
         self.inited = False
-        log.info("启动初始化任务..")
 
     @staticmethod
     def clear_var():
@@ -44,7 +44,7 @@ class Initiation:
             if os.path.isfile(file_data):   # 删除文件
                 os.remove(file_data)
             elif os.path.isdir(file_data):      # 文件夹
-                os.rmdir(file_data)
+                shutil.rmtree(file_data)
         log.info("清理截图文件")
 
     @staticmethod
@@ -79,9 +79,10 @@ def initiation_work():
     init = Initiation()
     gbl.service.set("RunEnd", False)
 
-    # 临时文件清理
-    init.remove_download_file()
-    init.remove_screen_shot()
+    # 文件清理
+    if not gbl.service.get("ServerInit"):
+        init.remove_download_file()
+        init.remove_screen_shot()
     init.clear_var()
 
     # 关闭浏览器
