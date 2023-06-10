@@ -296,6 +296,26 @@ class Database(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_17_database_add(self):
+        u"""添加数据库，oushu数据库"""
+        action = {
+            "操作": "AddDatabase",
+            "参数": {
+                "数据库名称": "auto_oushu数据库",
+                "数据库驱动": "postgresql",
+                "数据库URL": "jdbc:postgresql://192.168.91.171:5432/postgres",
+                "用户名": "oushu",
+                "密码": "lavaadmin",
+                "归属类型": "外部库",
+                "数据类型": "私有"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

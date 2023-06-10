@@ -6,7 +6,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from src.main.python.core.app.VisualModeler.process.node.oprt.condition import condition
+from src.main.python.core.app.VisualModeler.process.node.oprt.condition import set_condition
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.core.app.VisualModeler.process.node.oprt.cal.regular import regular
 from src.main.python.core.app.VisualModeler.process.node.oprt.cal.basic import basic
@@ -53,7 +53,7 @@ class CalculationCenter:
         ]
         """
         self.browser.find_element(By.XPATH, "//*[@onclick=\"showAdd('oprtfitcnd','1');\"]//*[text()='修改']").click()
-        condition(array=array)
+        set_condition(array=array)
 
     def cal_save(self):
 
@@ -165,7 +165,7 @@ class CalculationCenter:
 
         # 配置动作
         if expression:
-            condition(array=expression, basic_cal=True)
+            set_condition(array=expression, basic_cal=True)
 
         # 返回到上层iframe
         self.browser.switch_to.parent_frame()

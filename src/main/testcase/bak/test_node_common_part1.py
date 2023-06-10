@@ -452,8 +452,6 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    #######################################################################
-
     def test_20_process_node_opt_conf(self):
         u"""配置通用节点，添加一个变量"""
         action = {

@@ -100,7 +100,7 @@ class DrawProcess:
             raise e
 
     # 选择节点并将节点放到画布坐标上
-    def locate_node(self, node_type):
+    def locate_node(self, node_type, x_loc=None, y_loc=None):
         # 定义鼠标对象
         action = ActionChains(self.browser)
         log.info("开始画流程图")
@@ -113,6 +113,14 @@ class DrawProcess:
             start_node_element, xset, yset = self.get_new_location()
         else:
             start_node_element, xset, yset = self.get_new_location(is_end_node=True)
+
+        # 如果指定具体位置，则以该位置为准
+        location = start_node_element.location
+        if x_loc is not None:
+            xset = x_loc - location['x']
+        if y_loc is not None:
+            yset = y_loc - location['y'] + 30   # 加上节点高度/2
+        log.info("由于指定了新节点坐标，使用指定坐标偏值（相较于开始节点）：[{}, {}]".format(xset, yset))
 
         # 如果当前流程图中节点较多，在添加新节点前，先滚动屏幕
         if self.current_node_count > 20:
@@ -173,14 +181,14 @@ class DrawProcess:
             # 验证节点是否成功放入画布
             self.check_node_located("接口节点")
 
-        elif node_type == "Sql节点":
-            # 添加sql节点
+        elif node_type == "Sql节点" or node_type == "数据库节点":
+            # 添加数据库节点
             self.browser.find_element(By.XPATH, "//*[@id='aisee_btn_sql']").click()
             action.move_to_element_with_offset(start_node_element, xset, yset).click().perform()
             sleep(1)
 
             # 验证节点是否成功放入画布
-            self.check_node_located("Sql节点")
+            self.check_node_located("数据库节点")
 
         elif node_type == "指令模版节点":
             # 添加指令模版节点
@@ -330,8 +338,12 @@ class DrawProcess:
         from_location, to_location, line_type = pnj.get_line_location(
             source_node_name=source_node_name,
             target_node_name=target_node_name)
-        line = self.browser.find_element(
-            By.XPATH, "//*[contains(@id,'cn_line_') and @from='{0}' and @to='{1}']".format(from_location, to_location))
+        try:
+            line = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'cn_line_') and @from='{0}' and @to='{1}']".format(from_location, to_location))
+        except NoSuchElementException:
+            line = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'cn_line_')]//*[@text-anchor='middle' and not(text())]/..")
 
         action = ActionChains(self.browser)
         action.double_click(line).perform()
@@ -342,8 +354,14 @@ class DrawProcess:
         wait = WebDriverWait(self.browser, 10)
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='line_relex']/preceding-sibling::span[1]/a")))
         self.browser.find_element(By.XPATH, "//*[@name='line_relex']/preceding-sibling::span[1]/a").click()
-        panel_xpath = getPanelXpath()
-        self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(logic)).click()
+        panel_xpath = getPanelXpath(10)
+        try:
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(logic)).click()
+        except NoSuchElementException:
+            # 自定义值
+            self.browser.find_element(By.XPATH, "//*[@name='line_relex']/preceding-sibling::input").clear()
+            self.browser.find_element(By.XPATH, "//*[@name='line_relex']/preceding-sibling::input").send_keys(logic)
+            self.browser.find_element(By.XPATH, "//*[@name='line_relex']/preceding-sibling::span[1]/a").click()
         self.browser.find_element(By.XPATH, "//*[@onclick='add_line_config_info();']").click()
         log.info("设置连线关系: {}".format(logic))
         self.browser.switch_to.default_content()
@@ -373,7 +391,21 @@ class DrawProcess:
         gbl.temp.set("ResultMsg", msg)
 
     def set_end_node(self, status):
-        end_node = self.browser.find_element(By.XPATH, "//*[@class='span openwin']")
+        end_nodes = self.browser.find_elements(By.XPATH, "//*[@class='span openwin']/..")
+        cur_end_attr_id = None
+        deal_end_node_ids = gbl.service.get("EndNodeID")
+        if deal_end_node_ids is None:
+            deal_end_node_ids = []
+        for _end_node in end_nodes:
+            cur_end_attr_id = _end_node.get_attribute("id")
+            if cur_end_attr_id in deal_end_node_ids:
+                continue
+            else:
+                deal_end_node_ids.append(cur_end_attr_id)
+                break
+        gbl.service.set("EndNodeID", deal_end_node_ids)
+        end_node = self.browser.find_element(By.XPATH, "//*[@id='{}']//*[@class='span openwin']".format(cur_end_attr_id))
+        # end_node = self.browser.find_element(By.XPATH, "//*[@class='span openwin' and text()='正常']")
         self.browser.execute_script("arguments[0].scrollIntoView(true);", end_node)
         # 双击进入节点
         action = ActionChains(self.browser)

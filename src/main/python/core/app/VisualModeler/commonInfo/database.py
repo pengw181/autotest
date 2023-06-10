@@ -11,7 +11,9 @@ from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.lib.upload import upload
 from src.main.python.core.app.VisualModeler.doctorWho import DoctorWho
+from src.main.python.lib.windows import WindowHandles
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
@@ -234,7 +236,7 @@ class Database:
             wait.until(ec.frame_to_be_available_and_switch_to_it((
                 By.XPATH, "//iframe[contains(@src,'dbCfgEdit.html?type=edit')]")))
 
-            self.browser.find_element(By.XPATH, "//*[@id='testBtn']//*[text()='测试']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='testBtn']").click()
             alert = BeAlertBox(back_iframe=True, timeout=60)
             msg = alert.get_msg()
             if alert.title_contains("测试成功"):
@@ -319,3 +321,294 @@ class Database:
                 log.warning("{0} 清理失败，失败提示: {1}".format(db_name, msg))
                 gbl.temp.set("ResultMsg", msg)
                 break
+
+
+class TableManagement(Database):
+
+    def __init__(self, database_name):
+        """
+        :param database_name: 数据库名称
+        """
+        super().__init__()
+        self.search(query={"数据库名称": database_name}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='db-dataMgt']").click()
+
+        # 保存新窗口，并切换到新窗口
+        current_win_handle = WindowHandles()
+        current_win_handle.save("数据库管理")
+        current_win_handle.switch("数据库管理")
+        page_wait()
+        sleep(1)
+
+    def add_table(self, zh_name, en_name):
+        """
+        :param zh_name: 数据表名称
+        :param en_name: 表英文名
+        """
+        self.browser.find_element(By.XPATH, "//*[@id='table-add']").click()
+        wait = WebDriverWait(self.browser, 10)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'./dbCfg_tableMgr_name.html')]")))
+        sleep(1)
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='tableNameCh']/following-sibling::span/input[1]")))
+
+        # 数据表名称
+        if zh_name:
+            self.browser.find_element(By.XPATH, "//*[@id='tableNameCh']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tableNameCh']/following-sibling::span/input[1]").send_keys(zh_name)
+            log.info("设置数据表名称: {}".format(zh_name))
+
+        # 表英文名
+        if en_name:
+            self.browser.find_element(By.XPATH, "//*[@id='tableNameEn']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tableNameEn']/following-sibling::span/input[1]").send_keys(en_name)
+            log.info("设置表英文名: {}".format(en_name))
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='tableNameCfg-save']").click()
+        alert = BeAlertBox()
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功"):
+            log.info("数据表添加成功")
+        else:
+            log.warning("数据表添加失败，失败提示: {}".format(msg))
+        gbl.temp.set("ResultMsg", msg)
+
+    def delete_table(self, zh_name):
+        """
+        :param zh_name: 数据表名称
+        """
+        self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@id='table-del']").click()
+        alert = BeAlertBox(timeout=1)
+        msg = alert.get_msg()
+        if alert.title_contains("您确定需要删除{}吗".format(zh_name), auto_click_ok=False):
+            alert.click_ok()
+            alert = BeAlertBox(timeout=30)
+            msg = alert.get_msg()
+            if alert.title_contains("删除成功"):
+                log.info("数据表删除成功")
+            else:
+                log.warning("数据表删除失败，失败提示: {}".format(msg))
+        else:
+            log.warning("数据表删除失败，失败提示: {}".format(msg))
+        gbl.temp.set("ResultMsg", msg)
+
+    def add_cols(self, zh_name, cols):
+        """
+        :param zh_name: 数据表名称
+        :param cols: 列信息，数组
+        """
+        # 点击表
+        self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
+
+        for col in cols:
+            table_col_name = col.get("列名(自定义)")
+            zh_col_name = col.get("列中文名")
+            col_type = col.get("列类型")
+            col_length = col.get("长度")
+            col_floatNum = col.get("小位数")
+            in_data_format = col.get("输入格式")
+            out_data_format = col.get("输出格式")
+
+            # 点击添加列
+            self.browser.find_element(By.XPATH, "//*[@id='table-column-add']").click()
+            self._col_set_page(table_col_name, zh_col_name, col_type, col_length, col_floatNum, in_data_format, out_data_format)
+
+            # 保存
+            self.browser.find_element(By.XPATH, "//*[@id='colCfg-save']").click()
+            alert = BeAlertBox()
+            msg = alert.get_msg()
+            if alert.title_contains("保存成功", auto_click_ok=False):
+                alert.click_ok()
+                log.info("列配置成功")
+            else:
+                log.warning("保存列配置失败，失败提示: {0}".format(msg))
+            gbl.temp.set("ResultMsg", msg)
+
+    def edit_col(self, zh_name, obj_col, col_info):
+        """
+        :param zh_name: 数据表名称
+        :param obj_col: 列名(自定义)，必填
+        :param col_info: 列信息，字典，一次只能改一个字段
+        :return:
+        """
+        # 点击表
+        self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
+
+        zh_col_name = col_info.get("列中文名")
+        col_length = col_info.get("长度")
+        col_floatNum = col_info.get("小位数")
+        in_data_format = col_info.get("输入格式")
+        out_data_format = col_info.get("输出格式")
+
+        # 点击目标列
+        self.browser.find_element(
+            By.XPATH, "//*[@class='colCanBeEdit' and contains(text(),'{0}')]".format(obj_col)).click()
+        log.info("选择列名(自定义): {0}".format(obj_col))
+
+        self._col_set_page(None, zh_col_name, None, col_length, col_floatNum, in_data_format, out_data_format)
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@id='colCfg-save']").click()
+        alert = BeAlertBox()
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功", auto_click_ok=False):
+            alert.click_ok()
+            log.info("列配置成功")
+        else:
+            log.warning("保存列配置失败，失败提示: {0}".format(msg))
+        gbl.temp.set("ResultMsg", msg)
+
+    def _col_set_page(self, table_col_name, zh_col_name, col_type, col_length, col_floatNum, in_data_format, out_data_format):
+        """
+        :param table_col_name: 列名(自定义)
+        :param zh_col_name: 列中文名
+        :param col_type: 列类型
+        :param col_length: 长度
+        :param col_floatNum: 小位数
+        :param in_data_format: 输入格式
+        :param out_data_format: 输出格式
+        """
+
+        wait = WebDriverWait(self.browser, 10)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'./dbCfg_tableMgr_column.html')]")))
+        sleep(1)
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(
+            ec.element_to_be_clickable((By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]")))
+
+        # 列名(自定义)
+        if table_col_name:
+            self.browser.find_element(By.XPATH, "//*[@id='colNameEn']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='colNameEn']/following-sibling::span/input[1]").send_keys(table_col_name)
+            log.info("设置列名(自定义): {}".format(table_col_name))
+
+        # 列中文名
+        if zh_col_name:
+            self.browser.find_element(By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]").send_keys(zh_col_name)
+            log.info("设置列中文名: {}".format(zh_col_name))
+
+        # 列类型
+        if col_type:
+            self.browser.find_element(
+                By.XPATH, "//*[contains(@data-i18n-text, 'db.column.type') and text()='{}']".format(
+                    col_type)).click()
+            log.info("设置列类型: {}".format(col_type))
+            sleep(1)
+
+        # 长度
+        if col_length:
+            self.browser.find_element(By.XPATH, "//*[@id='colLength']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='colLength']/following-sibling::span/input[1]").send_keys(col_length)
+            log.info("设置长度: {}".format(col_length))
+
+        # 小位数
+        if col_floatNum:
+            self.browser.find_element(
+                By.XPATH, "//*[@id='colFloatNum']//a[text()='{}']".format(col_floatNum)).click()
+            log.info("设置小位数: {}".format(col_floatNum))
+
+        # 输入格式
+        if in_data_format:
+            time_format = in_data_format[0]
+            custom_format = in_data_format[1]
+            self.browser.find_element(By.XPATH, "//*[@id='colInFormat']/following-sibling::span//a").click()
+            self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'colInFormat') and text()='{0}']".format(time_format)).click()
+            log.info("设置输入格式: {0}".format(time_format))
+            if time_format == "自定义":
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='colInFormatCustom']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='colInFormatCustom']/following-sibling::span/input[1]").send_keys(
+                    custom_format)
+                log.info("设置自定义输入格式: {0}".format(custom_format))
+
+        # 输出格式
+        if out_data_format:
+            time_format = out_data_format[0]
+            custom_format = out_data_format[1]
+            self.browser.find_element(By.XPATH, "//*[@id='colOutFormat']/following-sibling::span//a").click()
+            self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'colOutFormat') and text()='{0}']".format(time_format)).click()
+            log.info("设置输出格式: {0}".format(time_format))
+            if time_format == "自定义":
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='colOutFormatCustom']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='colOutFormatCustom']/following-sibling::span/input[1]").send_keys(
+                    custom_format)
+                log.info("设置自定义输出格式: {0}".format(custom_format))
+
+    def delete_col(self, zh_name, obj_col):
+        """
+        :param zh_name: 数据表名称
+        :param obj_col: 列名(自定义)，必填
+        """
+        # 点击表
+        self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
+        self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
+
+        self.browser.find_element(By.XPATH, "//*[@title='{}']/a[contains(@class,'deleteCol')]".format(obj_col)).click()
+        alert = BeAlertBox(timeout=1)
+        msg = alert.get_msg()
+        if alert.title_contains("您确定删除列【{}】吗".format(obj_col), auto_click_ok=False):
+            alert.click_ok()
+            alert = BeAlertBox(timeout=30)
+            msg = alert.get_msg()
+            if alert.title_contains("删除成功"):
+                log.info("列【{}】删除成功".format(obj_col))
+            else:
+                log.warning("列【{}】删除失败，失败提示: {}".format(obj_col, msg))
+        else:
+            log.warning("列【{}】删除失败，失败提示: {}".format(obj_col, msg))
+        gbl.temp.set("ResultMsg", msg)
+
+    def import_table(self, zh_name, en_name, col_file_name):
+        """
+        :param zh_name: 数据表名称
+        :param en_name: 表英文名
+        :param col_file_name: 字段文件名
+        """
+        self.browser.find_element(By.XPATH, "//*[@id='imp']").click()
+
+        # 数据表名称
+        if zh_name:
+            self.browser.find_element(By.XPATH, "//*[@id='tableChiName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tableChiName']/following-sibling::span/input[1]").send_keys(zh_name)
+            log.info("设置数据表名称: {}".format(zh_name))
+
+        # 表英文名
+        if en_name:
+            self.browser.find_element(By.XPATH, "//*[@id='tableEnName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='tableEnName']/following-sibling::span/input[1]").send_keys(en_name)
+            log.info("设置表英文名: {}".format(en_name))
+
+        # 字段文件名
+        if col_file_name:
+            upload(file_name=col_file_name, catalog="table", input_id='filebox_file_id_1')
+            log.info("设置上传文件: {}".format(col_file_name))
+
+        # 点击表字段上传
+        self.browser.find_element(By.XPATH, "//*[@onclick='uploadTableFile()']").click()
+        alert = BeAlertBox()
+        msg = alert.get_msg()
+        if alert.title_contains("操作成功", auto_click_ok=False):
+            alert.click_ok()
+            log.info("导入模式导入表{}成功".format(zh_name))
+        else:
+            log.warning("导入模式导入表{}失败，失败提示: {}".format(zh_name, msg))
+        gbl.temp.set("ResultMsg", msg)

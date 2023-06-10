@@ -23,7 +23,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "ProcessDataClear",
             "参数": {
-                "流程名称": "auto_流程_指令节点"
+                "流程名称": "auto_流程_指令通用功能"
             }
         }
         result = self.worker.action(action)
@@ -34,10 +34,10 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称":  "auto_流程_指令节点",
+                "流程名称":  "auto_流程_指令通用功能",
                 "专业领域":  ["AiSee", "auto域"],
                 "流程类型":  "主流程",
-                "流程说明":  "auto_流程_指令节点流程说明"
+                "流程说明":  "auto_流程_指令通用功能流程说明"
             }
         }
         msg = "保存成功"
@@ -51,7 +51,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点"
             }
         }
@@ -66,7 +66,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "通用节点",
                 "业务配置": {
@@ -86,7 +86,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -127,7 +127,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -169,7 +169,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -214,7 +214,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -257,7 +257,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -300,7 +300,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点"
             }
         }
@@ -315,7 +315,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点",
                 "业务配置": {
@@ -351,7 +351,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点"
             }
         }
@@ -366,7 +366,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点",
                 "业务配置": {
@@ -406,7 +406,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点"
             }
         }
@@ -421,7 +421,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点",
                 "业务配置": {
@@ -466,7 +466,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点"
             }
         }
@@ -481,7 +481,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点",
                 "业务配置": {
@@ -517,7 +517,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点"
             }
         }
@@ -532,7 +532,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点",
                 "业务配置": {
@@ -571,7 +571,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -594,7 +594,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -618,7 +618,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -642,7 +642,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -666,7 +666,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -690,7 +690,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -714,7 +714,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -738,7 +738,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "指令节点",
                 "节点名称": "指令节点多指令",
                 "取数配置": {
@@ -762,7 +762,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "开始",
                 "终止节点名称": "参数设置",
                 "关联关系": "满足"
@@ -779,7 +779,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "参数设置",
                 "终止节点名称": "指令不带参数",
                 "关联关系": "满足"
@@ -796,7 +796,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "指令不带参数",
                 "终止节点名称": "指令带参数，独立模式",
                 "关联关系": "满足"
@@ -813,7 +813,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "指令带参数，独立模式",
                 "终止节点名称": "指令带参数，二维表模式",
                 "关联关系": "满足"
@@ -830,7 +830,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "指令带参数，二维表模式",
                 "终止节点名称": "指令节点，组合指令",
                 "关联关系": "满足"
@@ -847,7 +847,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "指令节点，组合指令",
                 "终止节点名称": "指令节点多指令",
                 "关联关系": "满足"
@@ -864,7 +864,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "节点类型": "结束节点"
             }
         }
@@ -879,7 +879,7 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "SetEndNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "状态": "正常"
             }
         }
@@ -894,13 +894,27 @@ class CmdNode(unittest.TestCase):
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_指令节点",
+                "流程名称": "auto_流程_指令通用功能",
                 "起始节点名称": "指令节点多指令",
                 "终止节点名称": "正常",
                 "关联关系": "满足"
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_37_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_指令通用功能"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

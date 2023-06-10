@@ -315,7 +315,7 @@ class FileNode(unittest.TestCase):
                     "文件配置": [
                         {
                             "变量": "网元解析结果",
-                            "文件名": "网元解析结果",
+                            "文件名": "文本结果txt",
                             "文件类型": "txt",
                             "编码格式": "GBK",
                             "分隔符": ",",
@@ -343,8 +343,8 @@ class FileNode(unittest.TestCase):
                 "业务配置": {
                     "文件配置": [
                         {
-                            "变量": "网元二维表结果",
-                            "文件名": "网元二维表结果",
+                            "变量": "网元格式化二维表结果",
+                            "文件名": "文本结果csv",
                             "文件类型": "csv",
                             "编码格式": "UTF-8",
                             "分隔符": ",",
@@ -362,7 +362,7 @@ class FileNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_15_process_node_business_conf(self):
-        u"""配置文件节点，文件存储，多个变量写入到同一个csv里"""
+        u"""配置文件节点，文件存储，文件类型xls"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -372,8 +372,123 @@ class FileNode(unittest.TestCase):
                 "业务配置": {
                     "文件配置": [
                         {
-                            "变量": "网元解析结果",
-                            "文件名": "网元二维表结果",
+                            "变量": "网元原始结果",
+                            "文件名": "表格结果xls",
+                            "文件类型": "xls",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_16_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型xlsx"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元原始结果",
+                            "文件名": "表格结果xlsx",
+                            "文件类型": "xlsx",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "合并结果",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_17_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型pdf"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元原始结果",
+                            "文件名": "图像结果pdf",
+                            "文件类型": "pdf",
+                            "编码格式": "UTF-8",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_18_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型txt"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元格式化二维表结果",
+                            "文件名": "文本结果txt2",
+                            "文件类型": "txt",
+                            "编码格式": "GBK",
+                            "分隔符": ",",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_19_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型csv"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元原始结果",
+                            "文件名": "文本结果csv3",
                             "文件类型": "csv",
                             "编码格式": "UTF-8",
                             "分隔符": ",",
@@ -390,8 +505,124 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_16_process_node_business_conf(self):
-        u"""配置文件节点，文件存储，文件类型xls"""
+    def test_20_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，多个变量写入到同一个csv里"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元解析结果",
+                            "文件名": "文本结果csv",
+                            "文件类型": "csv",
+                            "编码格式": "UTF-8",
+                            "分隔符": ",",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_21_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，多个变量写到同一个xlsx同一个sheet"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元解析结果",
+                            "文件名": "表格结果xlsx",
+                            "文件类型": "xlsx",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "合并结果",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_22_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，多个变量写到同一个xlsx不同sheet"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元格式化二维表结果",
+                            "文件名": "表格结果xlsx",
+                            "文件类型": "xlsx",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "格式化二维表结果",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_23_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型xlsx"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元解析结果",
+                            "文件名": "表格结果xlsx2",
+                            "文件类型": "xlsx",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "",
+                            "时间前缀": "否",
+                            "时间后缀": "否"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_24_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型xls，文件名设置时间前缀"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -402,7 +633,37 @@ class FileNode(unittest.TestCase):
                     "文件配置": [
                         {
                             "变量": "网元原始结果",
-                            "文件名": "网元原始结果",
+                            "文件名": "网元结果",
+                            "文件类型": "xls",
+                            "编码格式": "UTF-8",
+                            "sheet名称": "",
+                            "时间前缀": "是",
+                            "时间后缀": "否",
+                            "时间格式": "yyyyMMdd"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_process_node_business_conf(self):
+        u"""配置文件节点，文件存储，文件类型xls，文件名设置时间后缀"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_文件存储",
+                "节点类型": "文件节点",
+                "节点名称": "存储指令结果",
+                "业务配置": {
+                    "文件配置": [
+                        {
+                            "变量": "网元原始结果",
+                            "文件名": "网元结果_",
                             "文件类型": "xls",
                             "编码格式": "UTF-8",
                             "sheet名称": "",
@@ -420,93 +681,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_17_process_node_business_conf(self):
-        u"""配置文件节点，文件存储，文件类型xlsx"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_文件存储",
-                "节点类型": "文件节点",
-                "节点名称": "存储指令结果",
-                "业务配置": {
-                    "文件配置": [
-                        {
-                            "变量": "网元原始结果",
-                            "文件名": "网元原始结果",
-                            "文件类型": "xlsx",
-                            "编码格式": "UTF-8",
-                            "sheet名称": "网元原始结果",
-                            "时间前缀": "否",
-                            "时间后缀": "否"
-                        }
-                    ]
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_18_process_node_business_conf(self):
-        u"""配置文件节点，文件存储，多个变量写到同一个xlsx"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_文件存储",
-                "节点类型": "文件节点",
-                "节点名称": "存储指令结果",
-                "业务配置": {
-                    "文件配置": [
-                        {
-                            "变量": "网元解析结果",
-                            "文件名": "网元原始结果",
-                            "文件类型": "xlsx",
-                            "编码格式": "UTF-8",
-                            "sheet名称": "网元原始结果",
-                            "时间前缀": "否",
-                            "时间后缀": "否"
-                        }
-                    ]
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_19_process_node_business_conf(self):
-        u"""配置文件节点，文件存储，文件类型pdf"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_文件存储",
-                "节点类型": "文件节点",
-                "节点名称": "存储指令结果",
-                "业务配置": {
-                    "文件配置": [
-                        {
-                            "变量": "网元原始结果",
-                            "文件名": "网元原始结果",
-                            "文件类型": "pdf",
-                            "编码格式": "UTF-8",
-                            "时间前缀": "否",
-                            "时间后缀": "否"
-                        }
-                    ]
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_20_process_node_add(self):
+    def test_26_process_node_add(self):
         u"""画流程图，添加一个文件节点"""
         action = {
             "操作": "AddNode",
@@ -521,7 +696,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_21_process_node_business_conf(self):
+    def test_27_process_node_business_conf(self):
         u"""配置文件节点，文件存储，存储到远程ftp服务器"""
         action = {
             "操作": "NodeBusinessConf",
@@ -558,7 +733,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_process_node_add(self):
+    def test_28_process_node_add(self):
         u"""画流程图，添加一个文件节点"""
         action = {
             "操作": "AddNode",
@@ -573,7 +748,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_23_process_node_business_conf(self):
+    def test_29_process_node_business_conf(self):
         u"""配置文件节点，文件存储，存储到本地，目录使用变量引用"""
         action = {
             "操作": "NodeBusinessConf",
@@ -609,7 +784,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_process_node_line(self):
+    def test_30_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
         action = {
             "操作": "LineNode",
@@ -626,7 +801,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_process_node_line(self):
+    def test_31_process_node_line(self):
         u"""节点参数设置连线到节点：执行指令获取变量内容"""
         action = {
             "操作": "LineNode",
@@ -643,7 +818,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_process_node_line(self):
+    def test_32_process_node_line(self):
         u"""节点执行指令获取变量内容连线到节点：存储指令结果"""
         action = {
             "操作": "LineNode",
@@ -660,7 +835,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_process_node_line(self):
+    def test_33_process_node_line(self):
         u"""节点存储指令结果连线到节点：指令结果存储到ftp"""
         action = {
             "操作": "LineNode",
@@ -677,7 +852,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_process_node_line(self):
+    def test_34_process_node_line(self):
         u"""节点指令结果存储到ftp连线到节点：文件存储到个人目录"""
         action = {
             "操作": "LineNode",
@@ -694,7 +869,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_process_node_add(self):
+    def test_35_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
@@ -709,7 +884,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_process_node_end_conf(self):
+    def test_36_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
@@ -724,7 +899,7 @@ class FileNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_process_node_line(self):
+    def test_37_process_node_line(self):
         u"""节点文件存储到个人目录连线到结束节点"""
         action = {
             "操作": "LineNode",
@@ -736,6 +911,20 @@ class FileNode(unittest.TestCase):
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_38_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_文件存储"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

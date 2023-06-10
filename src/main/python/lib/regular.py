@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.input import set_textarea
 from src.main.python.lib.loadData import load_sample
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
@@ -127,13 +128,13 @@ class RegularCube:
             # 输入正则模版名称
             self.browser.find_element(By.XPATH, "//*[@name='keyword']/preceding-sibling::input").send_keys(regular_name)
             # 点击查询
-            self.browser.find_element(By.XPATH, "//*[@id='regexp-query']//*[text()='查询']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='regexp-query']").click()
             page_wait()
             # 勾选正则模版
             self.browser.find_element(
                 By.XPATH, "//*[contains(@id,'regexpTab_datagrid-row-')]//*[text()='{0}']".format(regular_name)).click()
             # 点击确认
-            self.browser.find_element(By.XPATH, "//*[@id='regexp-ok']//*[text()='确定']").click()
+            self.browser.find_element(By.XPATH, "//*[@id='regexp-ok']").click()
             # 切到上级iframe
             self.browser.switch_to.parent_frame()
             log.info("选择正则: {0}".format(regular_name))
@@ -286,7 +287,7 @@ class RegularCube:
                     By.XPATH, "//*[contains(text(),'模版名称')]/../following-sibling::div[1]//*[contains(@id,'_textbox_input')]").send_keys(
                     regular_name)
                 # 点击提交
-                self.browser.find_element(By.XPATH, "//*[@id='regex-save']//*[text()='提交']").click()
+                self.browser.find_element(By.XPATH, "//*[@id='regex-save']").click()
             else:
                 # 正则模版管理不需要保存模版名称，会有其他字段来保存
                 pass
@@ -579,7 +580,14 @@ class RegularCube:
 
         # 高级配置
         if advance_conf:
-            pass
+            ignore_empty_string = advance_conf.get("忽略空字符串")
+            trim_string = advance_conf.get("忽略字符串前后空格")
+            auto_fill = advance_conf.get("自动补全")
+            deduplication = advance_conf.get("去重复")
+            export_table = advance_conf.get("导出二维表")
+            skip_header = advance_conf.get("去表头")
+            skip_footer = advance_conf.get("去表尾")
+            self.sub_cfg(ignore_empty_string, trim_string, auto_fill, deduplication, export_table, skip_header, skip_footer)
 
         # 正则魔方
         if magic:
@@ -599,3 +607,110 @@ class RegularCube:
             else:
                 # 如果需要配置正则魔方，且设置方式为选择，则返回false
                 self.needJumpIframe = False
+
+    def sub_cfg(self, ignore_empty_string, trim_string, auto_fill, deduplication, export_table, skip_header, skip_footer):
+        """
+        :param ignore_empty_string: 忽略空字符串，是/否
+        :param trim_string: 忽略字符串前后空格，是/否
+        :param auto_fill: 自动补全，字典
+        :param deduplication: 去重复，是/否
+        :param export_table: 导出二维表，是/否
+        :param skip_header: 去表头，字典
+        :param skip_footer: 去表尾，字典
+        """
+        # 忽略空字符串，是/否
+        if ignore_empty_string:
+            temp = True if ignore_empty_string == "是" else False
+            js = 'return $(".omitEmptyStrings")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='omitEmptyStrings']").click()
+                log.info("设置忽略空字符串: {}".format(ignore_empty_string))
+
+        # 忽略字符串前后空格，是/否
+        if trim_string:
+            temp = True if trim_string == "是" else False
+            js = 'return $(".trimString")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='trimString']").click()
+                log.info("设置忽略空忽略字符串前后空格: {}".format(ignore_empty_string))
+
+        # 自动补全
+        if auto_fill:
+            enable_auto_fill = auto_fill.get("是否勾选")
+            value_type = auto_fill.get("取值类型")
+            self_defining_value = auto_fill.get("自定义值")
+            temp = True if enable_auto_fill == "是" else False
+            js = 'return $(".isAutoFill")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='isAutoFill']").click()
+                log.info("设置自动补全: {}".format(enable_auto_fill))
+            if enable_auto_fill == "是":
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'autoFillSelect')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath()
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(value_type)).click()
+                log.info("设置自动补全方式: {}".format(value_type))
+            if value_type == "自定义值":
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'selfDefiningVal')]/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'selfDefiningVal')]/following-sibling::span/input[1]").send_keys(
+                    self_defining_value)
+                log.info("设置自动补全自定义值: {}".format(self_defining_value))
+
+        # 去重复，是/否
+        if deduplication:
+            temp = True if deduplication == "是" else False
+            js = 'return $(".deduplication")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='deduplication']").click()
+                log.info("设置去重复: {}".format(deduplication))
+
+        # 导出二维表，是/否
+        if export_table:
+            temp = True if export_table == "是" else False
+            js = 'return $(".isExport")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='isExport']").click()
+                log.info("设置导出二维表: {}".format(export_table))
+
+        # 去表头
+        if skip_header:
+            enable_skip_header = skip_header.get("是否去表头")
+            skip_header_lines = skip_header.get("是否去表头")
+            temp = True if enable_skip_header == "是" else False
+            js = 'return $(".removeHeader")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='removeHeader']").click()
+                log.info("设置去表头: {}".format(enable_skip_header))
+            if enable_skip_header == "是":
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'headerRows')]/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'headerRows')]/following-sibling::span/input[1]").send_keys(
+                    skip_header_lines)
+                log.info("设置去表头行数: {}".format(skip_header_lines))
+
+        # 去表尾
+        if skip_footer:
+            enable_skip_footer = skip_footer.get("是否去表尾")
+            skip_footer_lines = skip_footer.get("是否去表尾")
+            temp = True if enable_skip_footer == "是" else False
+            js = 'return $(".removeFooter")[0].checked;'
+            status = self.browser.execute_script(js)
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@class='removeFooter']").click()
+                log.info("设置去表尾: {}".format(enable_skip_footer))
+            if enable_skip_footer == "是":
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'footerRows')]/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'footerRows')]/following-sibling::span/input[1]").send_keys(
+                    skip_footer_lines)
+                log.info("设置去表尾行数: {}".format(skip_footer_lines))

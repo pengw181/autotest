@@ -11,7 +11,7 @@ from src.main.python.lib.screenShot import saveScreenShot
 
 class OcrNode(unittest.TestCase):
 
-    log.info("装载流程OCR节点配置测试用例")
+    log.info("装载流程OCR识别测试用例")
     worker = CaseWorker()
 
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理
@@ -23,7 +23,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "ProcessDataClear",
             "参数": {
-                "流程名称": "auto_OCR节点流程"
+                "流程名称": "auto_流程_OCR识别"
             }
         }
         result = self.worker.action(action)
@@ -34,20 +34,10 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_OCR节点流程说明",
-                "高级配置": {
-                    "自定义流程变量": {
-                        "状态": "开启",
-                        "参数列表": {
-                            "时间": "2020-10-20###必填",
-                            "地点": "广州###",
-                            "名字": "pw###必填"
-                        }
-                    }
-                }
+                "流程说明": "auto_流程_OCR识别说明"
             }
         }
         msg = "保存成功"
@@ -61,7 +51,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "通用节点"
             }
         }
@@ -76,7 +66,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "通用节点",
                 "节点名称": "通用节点",
                 "业务配置": {
@@ -96,7 +86,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -133,7 +123,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -148,7 +138,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -175,7 +165,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -190,7 +180,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -217,7 +207,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -232,7 +222,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -264,7 +254,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -279,7 +269,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -321,7 +311,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -336,7 +326,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -371,7 +361,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -386,7 +376,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -421,7 +411,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -436,7 +426,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -469,7 +459,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点"
             }
         }
@@ -484,7 +474,7 @@ class OcrNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "OCR节点",
                 "业务配置": {
@@ -511,75 +501,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_process_node_business_conf(self):
-        u"""配置OCR节点，关闭过滤"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "远程加载文件",
-                "业务配置": {
-                    "启用过滤配置": "关闭"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_23_process_node_business_conf(self):
-        u"""配置OCR节点，开启高级设置"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "远程加载文件",
-                "业务配置": {
-                    "高级配置": {
-                        "状态": "开启",
-                        "超时时间": "600",
-                        "超时重试次数": "2"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_24_process_node_business_conf(self):
-        u"""配置OCR节点，关闭过滤"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "远程加载文件",
-                "业务配置": {
-                    "高级配置": {
-                        "状态": "关闭"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_25_process_node_fetch_conf(self):
+    def test_22_process_node_fetch_conf(self):
         u"""节点添加取数配置，基本信息"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "普通发票",
                 "取数配置": {
@@ -597,12 +524,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_process_node_fetch_conf(self):
+    def test_23_process_node_fetch_conf(self):
         u"""节点添加取数配置，明细信息"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "普通发票",
                 "取数配置": {
@@ -620,102 +547,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_process_node_fetch_conf(self):
-        u"""节点修改取数配置"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "普通发票",
-                "取数配置": {
-                    "操作": "修改",
-                    "目标变量": "普通发票_基本信息",
-                    "变量名": "普通发票_基本信息1",
-                    "取值类型": "基本信息",
-                    "赋值方式": "追加",
-                    "获取列名": "否"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_28_process_node_fetch_conf(self):
-        u"""节点删除取数配置"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "普通发票",
-                "取数配置": {
-                    "操作": "删除",
-                    "目标变量": "普通发票_基本信息1"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_29_process_node_fetch_conf(self):
-        u"""节点普通发票添加取数配置"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "普通发票",
-                "取数配置": {
-                    "操作": "添加",
-                    "变量名": "普通发票_基本信息",
-                    "取值类型": "基本信息",
-                    "赋值方式": "替换",
-                    "获取列名": "是"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_30_process_node_fetch_conf(self):
-        u"""节点普通发票添加取数配置，变量名已存在"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_OCR节点流程",
-                "节点类型": "OCR节点",
-                "节点名称": "普通发票",
-                "取数配置": {
-                    "操作": "添加",
-                    "变量名": "普通发票_基本信息",
-                    "取值类型": "基本信息",
-                    "赋值方式": "替换",
-                    "获取列名": "是"
-                }
-            }
-        }
-        msg = "该变量已存在"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_31_process_node_fetch_conf(self):
+    def test_24_process_node_fetch_conf(self):
         u"""节点专用发票添加取数配置，基本信息"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "专用发票",
                 "取数配置": {
@@ -733,12 +570,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_process_node_fetch_conf(self):
+    def test_25_process_node_fetch_conf(self):
         u"""节点专用发票添加取数配置，明细信息"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "OCR节点",
                 "节点名称": "专用发票",
                 "取数配置": {
@@ -756,12 +593,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_process_node_line(self):
+    def test_26_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "开始",
                 "终止节点名称": "参数设置",
                 "关联关系": "满足"
@@ -773,12 +610,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_34_process_node_line(self):
+    def test_27_process_node_line(self):
         u"""节点参数设置连线到节点：普通发票"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "参数设置",
                 "终止节点名称": "普通发票",
                 "关联关系": "无条件"
@@ -790,12 +627,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_35_process_node_line(self):
+    def test_28_process_node_line(self):
         u"""节点普通发票连线到节点：专用发票"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "普通发票",
                 "终止节点名称": "专用发票",
                 "关联关系": "无条件"
@@ -807,12 +644,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_36_process_node_line(self):
+    def test_29_process_node_line(self):
         u"""节点专用发票连线到节点：关键字识别图片名"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "专用发票",
                 "终止节点名称": "关键字识别图片名",
                 "关联关系": "无条件"
@@ -824,12 +661,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_37_process_node_line(self):
+    def test_30_process_node_line(self):
         u"""节点关键字识别图片名连线到节点：识别jpg"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "关键字识别图片名",
                 "终止节点名称": "识别jpg",
                 "关联关系": "无条件"
@@ -841,12 +678,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_38_process_node_line(self):
+    def test_31_process_node_line(self):
         u"""节点识别jpg连线到节点：识别jpeg"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "识别jpg",
                 "终止节点名称": "识别jpeg",
                 "关联关系": "无条件"
@@ -858,12 +695,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_39_process_node_line(self):
+    def test_32_process_node_line(self):
         u"""节点识别jpeg连线到节点：识别png"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "识别jpeg",
                 "终止节点名称": "识别png",
                 "关联关系": "无条件"
@@ -875,12 +712,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_40_process_node_line(self):
+    def test_33_process_node_line(self):
         u"""节点识别png连线到节点：远程加载文件"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "识别png",
                 "终止节点名称": "远程加载文件",
                 "关联关系": "无条件"
@@ -892,12 +729,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_41_process_node_line(self):
+    def test_34_process_node_line(self):
         u"""节点远程加载文件连线到节点：目录使用变量"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "远程加载文件",
                 "终止节点名称": "目录使用变量",
                 "关联关系": "无条件"
@@ -909,12 +746,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_42_process_node_add(self):
+    def test_35_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "节点类型": "结束节点"
             }
         }
@@ -924,12 +761,12 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_43_process_node_end_conf(self):
+    def test_36_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "状态": "正常"
             }
         }
@@ -939,18 +776,32 @@ class OcrNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_44_process_node_line(self):
+    def test_37_process_node_line(self):
         u"""节点目录使用变量连线到结束节点"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_OCR节点流程",
+                "流程名称": "auto_流程_OCR识别",
                 "起始节点名称": "目录使用变量",
                 "终止节点名称": "正常",
                 "关联关系": "无条件"
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_38_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_OCR识别"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

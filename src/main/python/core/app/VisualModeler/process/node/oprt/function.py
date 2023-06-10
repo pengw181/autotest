@@ -99,7 +99,7 @@ class FunctionWorker:
                 # 函数名
                 func_name = func.get("函数")
                 if action == "添加":
-                    self.browser.find_element(By.XPATH, "//*[@onclick='addFuncBtnInfo()']//*[text()='添加']").click()
+                    self.browser.find_element(By.XPATH, "//*[@onclick='addFuncBtnInfo()']").click()
                     func.pop("动作")
                     func.pop("函数")
                     self.set_function(func_name=func_name, func_set=func)
@@ -117,7 +117,7 @@ class FunctionWorker:
                     self.browser.find_element(
                         By.XPATH, "//*[@field='funcName']/*[contains(text(),'{0}')]".format(func_name)).click()
                     # 点击删除
-                    self.browser.find_element(By.XPATH, "//*[@onclick='delete_func();']//*[text()='保存']").click()
+                    self.browser.find_element(By.XPATH, "//*[@onclick='delete_func();']").click()
                     alert = BeAlertBox(back_iframe="default")
                     msg = alert.get_msg()
                     if alert.title_contains(func_name, auto_click_ok=False):
@@ -148,7 +148,7 @@ class FunctionWorker:
                 sleep(1)
 
         # 保存
-        self.browser.find_element(By.XPATH, "//*[@onclick='save_func();']//*[text()='保存']").click()
+        self.browser.find_element(By.XPATH, "//*[@onclick='save_func();']").click()
         # 切换到上层iframe
         self.browser.switch_to.parent_frame()
         sleep(1)
@@ -364,13 +364,13 @@ class FunctionWorker:
                                 # 切换到基础运算iframe
                                 self.browser.switch_to.frame(
                                     self.browser.find_element(By.XPATH, "//iframe[contains(@src,'operateCfgBase.html')]"))
-                                # 切换到函数配置iframe
-                                self.browser.switch_to.frame(
-                                    self.browser.find_element(By.XPATH, "//iframe[contains(@src,'funcList.html')]"))
                             else:
                                 log.warning("保存正则模版失败，失败提示: {0}".format(msg))
                             gbl.temp.set("ResultMsg", msg)
 
+                        # 切换到函数配置iframe
+                        self.browser.switch_to.frame(
+                            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'funcList.html')]"))
                         # 关闭正则魔方配置
                         self.browser.find_element(
                             By.XPATH, "//*[text()='正则魔方']/following-sibling::div/a[contains(@class,'close')]").click()
@@ -381,6 +381,14 @@ class FunctionWorker:
                         log.info("取消勾选【正则匹配】")
                     else:
                         log.info("【正则匹配】标识为否，不开启")
+                    # 查找内容
+                    if func_set.__contains__("查找内容"):
+                        find = func_set.get("查找内容")
+                        self.browser.find_element(By.XPATH, "//*[@name='find1']/preceding-sibling::input").clear()
+                        self.browser.find_element(By.XPATH,
+                                                  "//*[@name='find1']/preceding-sibling::input").send_keys(find)
+                        log.info("设置查找内容: {0}".format(find))
+                        sleep(1)
             else:
                 # 查找内容
                 if func_set.__contains__("查找内容"):
@@ -488,6 +496,8 @@ class FunctionWorker:
                             else:
                                 log.warning("保存正则模版失败，失败提示: {0}".format(msg))
                             gbl.temp.set("ResultMsg", msg)
+                        else:
+                            self.browser.switch_to.parent_frame()
 
                         # 关闭正则魔方配置
                         self.browser.find_element(

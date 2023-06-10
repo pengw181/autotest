@@ -37,6 +37,7 @@ from src.main.python.core.app.VisualModeler.process.node.fetch.aiFetch import ai
 from src.main.python.core.app.VisualModeler.process.node.fetch.ocrFetch import ocr_fetch
 from src.main.python.core.app.VisualModeler.process.node.oprt.rightOpt import opt_action
 from src.main.python.core.app.VisualModeler.process.node.control.nodeControl import NodeControl
+from src.main.python.core.app.VisualModeler.process.node.oprt.loop import LoopAdvance
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.globals import gbl
@@ -68,7 +69,7 @@ class Node:
             gbl.service.set("NodeIframe", "//iframe[contains(@src,'./node/usualNode.html')]")
         elif self.node_type == "文件节点":
             gbl.service.set("NodeIframe", "//iframe[contains(@src,'./node/fileNode.html')]")
-        elif self.node_type == "Sql节点":
+        elif self.node_type == "数据库节点":
             gbl.service.set("NodeIframe", "//iframe[contains(@src,'./node/sqlNode.html')]")
         elif self.node_type == "指令模版节点":
             gbl.service.set("NodeIframe", "//iframe[contains(@src,'./node/cmdTemplateNode.html')]")
@@ -152,7 +153,7 @@ class Node:
                                       storage_set=kwargs.get("存储参数配置"), source_set=kwargs.get("源"),
                                       dest_set=kwargs.get("目标"), files_set=kwargs.get("文件配置"))
 
-        elif self.node_type == "Sql节点":
+        elif self.node_type == "Sql节点" or self.node_type == "数据库节点":
             # 点击业务配置
             self.browser.find_element(By.XPATH, "//*[@class='tabs']//*[text()='业务配置']").click()
             # 切换到业务配置iframe
@@ -252,7 +253,9 @@ class Node:
             node_name = report_business(node_name=kwargs.get("节点名称"), opt_type=kwargs.get("操作方式"),
                                         obj_var=kwargs.get("变量名"), var_name=kwargs.get("变量选择"),
                                         var_map=kwargs.get("变量索引配置"), interface_name=kwargs.get("数据接口名称"),
-                                        remark=kwargs.get("备注"), sample_data=kwargs.get("样例数据"))
+                                        remark=kwargs.get("备注"), sample_data=kwargs.get("样例数据"),
+                                        dash_mode=kwargs.get("报表模式"), link_name=kwargs.get("链接名称"),
+                                        link_url=kwargs.get("链接地址"))
 
         elif self.node_type == "邮件节点":
             # 点击业务配置
@@ -454,7 +457,7 @@ class Node:
                         var_type=kwargs.get("变量类型"), attach_type=kwargs.get("附件类型"),
                         file_name=kwargs.get("文件名"), value_type=kwargs.get("赋值方式"))
 
-        elif self.node_type == "Sql节点":
+        elif self.node_type == "Sql节点" or self.node_type == "数据库节点":
             # 切换到取数配置iframe
             self.browser.switch_to.frame(
                 self.browser.find_element(By.XPATH, "//iframe[@id='getdata_sql_node']"))
@@ -502,13 +505,18 @@ class Node:
         # 按列取数
         if kwargs.__contains__("按列取数"):
             col_var = kwargs.get("按列取数")
-            node_control.get_value_by_col(enable=col_var.get("状态"), varSetList=col_var.get("变量列表"))
+            loop_adv = LoopAdvance(where=2)
+            loop_adv.get_value_by_col(loop_fetch=col_var.get("是否开启按列取数"), fetch_cols_list=col_var.get("变量列表"))
 
         # 高级配置
         if kwargs.__contains__("高级配置"):
             advance_set = kwargs.get("高级配置")
-            node_control.advance_cfg(saveLog=advance_set.get("是否记录循环日志"), recordCycleNum=advance_set.get("循环日志记录条数"),
-                                     outputLogPrintRuler=advance_set.get("输出日志打印规则"))
+            # node_control.advance_cfg(saveLog=advance_set.get("是否记录循环日志"), recordCycleNum=advance_set.get("循环日志记录条数"),
+            #                          outputLogPrintRuler=advance_set.get("输出日志打印规则"))
+            loop_adv = LoopAdvance(where=2)
+            loop_adv.advance_cfg(save_log=advance_set.get("是否记录循环日志"),
+                                 record_cycle_num=advance_set.get("循环日志记录条数"),
+                                 log_print_ruler=advance_set.get("输出日志打印规则"))
 
         # 逻辑分支控制
         if kwargs.__contains__("逻辑分支控制"):

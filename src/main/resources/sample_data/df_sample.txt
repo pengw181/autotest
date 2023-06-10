@@ -1,0 +1,8 @@
+[u_normal@qa-mock-server-1 ~]$ df -hl
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        20G  3.3G   17G  17% /
+devtmpfs        900M     0  900M   0% /dev
+tmpfs           920M     0  920M   0% /dev/shm
+tmpfs           920M  105M  816M  12% /run
+tmpfs           920M     0  920M   0% /sys/fs/cgroup
+tmpfs           184M     0  184M   0% /run/user/1001

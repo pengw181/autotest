@@ -46,6 +46,7 @@ class DoctorWho:
         self.current_win_handle.close(title="仪表盘主配置页")
         self.current_win_handle.close(title="数据管理")
         self.current_win_handle.close(title="一键启动")
+        self.current_win_handle.close(title="数据库管理")
         sleep(1)
 
         # 切换到vm窗口

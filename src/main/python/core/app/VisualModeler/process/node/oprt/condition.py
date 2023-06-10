@@ -16,7 +16,7 @@ from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
 
-def condition(array, iframe_xpath_list=None, basic_cal=False):
+def set_condition(array, iframe_xpath_list=None, basic_cal=False):
     """
     # iframe_xpath_list用于添加条件表达式后，会自动保存，需要重新进入iframe继续操作
     [
@@ -34,7 +34,7 @@ def condition(array, iframe_xpath_list=None, basic_cal=False):
             "变量名称": "时间变量",
             "时间格式": "yyyyMMddHHmmss",
             "间隔": "-1",
-            "单位": "天",
+            "单位": "日",
             "语言": "中文"
         }],
         ["包含", ""],

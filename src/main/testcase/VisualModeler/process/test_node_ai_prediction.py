@@ -945,6 +945,20 @@ class AiNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_49_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_AI预测"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

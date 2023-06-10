@@ -8,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.processVar import choose_var
 from src.main.python.lib.input import set_blob
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.loadData import load_sample
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
@@ -110,17 +111,21 @@ def interface_business(node_name, interface, request_body, request_header, param
     if request_header:
         log.info("开始配置请求头列表")
         request_header_title = browser.find_element(By.XPATH, "//*[@class='panel_title' and contains(text(),'请求头列表')]")
+        sleep(1)
         browser.execute_script("arguments[0].scrollIntoView(true);", request_header_title)
         for key, value in request_header.items():
             set_header(param_name=key, param_type=value.get("设置方式"), param_value=value.get("参数值"))
+            sleep(1)
 
     # 参数列表
     if params:
         log.info("开始配置参数列表")
         params_title = browser.find_element(By.XPATH, "//*[@class='panel_title' and contains(text(),'参数列表')]")
+        sleep(1)
         browser.execute_script("arguments[0].scrollIntoView(true);", params_title)
         for key, value in params.items():
             set_param(param_name=key, param_type=value.get("设置方式"), param_value=value.get("参数值"))
+            sleep(1)
 
     # 设置高级模式
     if advance_set:
@@ -175,33 +180,28 @@ def set_header(param_name, param_type, param_value):
     :param param_value: 参数值
     """
     browser = gbl.service.get("browser")
-    req_header = "//*[contains(@data-i18n-text,'reqestHeaderList')]/following-sibling::div"
+    req_header_xpath = "//*[contains(@data-i18n-text,'reqestHeaderList')]/following-sibling::div[1]"
     browser.find_element(
-        By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[1][@field='valueType']//a".format(
+        By.XPATH, req_header_xpath + "//*[text()='{0}']/../following-sibling::td[1][@field='valueType']//a".format(
             param_name)).click()
-    val_type_element = browser.find_elements(
-        By.XPATH, req_header + "//*[contains(@id,'valType') and text()='{0}']".format(param_type))
-    # 点击当前页面可见的元素
-    for e in val_type_element:
-        if e.is_displayed():
-            e.click()
-            break
+    panel_xpath = getPanelXpath(timeout=3)
+    browser.find_element(
+        By.XPATH, panel_xpath + "//*[contains(@id,'valType') and text()='{0}']".format(param_type)).click()
     sleep(1)
     if param_type == "变量":
         browser.find_element(
-            By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//a".format(
+            By.XPATH, req_header_xpath + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//a".format(
                 param_name)).click()
         # 选择变量
         choose_var(var_name=param_value)
     else:
         # 输入固定值内容
         input_ele = browser.find_element(
-            By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//*[contains(@id,'input')]".format(
+            By.XPATH, req_header_xpath + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//*[contains(@id,'input')]".format(
                 param_name))
         input_ele.clear()
         input_ele.send_keys(param_value)
     log.info("请求头{0}配置完成".format(param_name))
-    sleep(1)
 
 
 def set_param(param_name, param_type, param_value):
@@ -211,30 +211,25 @@ def set_param(param_name, param_type, param_value):
     :param param_value: 参数值
     """
     browser = gbl.service.get("browser")
-    req_header = "//*[contains(@data-i18n-text,'paraList')]/following-sibling::div"
+    req_param_xpath = "//*[contains(@data-i18n-text,'paraList')]/following-sibling::div[1]"
     browser.find_element(
-        By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[1][@field='valueType']//a".format(
+        By.XPATH, req_param_xpath + "//*[text()='{0}']/../following-sibling::td[1][@field='valueType']//a".format(
             param_name)).click()
-    val_type_element = browser.find_elements(
-        By.XPATH, req_header + "//*[contains(@id,'valType') and text()='{0}']".format(param_type))
-    # 点击当前页面可见的元素
-    for e in val_type_element:
-        if e.is_displayed():
-            e.click()
-            break
+    panel_xpath = getPanelXpath(timeout=3)
+    browser.find_element(
+        By.XPATH, panel_xpath + "//*[contains(@id,'valType') and text()='{0}']".format(param_type)).click()
     sleep(1)
     if param_type == "变量":
         browser.find_element(
-            By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//a".format(
+            By.XPATH, req_param_xpath + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//a".format(
                 param_name)).click()
         # 选择变量
         choose_var(var_name=param_value)
     else:
         # 输入固定值内容
         input_ele = browser.find_element(
-            By.XPATH, req_header + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//*[contains(@id,'input')]".format(
+            By.XPATH, req_param_xpath + "//*[text()='{0}']/../following-sibling::td[2][@field='paramValue']//*[contains(@id,'input')]".format(
                 param_name))
         input_ele.clear()
         input_ele.send_keys(param_value)
     log.info("参数{0}配置完成".format(param_name))
-    sleep(1)

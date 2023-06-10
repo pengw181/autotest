@@ -575,6 +575,36 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_24_cmd_add(self):
+        u"""添加指令集，auto_指令_磁盘利用率检查"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_磁盘利用率检查",
+                "指令类别": "带参指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["df -hl"],
+                "说明": "磁盘利用率检查",
+                "指令解析模版": [],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):     # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

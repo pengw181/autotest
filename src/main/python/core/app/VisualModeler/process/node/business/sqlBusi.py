@@ -10,6 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.processVar import choose_var
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.input import set_blob
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
@@ -140,20 +141,20 @@ def sql_business(node_name, opt_mode, sql_config, advance_set):
     operate_mode = browser.execute_script(js)
     log.info("操作模式: {0}".format(operate_mode))
     if operate_mode == "900":
-        operate_mode = "sql节点高级模式"
+        operate_mode = "SQL模式"
     elif operate_mode == "901":
-        operate_mode = "sql节点普通模式"
+        operate_mode = "配置模式"
     else:
         raise Exception("获取操作模式失败")
     log.info("操作模式转义: {0}".format(operate_mode))
 
     # sql配置
     if sql_config:
-        if operate_mode == "sql节点高级模式":
-            log.info("配置sql节点高级模式")
+        if operate_mode == "SQL模式":
+            log.info("配置数据库节点SQL模式")
             sql_advance_mode(db=sql_config.get("数据库"), sql=sql_config.get("编写sql"))
         else:
-            log.info("配置sql节点普通模式")
+            log.info("配置数据库节点配置模式")
             sql_normal_mode(var=sql_config.get("变量"), db=sql_config.get("数据库"),
                             storage_mode=sql_config.get("存储模式"), table_name=sql_config.get("表选择"),
                             col_map=sql_config.get("字段映射"))
@@ -208,7 +209,7 @@ def sql_business(node_name, opt_mode, sql_config, advance_set):
 def sql_advance_mode(db, sql):
     """
     :param db: 数据库，必填
-    :param sql: 编写sql，必填
+    :param sql: 编写sql，数组，必填
     """
     browser = gbl.service.get("browser")
     # 选择数据库
@@ -233,13 +234,14 @@ def sql_advance_mode(db, sql):
     browser.switch_to.parent_frame()
 
 
-def sql_normal_mode(var, db, storage_mode, table_name, col_map):
+def sql_normal_mode(var, db, storage_mode, table_name, col_map=None, advance=None):
     """
     :param var: 变量，必填
     :param db: 数据库，必填
     :param storage_mode: 存储模式，非必填
     :param table_name: 表选择，必填
-    :param col_map: 字段映射，字典，必填
+    :param col_map: 字段映射，字典，为空则自动设置
+    :param advance: 高级配置
     """
     browser = gbl.service.get("browser")
     # 点击添加
@@ -298,11 +300,8 @@ def sql_normal_mode(var, db, storage_mode, table_name, col_map):
             # 设置值类型
             browser.find_element(
                 By.XPATH, "//*[@field='columnChiName']/*[text()='{}']/../following-sibling::td[2]//a".format(key)).click()
-            type_element = browser.find_elements(By.XPATH, "//*[contains(@id,'typeCOL') and text()='{0}']".format(col_type))
-            for e in type_element:
-                if e.is_displayed():
-                    e.click()
-                    break
+            panel_xpath = getPanelXpath(timeout=3)
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(col_type)).click()
             # 填写值
             if col_type == "变量名":
                 # 变量
@@ -315,8 +314,41 @@ def sql_normal_mode(var, db, storage_mode, table_name, col_map):
                         key)).send_keys(col_value)
             log.info("字段: {0} 映射配置完成".format(key))
             sleep(1)
+    else:
+        # 自动设置
+        browser.find_element(By.XPATH, "//*[@data-i18n-text='process.sqlNode.normal.resetField']").click()
+        sleep(1)
+        browser.find_element(By.XPATH, "//*[@data-i18n-text='process.sqlNode.normal.buildField']").click()
+        log.info("自动生成字段映射索引")
+
+    # 高级配置
+    if advance:
+        if advance.get("状态") == "开启":
+            skip_rows = advance.get("跳过行数")
+            batch_submit_rows = advance.get("批量提交行数")
+            try:
+                browser.find_element(
+                    By.XPATH, "//*[@onclick='show_advanced_cfg($(this))']//*[text()='开启高级模式']").click()
+                log.info("开启【高级配置】")
+            except NoSuchElementException:
+                pass
+
+            browser.find_element(By.XPATH, "//*[@name='skipRows']/preceding-sibling::input").clear()
+            browser.find_element(By.XPATH, "//*[@name='skipRows']/preceding-sibling::input").send_keys(skip_rows)
+            browser.find_element(By.XPATH, "//*[@name='batchSubmitRows']/preceding-sibling::input").clear()
+            browser.find_element(By.XPATH, "//*[@name='batchSubmitRows']/preceding-sibling::input").send_keys(batch_submit_rows)
+            log.info("设置高级模式")
+
+        else:
+            try:
+                browser.find_element(By.XPATH, "//*[@onclick='show_advanced_cfg($(this))']//*[text()='开启高级模式']")
+            except NoSuchElementException:
+                browser.find_element(
+                    By.XPATH, "//*[@onclick='show_advanced_cfg($(this))']//*[text()='关闭高级模式']").click()
+                log.info("关闭【高级配置】")
+        sleep(1)
 
     # 点击保存
-    browser.find_element(By.XPATH, "//*[@onclick='saves()']//*[text()='保存']").click()
+    browser.find_element(By.XPATH, "//*[@onclick='saves()']").click()
     # 切回业务配置iframe
     browser.switch_to.parent_frame()

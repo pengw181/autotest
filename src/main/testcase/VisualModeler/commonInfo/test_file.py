@@ -883,6 +883,42 @@ class File(unittest.TestCase):
         assert result
 
     def test_54_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "清洗日志.txt"
+            }
+        }
+        checks = """
+        CheckFile|清洗日志.txt
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_55_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "函数.xlsx"
+            }
+        }
+        checks = """
+        CheckFile|函数.xlsx
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_56_file_upload(self):
         u"""系统目录上传文件"""
         action = {
             "操作": "UploadFile",
@@ -900,7 +936,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_55_file_dir_clear(self):
+    def test_57_file_dir_clear(self):
         u"""删除个人目录，auto_ocr目录"""
         action = {
             "操作": "DirDataClear",
@@ -912,7 +948,7 @@ class File(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_56_file_dir_make(self):
+    def test_58_file_dir_make(self):
         u"""个人目录创建：auto_ocr目录"""
         action = {
             "操作": "MkDir",
@@ -928,7 +964,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_57_file_upload(self):
+    def test_59_file_upload(self):
         u"""auto_ocr目录上传文件012.jpg"""
         action = {
             "操作": "UploadFile",
@@ -947,7 +983,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_58_file_upload(self):
+    def test_60_file_upload(self):
         u"""auto_ocr目录上传文件021.jpg"""
         action = {
             "操作": "UploadFile",
@@ -966,7 +1002,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_59_file_upload(self):
+    def test_61_file_upload(self):
         u"""auto_ocr目录上传文件032.jpg"""
         action = {
             "操作": "UploadFile",
@@ -985,7 +1021,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_60_file_upload(self):
+    def test_62_file_upload(self):
         u"""auto_ocr目录上传文件034.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1004,7 +1040,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_61_file_upload(self):
+    def test_63_file_upload(self):
         u"""auto_ocr目录上传文件034_compress.jPG"""
         action = {
             "操作": "UploadFile",
@@ -1023,7 +1059,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_62_file_upload(self):
+    def test_64_file_upload(self):
         u"""auto_ocr目录上传文件4301.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1042,7 +1078,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_63_file_upload(self):
+    def test_65_file_upload(self):
         u"""auto_ocr目录上传文件4302.png"""
         action = {
             "操作": "UploadFile",
@@ -1061,7 +1097,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_64_file_upload(self):
+    def test_66_file_upload(self):
         u"""auto_ocr目录上传文件4303.jpeg"""
         action = {
             "操作": "UploadFile",
@@ -1080,7 +1116,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_65_file_upload(self):
+    def test_67_file_upload(self):
         u"""auto_ocr目录上传文件034-3.4M.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1099,7 +1135,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_66_file_upload(self):
+    def test_68_file_upload(self):
         u"""auto_ocr目录上传文件034-70dpi.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1118,7 +1154,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_67_file_upload(self):
+    def test_69_file_upload(self):
         u"""auto_ocr目录上传文件034-500px.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1137,7 +1173,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_68_file_upload(self):
+    def test_70_file_upload(self):
         u"""auto_ocr目录上传文件047_7000.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1156,7 +1192,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_69_file_dir_make(self):
+    def test_71_file_dir_make(self):
         u"""auto_ocr目录创建二级目录：auto_普通发票"""
         action = {
             "操作": "MkDir",
@@ -1172,7 +1208,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_70_file_dir_make(self):
+    def test_72_file_dir_make(self):
         u"""auto_ocr目录创建二级目录：auto_专用发票"""
         action = {
             "操作": "MkDir",
@@ -1188,7 +1224,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_71_file_upload(self):
+    def test_73_file_upload(self):
         u"""auto_普通发票上传文件201.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1207,7 +1243,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_72_file_upload(self):
+    def test_74_file_upload(self):
         u"""auto_普通发票上传文件222.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1226,7 +1262,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_73_file_upload(self):
+    def test_75_file_upload(self):
         u"""auto_普通发票上传文件225.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1245,7 +1281,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_74_file_upload(self):
+    def test_76_file_upload(self):
         u"""auto_普通发票上传文件226.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1264,7 +1300,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_75_file_upload(self):
+    def test_77_file_upload(self):
         u"""auto_普通发票上传文件235.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1283,7 +1319,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_76_file_upload(self):
+    def test_78_file_upload(self):
         u"""auto_专用发票上传文件105.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1302,7 +1338,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_77_file_upload(self):
+    def test_79_file_upload(self):
         u"""auto_专用发票上传文件109.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1321,7 +1357,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_78_file_upload(self):
+    def test_80_file_upload(self):
         u"""auto_专用发票上传文件110.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1340,7 +1376,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_79_file_upload(self):
+    def test_81_file_upload(self):
         u"""auto_专用发票上传文件116.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1359,7 +1395,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_80_file_upload(self):
+    def test_82_file_upload(self):
         u"""auto_专用发票上传文件122.jpg"""
         action = {
             "操作": "UploadFile",
@@ -1378,7 +1414,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_81_file_dir_clear(self):
+    def test_83_file_dir_clear(self):
         u"""删除个人目录，auto_AI"""
         action = {
             "操作": "DirDataClear",
@@ -1390,7 +1426,7 @@ class File(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_82_file_dir_make(self):
+    def test_84_file_dir_make(self):
         u"""个人目录创建：auto_AI"""
         action = {
             "操作": "MkDir",
@@ -1405,44 +1441,6 @@ class File(unittest.TestCase):
         assert result
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_83_file_upload(self):
-        u"""auto_AI上传文件factorLGBM_predict.csv"""
-        action = {
-            "操作": "UploadFile",
-            "参数": {
-                "目录分类": "personal",
-                "目标目录": "auto_AI",
-                "文件类别": "predict",
-                "文件名": "factorLGBM_predict.csv"
-            }
-        }
-        checks = """
-        CheckFile|factorLGBM_predict.csv
-        """
-        result = self.worker.action(action)
-        assert result
-        result = self.worker.check(checks)
-        assert result
-
-    def test_84_file_upload(self):
-        u"""auto_AI上传文件factorXGB_predict.csv"""
-        action = {
-            "操作": "UploadFile",
-            "参数": {
-                "目录分类": "personal",
-                "目标目录": "auto_AI",
-                "文件类别": "predict",
-                "文件名": "factorXGB_predict.csv"
-            }
-        }
-        checks = """
-        CheckFile|factorXGB_predict.csv
-        """
-        result = self.worker.action(action)
-        assert result
-        result = self.worker.check(checks)
-        assert result
 
     def test_85_file_upload(self):
         u"""auto_AI上传文件factorLGBM_predict.csv"""
@@ -1464,6 +1462,44 @@ class File(unittest.TestCase):
         assert result
 
     def test_86_file_upload(self):
+        u"""auto_AI上传文件factorXGB_predict.csv"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_AI",
+                "文件类别": "predict",
+                "文件名": "factorXGB_predict.csv"
+            }
+        }
+        checks = """
+        CheckFile|factorXGB_predict.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_87_file_upload(self):
+        u"""auto_AI上传文件factorLGBM_predict.csv"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_AI",
+                "文件类别": "predict",
+                "文件名": "factorLGBM_predict.csv"
+            }
+        }
+        checks = """
+        CheckFile|factorLGBM_predict.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_88_file_upload(self):
         u"""auto_AI上传文件single_predict.xlsx"""
         action = {
             "操作": "UploadFile",
@@ -1482,7 +1518,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_87_file_upload(self):
+    def test_89_file_upload(self):
         u"""auto_AI上传文件factor_predict.xlsx"""
         action = {
             "操作": "UploadFile",
@@ -1501,7 +1537,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_88_file_upload(self):
+    def test_90_file_upload(self):
         u"""auto_AI上传文件classical_predict.xlsx"""
         action = {
             "操作": "UploadFile",
@@ -1520,7 +1556,7 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
-    def test_89_file_dir_clear(self):
+    def test_91_file_dir_clear(self):
         u"""删除个人目录，auto_全流程"""
         action = {
             "操作": "DirDataClear",
@@ -1532,7 +1568,7 @@ class File(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_90_file_dir_make(self):
+    def test_92_file_dir_make(self):
         u"""个人目录创建：auto_全流程"""
         action = {
             "操作": "MkDir",
@@ -1548,7 +1584,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_91_file_dir_make(self):
+    def test_93_file_dir_make(self):
         u"""个人目录创建：auto_临时目录"""
         action = {
             "操作": "MkDir",
@@ -1564,7 +1600,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_92_file_dir_make(self):
+    def test_94_file_dir_make(self):
         u"""添加目录，目录名包含./"""
         action = {
             "操作": "MkDir",
@@ -1580,7 +1616,7 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_93_file_dir_make(self):
+    def test_95_file_dir_make(self):
         u"""添加目录，目录名包含../"""
         action = {
             "操作": "MkDir",

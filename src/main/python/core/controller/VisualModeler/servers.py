@@ -12,6 +12,7 @@ from src.main.python.core.app.VisualModeler.commonInfo.template import Template,
 from src.main.python.core.app.VisualModeler.commonInfo.proxy import Proxy
 from src.main.python.core.app.VisualModeler.commonInfo.field import ProfessionField
 from src.main.python.core.app.VisualModeler.commonInfo.database import Database
+from src.main.python.core.app.VisualModeler.commonInfo.database import TableManagement
 from src.main.python.core.app.VisualModeler.commonInfo.script import Script
 from src.main.python.core.app.VisualModeler.commonInfo.ai import AiModel
 from src.main.python.core.app.VisualModeler.commonInfo.mailbox import Mail
@@ -72,7 +73,7 @@ def actions(func, param):
 
     elif func == "AddNode":
         action = DrawProcess(process_name=param.get("流程名称"))
-        action.locate_node(node_type=param.get("节点类型"))
+        action.locate_node(node_type=param.get("节点类型"), x_loc=param.get("左边距"), y_loc=param.get("上边距"))
 
     elif func == "SetEndNode":
         action = DrawProcess(process_name=param.get("流程名称"))
@@ -344,6 +345,34 @@ def actions(func, param):
     elif func == "ListDatabase":
         action = Database()
         action.search(query=param.get("查询条件"))
+
+    # 数据库管理的数据管理
+    elif func == "AddDBTable":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.add_table(zh_name=param.get("数据表名称"), en_name=param.get("表英文名"))
+
+    elif func == "DeleteDBTable":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.delete_table(zh_name=param.get("数据表名称"))
+
+    elif func == "AddDBTableCol":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.add_cols(zh_name=param.get("数据表名称"), cols=param.get("列信息"))
+
+    elif func == "EditDBTableCol":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        update_map = param.get("修改内容")
+        action.edit_col(zh_name=param.get("数据表名称"), obj_col=param.get("列名(自定义)"),
+                        col_info=update_map.get("列信息"))
+
+    elif func == "DeleteDBTableCol":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.delete_col(zh_name=param.get("数据表名称"), obj_col=param.get("列名(自定义)"))
+
+    elif func == "ImportDBTable":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.import_table(zh_name=param.get("数据表名称"), en_name=param.get("表英文名"),
+                            col_file_name=param.get("字段文件名"))
 
     # 脚本管理
     elif func == "AddScript":

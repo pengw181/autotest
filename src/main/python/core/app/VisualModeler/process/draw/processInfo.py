@@ -338,6 +338,19 @@ class Process:
                         current_row_num -= 1
                         flag = False
 
+            # 不在列表中的参数将删除
+            current_keys = self.browser.find_elements(
+                By.XPATH, "//*[contains(@name, 'relaCol') and not(contains(@name,'default'))]/preceding-sibling::input")
+            for param_key_obj in current_keys:
+                param_key = param_key_obj.get_attribute("value")
+                log.info(param_key)
+                if len(param_key) == 0:
+                    break
+                if param_key not in var_param.keys():   # 删除
+                    self.browser.find_element(
+                        By.XPATH, "//*[contains(@name, 'relaCol') and @value='{}']/../../following-sibling::a[2]".format(
+                            param_key)).click()
+
             # 判断流程变量是否已存在，存在则更新，否则添加
             for param_key, param_value in var_param.items():
                 tmp = str(param_value).split("###", 1)

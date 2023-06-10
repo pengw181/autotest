@@ -71,6 +71,7 @@ def ai_business(node_name, mode, algorithm, model, var_name, param_map, interval
     # 算法选择
     if algorithm:
         browser.find_element(By.XPATH, "//*[@name='algorithmId']/preceding-sibling::input").click()
+        sleep(1)
         algorithm_element = browser.find_element(
             By.XPATH, "//*[contains(@id,'algorithmId') and text()='{0}']".format(algorithm))
         browser.execute_script("arguments[0].scrollIntoView(true);", algorithm_element)
@@ -81,6 +82,7 @@ def ai_business(node_name, mode, algorithm, model, var_name, param_map, interval
     # 模型
     if model:
         browser.find_element(By.XPATH, "//*[@name='algorithmModeId']/preceding-sibling::input").click()
+        sleep(1)
         model_element = browser.find_element(
             By.XPATH, "//*[contains(@id,'algorithmModeId') and text()='{0}']".format(model))
         browser.execute_script("arguments[0].scrollIntoView(true);", model_element)

@@ -403,6 +403,156 @@ class RegexTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_13_regex_add(self):
+        u"""添加正则模版，auto_正则模版_数字中文"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_数字中文",
+                "模版描述": "auto_正则模版_数字中文，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "数字",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "任意中文字符",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_14_regex_add(self):
+        u"""添加正则模版，auto_正则模版_数字中文带后缀"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_数字中文带后缀",
+                "模版描述": "auto_正则模版_数字中文带后缀，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "数字",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "任意中文字符",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": ".xls",
+                            "是否取值": "无"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_15_regex_add(self):
+        u"""添加正则模版，auto_正则模版_匹配清洗日志"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_匹配清洗日志",
+                "模版描述": "auto_正则模版_匹配清洗日志，勿删",
+                "正则魔方": {
+                    "高级模式": "是",
+                    "表达式": r"(\d{4}-[01]\d-[0-3]\d\s+[0-2]\d:[0-5]\d:[0-5]\d,\d{3})\s+-\s+(\S+)\s+-\s+(\S+)\s+-\s+(.+)"
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_16_regex_add(self):
+        u"""添加正则模版，auto_正则模版_横杠拆分符"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_横杠拆分符",
+                "模版描述": "auto_正则模版_横杠拆分符，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "空格",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": "-",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "空格",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_17_regex_add(self):
+        u"""添加正则模版，auto_正则模版_清洗结束符"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_清洗结束符",
+                "模版描述": "auto_正则模版_清洗结束符，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "任意字符",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": "本周期实例执行完成，休眠等待下一个运行周期",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "任意字符",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

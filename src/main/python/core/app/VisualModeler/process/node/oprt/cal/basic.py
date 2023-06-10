@@ -6,7 +6,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from src.main.python.lib.processVar import choose_var
 from src.main.python.lib.positionPanel import getPanelXpath
-from src.main.python.core.app.VisualModeler.process.node.oprt.condition import condition
+from src.main.python.core.app.VisualModeler.process.node.oprt.condition import set_condition
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
@@ -42,7 +42,7 @@ def basic(expression, output_var, output_col, value_type, transpose):
 
     # 配置表达式
     if expression:
-        condition(array=expression, basic_cal=True)
+        set_condition(array=expression, basic_cal=True)
         log.info("表达式配置完成")
         sleep(1)
 

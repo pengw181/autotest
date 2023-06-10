@@ -11,7 +11,7 @@ from src.main.python.lib.screenShot import saveScreenShot
 
 class InterfaceNode(unittest.TestCase):
 
-    log.info("装载流程接口调用配置测试用例")
+    log.info("装载流程restful接口调用配置测试用例")
     worker = CaseWorker()
 
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理
@@ -23,7 +23,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "ProcessDataClear",
             "参数": {
-                "流程名称": "auto_流程_接口调用"
+                "流程名称": "auto_流程_restful接口调用"
             }
         }
         result = self.worker.action(action)
@@ -34,10 +34,10 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_流程_接口调用说明"
+                "流程说明": "auto_流程_restful接口说明"
             }
         }
         msg = "保存成功"
@@ -51,7 +51,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "通用节点"
             }
         }
@@ -66,7 +66,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "通用节点",
                 "节点名称": "通用节点",
                 "业务配置": {
@@ -86,7 +86,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -101,7 +101,7 @@ class InterfaceNode(unittest.TestCase):
                                 ],
                                 "输出名称": {
                                     "类型": "输入",
-                                    "变量名": "参数1"
+                                    "变量名": "文本参数"
                                 },
                                 "输出列": "*",
                                 "赋值方式": "替换",
@@ -123,7 +123,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -138,7 +138,7 @@ class InterfaceNode(unittest.TestCase):
                                 ],
                                 "输出名称": {
                                     "类型": "输入",
-                                    "变量名": "参数2"
+                                    "变量名": "姓名"
                                 },
                                 "输出列": "*",
                                 "赋值方式": "替换",
@@ -160,7 +160,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "通用节点",
                 "节点名称": "参数设置",
                 "操作配置": [
@@ -203,7 +203,7 @@ class InterfaceNode(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点"
             }
         }
@@ -214,46 +214,11 @@ class InterfaceNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_9_process_node_business_conf(self):
-        u"""配置接口节点，webservice接口"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "接口节点",
-                "业务配置": {
-                    "节点名称": "webservice接口",
-                    "接口": "auto_用户密码期限检测"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_10_process_node_add(self):
-        u"""画流程图，添加一个接口节点"""
-        action = {
-            "操作": "AddNode",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点"
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_11_process_node_business_conf(self):
         u"""配置接口节点，restful接口，请求方式post"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "接口节点",
                 "业务配置": {
@@ -277,7 +242,7 @@ class InterfaceNode(unittest.TestCase):
                     "请求头列表": {
                         "param1": {
                             "设置方式": "变量",
-                            "参数值": "参数1"
+                            "参数值": "文本参数"
                         },
                         "param2": {
                             "设置方式": "固定值",
@@ -291,7 +256,7 @@ class InterfaceNode(unittest.TestCase):
                     "参数列表": {
                         "name": {
                             "设置方式": "变量",
-                            "参数值": "参数2"
+                            "参数值": "姓名"
                         },
                         "age": {
                             "设置方式": "固定值",
@@ -307,12 +272,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_12_process_node_add(self):
+    def test_10_process_node_add(self):
         u"""画流程图，添加一个接口节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点"
             }
         }
@@ -322,12 +287,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_13_process_node_business_conf(self):
+    def test_11_process_node_business_conf(self):
         u"""配置接口节点，restful接口，请求方式get"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "接口节点",
                 "业务配置": {
@@ -351,7 +316,7 @@ class InterfaceNode(unittest.TestCase):
                     "请求头列表": {
                         "param1": {
                             "设置方式": "变量",
-                            "参数值": "参数1"
+                            "参数值": "文本参数"
                         },
                         "param2": {
                             "设置方式": "固定值",
@@ -361,7 +326,7 @@ class InterfaceNode(unittest.TestCase):
                     "参数列表": {
                         "name": {
                             "设置方式": "变量",
-                            "参数值": "参数2"
+                            "参数值": "姓名"
                         },
                         "age": {
                             "设置方式": "固定值",
@@ -377,12 +342,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_14_process_node_add(self):
+    def test_12_process_node_add(self):
         u"""画流程图，添加一个接口节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点"
             }
         }
@@ -392,12 +357,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_15_process_node_business_conf(self):
+    def test_13_process_node_business_conf(self):
         u"""配置接口节点，restful接口，请求方式put"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "接口节点",
                 "业务配置": {
@@ -421,7 +386,7 @@ class InterfaceNode(unittest.TestCase):
                     "请求头列表": {
                         "param1": {
                             "设置方式": "变量",
-                            "参数值": "参数1"
+                            "参数值": "文本参数"
                         },
                         "param2": {
                             "设置方式": "固定值",
@@ -443,12 +408,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_16_process_node_add(self):
+    def test_14_process_node_add(self):
         u"""画流程图，添加一个接口节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点"
             }
         }
@@ -458,12 +423,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_17_process_node_business_conf(self):
+    def test_15_process_node_business_conf(self):
         u"""配置接口节点，restful接口，请求方式delete"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "接口节点",
                 "业务配置": {
@@ -487,7 +452,7 @@ class InterfaceNode(unittest.TestCase):
                     "请求头列表": {
                         "param1": {
                             "设置方式": "变量",
-                            "参数值": "参数1"
+                            "参数值": "文本参数"
                         },
                         "param2": {
                             "设置方式": "固定值",
@@ -497,7 +462,7 @@ class InterfaceNode(unittest.TestCase):
                     "参数列表": {
                         "name": {
                             "设置方式": "变量",
-                            "参数值": "参数2"
+                            "参数值": "姓名"
                         }
                     }
                 }
@@ -509,140 +474,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_18_process_node_add(self):
-        u"""画流程图，添加一个接口节点"""
-        action = {
-            "操作": "AddNode",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点"
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_19_process_node_business_conf(self):
-        u"""配置接口节点，soap接口"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "接口节点",
-                "业务配置": {
-                    "节点名称": "soap接口",
-                    "接口": "auto_第三方soap接口"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_20_process_node_business_conf(self):
-        u"""配置接口节点，修改请求体"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "post请求",
-                "业务配置": {
-                    "请求体内容": [
-                        {
-                            "类型": "自定义值",
-                            "自定义值": "请求体："
-                        },
-                        {
-                            "类型": "快捷键",
-                            "快捷键": "换行"
-                        },
-                        {
-                            "类型": "变量",
-                            "变量分类": "自定义变量",
-                            "变量名": "当前时间"
-                        }
-                    ]
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_21_process_node_business_conf(self):
-        u"""配置接口节点，修改请求头参数"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "post请求",
-                "业务配置": {
-                    "请求头列表": {
-                        "param1": {
-                            "设置方式": "固定值",
-                            "参数值": "2020"
-                        },
-                        "param2": {
-                            "设置方式": "固定值",
-                            "参数值": "你好"
-                        },
-                        "param3": {
-                            "设置方式": "变量",
-                            "参数值": "参数1"
-                        }
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_22_process_node_business_conf(self):
-        u"""配置接口节点，修改接口参数"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "post请求",
-                "业务配置": {
-                    "参数列表": {
-                        "name": {
-                            "设置方式": "固定值",
-                            "参数值": "kk"
-                        },
-                        "age": {
-                            "设置方式": "固定值",
-                            "参数值": "20"
-                        }
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_23_process_node_business_conf(self):
+    def test_16_process_node_business_conf(self):
         u"""配置接口节点，开启高级配置"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "post请求",
                 "业务配置": {
@@ -660,12 +497,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_process_node_add(self):
+    def test_17_process_node_add(self):
         u"""画流程图，添加一个接口节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点"
             }
         }
@@ -675,12 +512,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_process_node_business_conf(self):
+    def test_18_process_node_business_conf(self):
         u"""配置接口节点，restful接口_notify"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "接口节点",
                 "业务配置": {
@@ -695,78 +532,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_process_node_fetch_conf(self):
-        u"""节点添加取数配置，返回内容为json，取完整内容"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "webservice接口",
-                "取数配置": {
-                    "操作": "添加",
-                    "变量名称": "webservice接口返回",
-                    "表达式": "$",
-                    "赋值方式": "替换"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_27_process_node_fetch_conf(self):
-        u"""节点添加取数配置，返回内容为json，解析json"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "webservice接口",
-                "取数配置": {
-                    "操作": "添加",
-                    "变量名称": "webservice接口返回msg",
-                    "表达式": "$.msg",
-                    "赋值方式": "替换"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_28_process_node_fetch_conf(self):
-        u"""节点添加取数配置，返回内容为xml，取完整内容"""
-        action = {
-            "操作": "NodeFetchConf",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "节点类型": "接口节点",
-                "节点名称": "soap接口",
-                "取数配置": {
-                    "操作": "添加",
-                    "变量名称": "soap接口返回",
-                    "表达式": "$",
-                    "赋值方式": "替换"
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_29_process_node_fetch_conf(self):
+    def test_19_process_node_fetch_conf(self):
         u"""节点添加取数配置，返回内容为字符串"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "接口节点",
                 "节点名称": "restful接口_notify",
                 "取数配置": {
@@ -782,12 +553,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_process_node_line(self):
+    def test_20_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "开始",
                 "终止节点名称": "参数设置",
                 "关联关系": "满足"
@@ -799,32 +570,15 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_process_node_line(self):
-        u"""节点参数设置连线到节点：webservice接口"""
+    def test_21_process_node_line(self):
+        u"""节点参数设置连线到节点：post请求"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "参数设置",
-                "终止节点名称": "webservice接口",
-                "关联关系": "无条件"
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_32_process_node_line(self):
-        u"""节点webservice接口连线到节点：post请求"""
-        action = {
-            "操作": "LineNode",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "起始节点名称": "webservice接口",
                 "终止节点名称": "post请求",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -833,15 +587,15 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_process_node_line(self):
+    def test_22_process_node_line(self):
         u"""节点post请求连线到节点：get请求"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "post请求",
                 "终止节点名称": "get请求",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -850,15 +604,15 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_34_process_node_line(self):
+    def test_23_process_node_line(self):
         u"""节点get请求连线到节点：put请求"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "get请求",
                 "终止节点名称": "put请求",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -867,15 +621,15 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_35_process_node_line(self):
+    def test_24_process_node_line(self):
         u"""节点put请求连线到节点：delete请求"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "put请求",
                 "终止节点名称": "delete请求",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -884,32 +638,15 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_36_process_node_line(self):
-        u"""节点delete请求连线到节点：soap接口"""
+    def test_25_process_node_line(self):
+        u"""节点delete请求连线到节点：restful接口_notify"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "delete请求",
-                "终止节点名称": "soap接口",
-                "关联关系": "无条件"
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_37_process_node_line(self):
-        u"""节点soap接口连线到节点：restful接口_notify"""
-        action = {
-            "操作": "LineNode",
-            "参数": {
-                "流程名称": "auto_流程_接口调用",
-                "起始节点名称": "soap接口",
                 "终止节点名称": "restful接口_notify",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -918,12 +655,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_38_process_node_add(self):
+    def test_26_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "节点类型": "结束节点"
             }
         }
@@ -933,12 +670,12 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_39_process_node_end_conf(self):
+    def test_27_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "状态": "正常"
             }
         }
@@ -948,18 +685,32 @@ class InterfaceNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_40_process_node_line(self):
+    def test_28_process_node_line(self):
         u"""节点restful接口_notify连线到结束节点"""
         action = {
             "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_流程_接口调用",
+                "流程名称": "auto_流程_restful接口",
                 "起始节点名称": "restful接口_notify",
                 "终止节点名称": "正常",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_29_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_restful接口"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

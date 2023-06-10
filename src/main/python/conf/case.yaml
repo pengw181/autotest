@@ -46,7 +46,7 @@ case:
     - test_node_crawler_part3.py
     - test_node_crawler_part4.py
     - test_node_crawler_part5.py
-    - test_node_ocr.py
+    - test_node_ocr_identify.py
     - test_node_info.py
     - test_node_handle.py
     - test_node_email.py

@@ -125,17 +125,23 @@ def initiation_work():
 
         gbl.service.set('MockIp', getLocalAddress())
         # 第三方系统平台网络标识, 3.2爬虫服务使用，低于3.2使用内部网/外部网标识
-        # noinspection PyBroadException
-        try:
-            sql_util = SQLUtil(environment, "main")
-            sql = "select platform_nw_name from tn_platform_nw_tag_init where belong_id='{0}' and domain_id='{1}'".format(
-                gbl.service.get("BelongID"), gbl.service.get("DomainID"))
-            platform_nw_name = sql_util.select(sql)
-        except Exception:
-            platform_nw_name = None
-        if platform_nw_name is None:
+        if gbl.service.get("crawlerVersion") == 'cmcc':
+            # noinspection PyBroadException
+            try:
+                sql_util = SQLUtil(environment, "main")
+                sql = "select platform_nw_name from tn_platform_nw_tag_init where belong_id='{0}' and domain_id='{1}'".format(
+                    gbl.service.get("BelongID"), gbl.service.get("DomainID"))
+                platform_nw_name = sql_util.select(sql)
+            except Exception:
+                platform_nw_name = None
+            if platform_nw_name is None:
+                platform_nw_name = "内部网"
+        else:
             platform_nw_name = "内部网"
         gbl.service.set('PlatformNwName', platform_nw_name)
+
+        # 数据库管理建大数据表表名配置
+        gbl.service.set('BigImportTable', "AUTO_BIG_IMPORT")
 
     if application == "AlarmPlatform":
 

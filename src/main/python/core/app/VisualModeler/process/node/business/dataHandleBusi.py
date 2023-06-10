@@ -6,6 +6,7 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.processVar import choose_var
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
@@ -196,18 +197,11 @@ def datahandle_business(node_name, mode, var_name1, var_name2, rela_set, update_
 
     # 赋值方式
     if value_type:
-        elements = browser.find_elements(By.XPATH, "//*[@name='valueType']/preceding-sibling::input")
-        for e1 in elements:
-            if e1.is_displayed():
-                e1.click()
-                elements = browser.find_elements(
-                    By.XPATH, "//*[contains(@id,'valueType') and text()='{0}']".format(value_type))
-                for e2 in elements:
-                    if e2.is_displayed():
-                        e2.click()
-                        log.info("设置赋值方式: {0}".format(value_type))
-                        sleep(1)
-                        break
+        browser.find_element(
+            By.XPATH, "//*[@id='datahandle_form']//*[@name='valueType']/preceding-sibling::input").click()
+        panel_xpath = getPanelXpath()
+        browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(value_type)).click()
+        log.info("设置赋值方式: {0}".format(value_type))
 
     # 返回上层iframe
     browser.switch_to.parent_frame()
@@ -217,7 +211,7 @@ def datahandle_business(node_name, mode, var_name1, var_name2, rela_set, update_
         By.XPATH, "//*[@name='node_name']/preceding-sibling::input[1]").get_attribute("value")
 
     # 保存业务配置
-    browser.find_element(By.XPATH, "//*[@onclick='saveHandleNode(true);']//*[text()='保存']").click()
+    browser.find_element(By.XPATH, "//*[@onclick='saveHandleNode(true);']").click()
     log.info("保存业务配置")
 
     alert = BeAlertBox(back_iframe="default")

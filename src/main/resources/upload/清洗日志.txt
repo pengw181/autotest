@@ -1,0 +1,244 @@
+2022-03-10 11:23:42,549 - elastalert.py:1230:INFO - hhelastalert0 - -----------------        本周期实例开始        -----------------
+2022-03-10 11:23:42,552 - elastalert.py:1858:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'alert_time': {'order': 'asc'}}, 'query': {'bool': {'filter': {'range': {'alert_time': {'to': '2022-03-10T03:23:42.552493Z', 'from': '2022-03-08T03:23:42.552361Z'}}}, 'must': {'query_string': {'query': '!_exists_:aggregate_id AND alert_sent:false'}}}}}
+2022-03-10 11:23:42,561 - elastalert.py:1326:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  等待下一个检查时间……
+2022-03-10 11:23:42,583 - elastalert.py:1135:DEBUG - hhelastalert0 - 规则文件扫描后，共有文件数量：1
+2022-03-10 11:23:42,585 - elastalert.py:1137:DEBUG - hhelastalert0 -     规则文件：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules/D02D5E75CB324FCF9E4B6E71104C3831.yaml
+2022-03-10 11:23:42,586 - databases.py:79 - databases - Running SQL: select ALARM_LEVEL_ID, ALARM_LEVEL_NAME from ALARM_LEVEL
+2022-03-10 11:23:42,588 - databases.py:94 - databases - Modified 0 lines.
+2022-03-10 11:23:42,589 - databases.py:95 - databases - Finished Running SQLs.
+2022-03-10 11:23:42,592 - databases.py:79 - databases - Running SQL: select distinct ALARM_RULE_ID,
+                                    p.METADATA_ID ALARM_SCENE_ID,
+                                    ALARM_LEVEL_ID,
+                                    ALARM_RULE_NAME
+                    from ALARM_RULE_INFO r,ALARM_PLAN_INFO p
+                    where r.ALARM_PLAN_ID = p.ALARM_PLAN_ID
+                    and p.ALARM_TYPE_ID='2'
+                    and r.IS_DELETE_TAG ='0'
+2022-03-10 11:23:42,595 - databases.py:94 - databases - Modified 0 lines.
+2022-03-10 11:23:42,596 - databases.py:95 - databases - Finished Running SQLs.
+2022-03-10 11:23:42,597 - elastalert.py:1207:DEBUG - hhelastalert0 - 热更新后，在运行的规则(1)，加载路径：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules：
+2022-03-10 11:23:42,598 - elastalert.py:1209:DEBUG - hhelastalert0 -    es告警规则-oracle-vm
+2022-03-10 11:23:42,600 - elastalert.py:1232:INFO - hhelastalert0 - ---------  本周期实例执行完成，休眠等待下一个运行周期  ---------
+2022-03-10 11:23:42,602 - elastalert.py:1483:INFO - hhelastalert0 - 休眠 14.946905 秒
+2022-03-10 11:23:57,554 - elastalert.py:1230:INFO - hhelastalert0 - -----------------        本周期实例开始        -----------------
+2022-03-10 11:23:57,558 - elastalert.py:1858:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'alert_time': {'order': 'asc'}}, 'query': {'bool': {'filter': {'range': {'alert_time': {'to': '2022-03-10T03:23:57.558058Z', 'from': '2022-03-08T03:23:57.557990Z'}}}, 'must': {'query_string': {'query': '!_exists_:aggregate_id AND alert_sent:false'}}}}}
+2022-03-10 11:23:57,567 - elastalert.py:1346:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  开始执行审计
+2022-03-10 11:23:57,570 - elastalert.py:914:INFO - hhelastalert0 - rule['agg_matches']=[]
+2022-03-10 11:23:57,588 - rest.py:24 - util - AlarmRest调用异常:No JSON object could be decoded
+2022-03-10 11:23:57,589 - elastalert.py:924:DEBUG - hhelastalert0 - 开始时间传参：None
+2022-03-10 11:23:57,591 - elastalert.py:446:INFO - hhelastalert0 - 执行查询语句：{'sort': [{'@timestamp': {'order': 'asc'}}], 'query': {'bool': {'filter': {'bool': {'must': [{'range': {'@timestamp': {'gt': '2022-03-10T02:21:57.567121Z', 'lte': '2022-03-10T03:21:57.567121Z'}}}, {'term': {'autor.keyword': 'pw'}}]}}}}}
+2022-03-10 11:23:57,604 - elastalert.py:476:DEBUG - hhelastalert0 - {u'hits': {u'hits': [{u'sort': [1646882516000], u'_type': u'_doc', u'_source': {u'type': u'40862A71-4A3A-484E-AEF4-226EC6756E51', u'@timestamp': u'2022-03-10T11:21:56+08:00', u'autor': u'pw', u'@insert_time': u'2022-03-10T11:21:56+08:00', u'host': u'192.168.88.234', u'path': u'/home/centos/logs/aisee-workflow.node1.v3-func-oracle-zh_CN/nohup.out.20200302.log', u'message': u'2022-03-08 09:51:23.276 INFO 2743 --- [ main] c.h.a.d.a.l.w.c.ConfigController :Postman\u624b\u52a8\u6dfb\u52a0', u'@version': u'3'}, u'_score': None, u'_index': u'aisee.visualmodeler.log', u'_id': u'ix7YcX8B6vRn65us9U0R'}], u'total': {u'relation': u'eq', u'value': 1}, u'max_score': None}, u'_shards': {u'successful': 1, u'failed': 0, u'skipped': 0, u'total': 1}, u'took': 3, u'_scroll_id': u'DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAGHtgWTGlhdFRTeGpTQUdVdkZmX29QaFhRQQ==', u'timed_out': False}
+2022-03-10 11:23:57,606 - elastalert.py:498:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  从 2022-03-10 10:21 到 2022-03-10 11:21 执行查询，总匹配数/本次匹配数: 1 / 1 hits
+2022-03-10 11:23:57,611 - elastalert.py:991:DEBUG - hhelastalert0 - 匹配数据时间：2022-03-10 11:21
+2022-03-10 11:23:57,612 - elastalert.py:2132:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'until': {'order': 'desc'}}, 'query': {'term': {'rule_name.keyword': u'es\u544a\u8b66\u89c4\u5219-oracle-vm'}}}
+2022-03-10 11:23:57,621 - elastalert.py:2132:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'until': {'order': 'desc'}}, 'query': {'term': {'rule_name.keyword': u'es\u544a\u8b66\u89c4\u5219-oracle-vm._silence'}}}
+2022-03-10 11:23:57,668 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_INFO_202203(ALARM_INFO_ID,
+                  RULE_INSTANCE_ID,
+                  ALARM_START_TIME,
+                  ALARM_FINISH_TIME,
+                  ALARM_EVENT_NUM,
+                  INSERT_TIME)
+            VALUES(:alarm_id,
+                    :inst_id,
+                    :alarm_start,
+                    :alarm_end,
+                    :alarm_event_num,
+                    :sysdate)
+2022-03-10 11:23:57,673 - alerts.py:1940 - util - ORA-01745: invalid host/bind variable name
+2022-03-10 11:23:57,676 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_INST_EVENT_202203(ALARM_INFO_ID,
+                          EVENT_ID,
+                          EVENT_CONTENT,
+                          EVENT_DATE)
+                        VALUES(:alarm_id,
+                                :event_id,
+                                :event_content,
+                                :event_time)
+2022-03-10 11:23:57,723 - databases.py:114 - databases - Ran 1 requests.
+2022-03-10 11:23:57,725 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RESULT_INFO_202203(ALARM_RESULT_ID,
+                  ALARM_INFO_ID,
+                  INSERT_TIME,
+                  EXTERNAL_RESULT_STATUS)
+            VALUES(:result_id,
+                    :alarm_id,
+                    :sysdate,
+                    '0')
+2022-03-10 11:23:57,730 - alerts.py:1967 - util - ORA-01745: invalid host/bind variable name
+2022-03-10 11:23:57,732 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RESULT_CONTENT_202203(ALARM_RESULT_CONTENT_ID,
+                  ALARM_RESULT_INFO_ID,
+                  FIELD_NAME_EN,
+                  FIELD_NAME_CH,
+                  FIELD_VALUE)
+            VALUES(:content_id,
+                    :result_id,
+                    :field_en_name,
+                    :field_cn_name,
+                    :field_value)
+2022-03-10 11:23:57,765 - alerts.py:2029 - util - ORA-00001: unique constraint (ALARM.PK_CONTENT_202203) violated
+2022-03-10 11:23:57,811 - elastalert.py:1783:DEBUG - hhelastalert0 - 规则  es告警规则-oracle-vm  添加消费事件ID ix7YcX8B6vRn65us9U0R到已消费数组
+2022-03-10 11:23:57,814 - elastalert.py:1362:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  从2022-03-10 10:21到2022-03-10 11:21: 查询匹配1个 (已审计0个), 匹配1个,发送告警1个
+2022-03-10 11:23:57,820 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RULE_INSTANCE_202203(RULE_INSTANCE_ID,
+                          ALARM_RULE_ID,
+                          ALARM_LEVEL_ID,
+                          INSTANCE_START_TIME,
+                          INSTANCE_END_TIME,
+                          ALARM_START_TIME,
+                          ALARM_FINISH_TIME,
+                          ALARM_DETECT_RATE,
+                          ALARM_DETECT_RATE_UNIT,
+                          SELECT_SQL,
+                          IS_ALARM,
+                          ALARM_NUM) 
+                        VALUES(:alarm_ins_id,
+                                :alarm_rule_id,
+                                :alarm_level_id,
+                                :ins_start_time,
+                                :ins_end_time,
+                                :alarm_start_time,
+                                :alarm_end_time,
+                                :dur_rate,
+                                :dur_unit,
+                                :alarm_query,
+                                :is_alarm,
+                                :alarm_num)
+2022-03-10 11:23:57,831 - databases.py:114 - databases - Ran 1 requests.
+2022-03-10 11:23:57,852 - elastalert.py:1135:DEBUG - hhelastalert0 - 规则文件扫描后，共有文件数量：1
+2022-03-10 11:23:57,853 - elastalert.py:1137:DEBUG - hhelastalert0 -     规则文件：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules/D02D5E75CB324FCF9E4B6E71104C3831.yaml
+2022-03-10 11:23:57,854 - databases.py:79 - databases - Running SQL: select ALARM_LEVEL_ID, ALARM_LEVEL_NAME from ALARM_LEVEL
+2022-03-10 11:23:57,857 - databases.py:94 - databases - Modified 0 lines.
+2022-03-10 11:23:57,858 - databases.py:95 - databases - Finished Running SQLs.
+2022-03-10 11:23:57,861 - databases.py:79 - databases - Running SQL: select distinct ALARM_RULE_ID,
+                                    p.METADATA_ID ALARM_SCENE_ID,
+                                    ALARM_LEVEL_ID,
+                                    ALARM_RULE_NAME
+                    from ALARM_RULE_INFO r,ALARM_PLAN_INFO p
+                    where r.ALARM_PLAN_ID = p.ALARM_PLAN_ID
+                    and p.ALARM_TYPE_ID='2'
+                    and r.IS_DELETE_TAG ='0'
+2022-03-10 11:23:57,864 - databases.py:94 - databases - Modified 0 lines.
+2022-03-10 11:23:57,865 - databases.py:95 - databases - Finished Running SQLs.
+2022-03-10 11:23:57,866 - elastalert.py:1207:DEBUG - hhelastalert0 - 热更新后，在运行的规则(1)，加载路径：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules：
+2022-03-10 11:23:57,867 - elastalert.py:1209:DEBUG - hhelastalert0 -    es告警规则-oracle-vm
+2022-03-10 11:23:57,868 - elastalert.py:1232:INFO - hhelastalert0 - ---------  本周期实例执行完成，休眠等待下一个运行周期  ---------
+2022-03-10 11:23:57,870 - elastalert.py:1483:INFO - hhelastalert0 - 休眠 14.684698 秒
+2023-03-10 11:23:42,549 - elastalert.py:1230:INFO - hhelastalert0 - -----------------        本周期实例开始        -----------------
+2023-03-10 11:23:42,552 - elastalert.py:1858:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'alert_time': {'order': 'asc'}}, 'query': {'bool': {'filter': {'range': {'alert_time': {'to': '2023-03-10T03:23:42.552493Z', 'from': '2022-03-08T03:23:42.552361Z'}}}, 'must': {'query_string': {'query': '!_exists_:aggregate_id AND alert_sent:false'}}}}}
+2023-03-10 11:23:42,561 - elastalert.py:1326:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  等待下一个检查时间……
+2023-03-10 11:23:42,583 - elastalert.py:1135:DEBUG - hhelastalert0 - 规则文件扫描后，共有文件数量：1
+2023-03-10 11:23:42,585 - elastalert.py:1137:DEBUG - hhelastalert0 -     规则文件：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules/D02D5E75CB324FCF9E4B6E71104C3831.yaml
+2023-03-10 11:23:42,586 - databases.py:79 - databases - Running SQL: select ALARM_LEVEL_ID, ALARM_LEVEL_NAME from ALARM_LEVEL
+2023-03-10 11:23:42,588 - databases.py:94 - databases - Modified 0 lines.
+2023-03-10 11:23:42,589 - databases.py:95 - databases - Finished Running SQLs.
+2023-03-10 11:23:42,592 - databases.py:79 - databases - Running SQL: select distinct ALARM_RULE_ID,
+                                    p.METADATA_ID ALARM_SCENE_ID,
+                                    ALARM_LEVEL_ID,
+                                    ALARM_RULE_NAME
+                    from ALARM_RULE_INFO r,ALARM_PLAN_INFO p
+                    where r.ALARM_PLAN_ID = p.ALARM_PLAN_ID
+                    and p.ALARM_TYPE_ID='2'
+                    and r.IS_DELETE_TAG ='0'
+2023-03-10 11:23:42,595 - databases.py:94 - databases - Modified 0 lines.
+2023-03-10 11:23:42,596 - databases.py:95 - databases - Finished Running SQLs.
+2023-03-10 11:23:42,597 - elastalert.py:1207:DEBUG - hhelastalert0 - 热更新后，在运行的规则(1)，加载路径：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules：
+2023-03-10 11:23:42,598 - elastalert.py:1209:DEBUG - hhelastalert0 -    es告警规则-oracle-vm
+2023-03-10 11:23:42,600 - elastalert.py:1232:INFO - hhelastalert0 - ---------  本周期实例执行完成，休眠等待下一个运行周期  ---------
+2023-03-10 11:23:42,602 - elastalert.py:1483:INFO - hhelastalert0 - 休眠 14.946905 秒
+2023-03-10 11:23:57,554 - elastalert.py:1230:INFO - hhelastalert0 - -----------------        本周期实例开始        -----------------
+2023-03-10 11:23:57,558 - elastalert.py:1858:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'alert_time': {'order': 'asc'}}, 'query': {'bool': {'filter': {'range': {'alert_time': {'to': '2023-03-10T03:23:57.558058Z', 'from': '2022-03-08T03:23:57.557990Z'}}}, 'must': {'query_string': {'query': '!_exists_:aggregate_id AND alert_sent:false'}}}}}
+2023-03-10 11:23:57,567 - elastalert.py:1346:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  开始执行审计
+2023-03-10 11:23:57,570 - elastalert.py:914:INFO - hhelastalert0 - rule['agg_matches']=[]
+2023-03-10 11:23:57,588 - rest.py:24 - util - AlarmRest调用异常:No JSON object could be decoded
+2023-03-10 11:23:57,589 - elastalert.py:924:DEBUG - hhelastalert0 - 开始时间传参：None
+2023-03-10 11:23:57,591 - elastalert.py:446:INFO - hhelastalert0 - 执行查询语句：{'sort': [{'@timestamp': {'order': 'asc'}}], 'query': {'bool': {'filter': {'bool': {'must': [{'range': {'@timestamp': {'gt': '2023-03-10T02:21:57.567121Z', 'lte': '2023-03-10T03:21:57.567121Z'}}}, {'term': {'autor.keyword': 'pw'}}]}}}}}
+2023-03-10 11:23:57,604 - elastalert.py:476:DEBUG - hhelastalert0 - {u'hits': {u'hits': [{u'sort': [1646882516000], u'_type': u'_doc', u'_source': {u'type': u'40862A71-4A3A-484E-AEF4-226EC6756E51', u'@timestamp': u'2023-03-10T11:21:56+08:00', u'autor': u'pw', u'@insert_time': u'2023-03-10T11:21:56+08:00', u'host': u'192.168.88.234', u'path': u'/home/centos/logs/aisee-workflow.node1.v3-func-oracle-zh_CN/nohup.out.20200302.log', u'message': u'2022-03-08 09:51:23.276 INFO 2743 --- [ main] c.h.a.d.a.l.w.c.ConfigController :Postman\u624b\u52a8\u6dfb\u52a0', u'@version': u'3'}, u'_score': None, u'_index': u'aisee.visualmodeler.log', u'_id': u'ix7YcX8B6vRn65us9U0R'}], u'total': {u'relation': u'eq', u'value': 1}, u'max_score': None}, u'_shards': {u'successful': 1, u'failed': 0, u'skipped': 0, u'total': 1}, u'took': 3, u'_scroll_id': u'DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAGHtgWTGlhdFRTeGpTQUdVdkZmX29QaFhRQQ==', u'timed_out': False}
+2023-03-10 11:23:57,606 - elastalert.py:498:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  从 2023-03-10 10:21 到 2023-03-10 11:21 执行查询，总匹配数/本次匹配数: 1 / 1 hits
+2023-03-10 11:23:57,611 - elastalert.py:991:DEBUG - hhelastalert0 - 匹配数据时间：2023-03-10 11:21
+2023-03-10 11:23:57,612 - elastalert.py:2132:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'until': {'order': 'desc'}}, 'query': {'term': {'rule_name.keyword': u'es\u544a\u8b66\u89c4\u5219-oracle-vm'}}}
+2023-03-10 11:23:57,621 - elastalert.py:2132:DEBUG - hhelastalert0 - 执行查询语句：{'sort': {'until': {'order': 'desc'}}, 'query': {'term': {'rule_name.keyword': u'es\u544a\u8b66\u89c4\u5219-oracle-vm._silence'}}}
+2023-03-10 11:23:57,668 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_INFO_202203(ALARM_INFO_ID,
+                  RULE_INSTANCE_ID,
+                  ALARM_START_TIME,
+                  ALARM_FINISH_TIME,
+                  ALARM_EVENT_NUM,
+                  INSERT_TIME)
+            VALUES(:alarm_id,
+                    :inst_id,
+                    :alarm_start,
+                    :alarm_end,
+                    :alarm_event_num,
+                    :sysdate)
+2023-03-10 11:23:57,673 - alerts.py:1940 - util - ORA-01745: invalid host/bind variable name
+2023-03-10 11:23:57,676 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_INST_EVENT_202203(ALARM_INFO_ID,
+                          EVENT_ID,
+                          EVENT_CONTENT,
+                          EVENT_DATE)
+                        VALUES(:alarm_id,
+                                :event_id,
+                                :event_content,
+                                :event_time)
+2023-03-10 11:23:57,723 - databases.py:114 - databases - Ran 1 requests.
+2023-03-10 11:23:57,725 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RESULT_INFO_202203(ALARM_RESULT_ID,
+                  ALARM_INFO_ID,
+                  INSERT_TIME,
+                  EXTERNAL_RESULT_STATUS)
+            VALUES(:result_id,
+                    :alarm_id,
+                    :sysdate,
+                    '0')
+2023-03-10 11:23:57,730 - alerts.py:1967 - util - ORA-01745: invalid host/bind variable name
+2023-03-10 11:23:57,732 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RESULT_CONTENT_202203(ALARM_RESULT_CONTENT_ID,
+                  ALARM_RESULT_INFO_ID,
+                  FIELD_NAME_EN,
+                  FIELD_NAME_CH,
+                  FIELD_VALUE)
+            VALUES(:content_id,
+                    :result_id,
+                    :field_en_name,
+                    :field_cn_name,
+                    :field_value)
+2023-03-10 11:23:57,765 - alerts.py:2029 - util - ORA-00001: unique constraint (ALARM.PK_CONTENT_202203) violated
+2023-03-10 11:23:57,811 - elastalert.py:1783:DEBUG - hhelastalert0 - 规则  es告警规则-oracle-vm  添加消费事件ID ix7YcX8B6vRn65us9U0R到已消费数组
+2023-03-10 11:23:57,814 - elastalert.py:1362:INFO - hhelastalert0 - 规则  es告警规则-oracle-vm  从2023-03-10 10:21到2023-03-10 11:21: 查询匹配1个 (已审计0个), 匹配1个,发送告警1个
+2023-03-10 11:23:57,820 - databases.py:100 - databases - Running SQLs With Format: INSERT INTO ALARM_RULE_INSTANCE_202203(RULE_INSTANCE_ID,
+                          ALARM_RULE_ID,
+                          ALARM_LEVEL_ID,
+                          INSTANCE_START_TIME,
+                          INSTANCE_END_TIME,
+                          ALARM_START_TIME,
+                          ALARM_FINISH_TIME,
+                          ALARM_DETECT_RATE,
+                          ALARM_DETECT_RATE_UNIT,
+                          SELECT_SQL,
+                          IS_ALARM,
+                          ALARM_NUM)
+                        VALUES(:alarm_ins_id,
+                                :alarm_rule_id,
+                                :alarm_level_id,
+                                :ins_start_time,
+                                :ins_end_time,
+                                :alarm_start_time,
+                                :alarm_end_time,
+                                :dur_rate,
+                                :dur_unit,
+                                :alarm_query,
+                                :is_alarm,
+                                :alarm_num)
+2023-03-10 11:23:57,831 - databases.py:114 - databases - Ran 1 requests.
+2023-03-10 11:23:57,852 - elastalert.py:1135:DEBUG - hhelastalert0 - 规则文件扫描后，共有文件数量：1
+2023-03-10 11:23:57,853 - elastalert.py:1137:DEBUG - hhelastalert0 -     规则文件：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules/D02D5E75CB324FCF9E4B6E71104C3831.yaml
+2023-03-10 11:23:57,854 - databases.py:79 - databases - Running SQL: select ALARM_LEVEL_ID, ALARM_LEVEL_NAME from ALARM_LEVEL
+2023-03-10 11:23:57,857 - databases.py:94 - databases - Modified 0 lines.
+2023-03-10 11:23:57,858 - databases.py:95 - databases - Finished Running SQLs.
+2023-03-10 11:23:57,861 - databases.py:79 - databases - Running SQL: select distinct ALARM_RULE_ID,
+                                    p.METADATA_ID ALARM_SCENE_ID,
+                                    ALARM_LEVEL_ID,
+                                    ALARM_RULE_NAME
+                    from ALARM_RULE_INFO r,ALARM_PLAN_INFO p
+                    where r.ALARM_PLAN_ID = p.ALARM_PLAN_ID
+                    and p.ALARM_TYPE_ID='2'
+                    and r.IS_DELETE_TAG ='0'
+2023-03-10 11:23:57,864 - databases.py:94 - databases - Modified 0 lines.
+2023-03-10 11:23:57,865 - databases.py:95 - databases - Finished Running SQLs.
+2023-03-10 11:23:57,866 - elastalert.py:1207:DEBUG - hhelastalert0 - 热更新后，在运行的规则(1)，加载路径：/home/centos/working/share/hhelastalert.v3-test-oracle-v31/rules：
+2023-03-10 11:23:57,867 - elastalert.py:1209:DEBUG - hhelastalert0 -    es告警规则-oracle-vm
+2023-03-10 11:23:57,868 - elastalert.py:1232:INFO - hhelastalert0 - ---------  本周期实例执行完成，休眠等待下一个运行周期  ---------
+2023-03-10 11:23:57,870 - elastalert.py:1483:INFO - hhelastalert0 - 休眠 14.684698 秒

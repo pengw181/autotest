@@ -453,10 +453,10 @@ class CrawlerNode(unittest.TestCase):
                             "附件": {
                                 "附件来源": "远程加载",
                                 "存储类型": "本地",
-                                "目录": "auto_一级目录",
+                                "目录": "auto_AI",
                                 "变量引用": "否",
                                 "文件过滤方式": "关键字",
-                                "文件名": "data",
+                                "文件名": "single_predict",
                                 "文件类型": "xlsx"
                             }
                         }
@@ -471,6 +471,194 @@ class CrawlerNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_18_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，附件上传-远程加载-ftp"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "附件上传-远程加载-ftp",
+                            "元素类型": "输入框",
+                            "动作": "附件上传",
+                            "标识类型": "xpath",
+                            "元素标识": "//*[@id='filebox_file_id_2']",
+                            "描述": "附件上传动作",
+                            "附件": {
+                                "附件来源": "远程加载",
+                                "存储类型": "远程",
+                                "远程服务器": "auto_ftp",
+                                "目录": "根目录-pw-2",
+                                "变量引用": "否",
+                                "文件过滤方式": "关键字",
+                                "文件名": "GZ_2015",
+                                "文件类型": "csv"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_19_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，附件上传-动态生成"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "附件上传-动态生成",
+                            "元素类型": "输入框",
+                            "动作": "附件上传",
+                            "标识类型": "xpath",
+                            "元素标识": "//*[@id='filebox_file_id_2']",
+                            "描述": "附件上传动作",
+                            "附件": {
+                                "附件来源": "动态生成",
+                                "附件标题": "${元素名称}",
+                                "附件内容": "${元素}",
+                                "附件类型": "csv"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_20_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，附件上传-本地上传"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "附件上传-本地上传",
+                            "元素类型": "输入框",
+                            "动作": "附件上传",
+                            "标识类型": "xpath",
+                            "元素标识": "//*[@id='filebox_file_id_2']",
+                            "描述": "附件上传动作",
+                            "附件": {
+                                "附件来源": "本地上传",
+                                "附件名称": "factor.xlsx"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_21_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，点击上传按钮"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "点击上传按钮",
+                            "元素类型": "按钮",
+                            "动作": "单击",
+                            "标识类型": "xpath",
+                            "元素标识": "//*[@onclick='uploadFiles()']",
+                            "描述": "点击上传按钮"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_22_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，返回上层iframe"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "返回上层iframe",
+                            "元素类型": "Iframe",
+                            "动作": "跳转iframe",
+                            "标识类型": "id",
+                            "元素标识": "parent",
+                            "描述": "返回上层iframe"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_23_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，附件上传场景，添加元素，点击确定按钮"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "点击确定按钮",
+                            "元素类型": "按钮",
+                            "动作": "单击",
+                            "标识类型": "xpath",
+                            "元素标识": "//*[@class='BeAlert_confirm' and text()='确定']",
+                            "描述": "点击确定按钮"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_24_process_node_business_conf(self):
         u"""配置可视化操作模拟节点，附件上传场景，添加元素，休眠5秒"""
         action = {
             "操作": "NodeBusinessConf",
@@ -498,7 +686,143 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_19_process_node_business_conf(self):
+    def test_25_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，添加动作，重复步骤，上传个人目录文件"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "上传个人目录文件",
+                            "动作": "重复步骤",
+                            "描述": "上传个人目录文件",
+                            "重复步骤": [
+                                "点击上传文件",
+                                "跳转iframe2",
+                                "附件上传-远程加载-本地",
+                                "点击上传按钮",
+                                "休眠5秒",
+                                "返回上层iframe",
+                                "点击确定按钮"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_26_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，添加动作，重复步骤，上传ftp文件"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "上传ftp文件",
+                            "动作": "重复步骤",
+                            "描述": "上传ftp文件",
+                            "重复步骤": [
+                                "点击上传文件",
+                                "跳转iframe2",
+                                "附件上传-远程加载-ftp",
+                                "点击上传按钮",
+                                "休眠5秒",
+                                "返回上层iframe",
+                                "点击确定按钮"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_27_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，添加动作，重复步骤，上传动态生成文件"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "上传动态生成文件",
+                            "动作": "重复步骤",
+                            "描述": "上传动态生成文件",
+                            "重复步骤": [
+                                "点击上传文件",
+                                "跳转iframe2",
+                                "附件上传-动态生成",
+                                "点击上传按钮",
+                                "休眠5秒",
+                                "返回上层iframe",
+                                "点击确定按钮"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_28_process_node_business_conf(self):
+        u"""配置可视化操作模拟节点，添加动作，重复步骤，上传本地文件"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传",
+                "节点类型": "可视化操作模拟节点",
+                "节点名称": "附件上传",
+                "业务配置": {
+                    "元素配置": [
+                        {
+                            "元素名称": "上传本地文件",
+                            "动作": "重复步骤",
+                            "描述": "上传本地文件",
+                            "重复步骤": [
+                                "点击上传文件",
+                                "跳转iframe2",
+                                "附件上传-本地上传",
+                                "点击上传按钮",
+                                "休眠5秒",
+                                "返回上层iframe",
+                                "点击确定按钮"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_29_process_node_business_conf(self):
         u"""可视化操作模拟节点操作树添加步骤"""
         action = {
             "操作": "NodeBusinessConf",
@@ -519,9 +843,10 @@ class CrawlerNode(unittest.TestCase):
                                 "点击个人目录",
                                 "跳转iframe",
                                 "单击选择目录",
-                                "点击上传文件",
-                                "跳转iframe2",
-                                "附件上传-远程加载-本地"
+                                "上传个人目录文件",
+                                "上传ftp文件",
+                                "上传动态生成文件",
+                                "上传本地文件"
                             ]
                         }
                     ]
@@ -534,7 +859,7 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_20_process_node_line(self):
+    def test_30_process_node_line(self):
         u"""开始节点连线到节点：参数设置"""
         action = {
             "操作": "LineNode",
@@ -551,7 +876,7 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_21_process_node_line(self):
+    def test_31_process_node_line(self):
         u"""节点参数设置连线到节点：附件上传"""
         action = {
             "操作": "LineNode",
@@ -568,7 +893,7 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_process_node_add(self):
+    def test_32_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
@@ -583,7 +908,7 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_23_process_node_end_conf(self):
+    def test_33_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
@@ -598,7 +923,7 @@ class CrawlerNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_process_node_line(self):
+    def test_34_process_node_line(self):
         u"""节点附件上传连线到结束节点"""
         action = {
             "操作": "LineNode",
@@ -610,6 +935,20 @@ class CrawlerNode(unittest.TestCase):
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_35_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_爬虫文件上传"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

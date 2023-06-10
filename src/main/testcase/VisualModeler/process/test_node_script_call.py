@@ -37,7 +37,10 @@ class ScriptNode(unittest.TestCase):
                 "流程名称":  "auto_流程_脚本调用",
                 "专业领域":  ["AiSee", "auto域"],
                 "流程类型":  "主流程",
-                "流程说明":  "auto_流程_脚本调用说明"
+                "流程说明":  "auto_流程_脚本调用说明",
+                "高级配置": {
+                    "节点异常终止流程": "否"
+                }
             }
         }
         msg = "保存成功"
@@ -82,7 +85,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_5_process_node_opt_conf(self):
-        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，参数1"""
+        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，自定义参数"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -101,7 +104,7 @@ class ScriptNode(unittest.TestCase):
                                 ],
                                 "输出名称": {
                                     "类型": "输入",
-                                    "变量名": "参数1"
+                                    "变量名": "自定义参数"
                                 },
                                 "输出列": "*",
                                 "赋值方式": "替换",
@@ -344,7 +347,7 @@ class ScriptNode(unittest.TestCase):
                     "参数列表": {
                         "param1": {
                             "设置方式": "变量",
-                            "参数值": "参数1"
+                            "参数值": "自定义参数"
                         },
                         "param2": {
                             "设置方式": "固定值",
@@ -737,52 +740,6 @@ class ScriptNode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_process_node_business_conf(self):
-        u"""配置脚本节点，开启高级配置"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_脚本调用",
-                "节点类型": "脚本节点",
-                "节点名称": "脚本带参数",
-                "业务配置": {
-                    "高级配置": {
-                        "状态": "开启",
-                        "超时时间": "600",
-                        "超时重试次数": "2"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_31_process_node_business_conf(self):
-        u"""配置脚本节点，节点脚本带参数开启高级配置"""
-        action = {
-            "操作": "NodeBusinessConf",
-            "参数": {
-                "流程名称": "auto_流程_脚本调用",
-                "节点类型": "脚本节点",
-                "节点名称": "脚本带参数",
-                "业务配置": {
-                    "高级配置": {
-                        "状态": "开启",
-                        "超时时间": "600",
-                        "超时重试次数": "2"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
     def test_32_process_node_fetch_conf(self):
         u"""节点添加取数配置"""
         action = {
@@ -934,7 +891,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "参数设置",
                 "终止节点名称": "脚本不带参数",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -951,7 +908,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本不带参数",
                 "终止节点名称": "脚本带参数",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -968,7 +925,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本带参数",
                 "终止节点名称": "脚本节点java脚本",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -985,7 +942,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点java脚本",
                 "终止节点名称": "脚本节点jar脚本",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1002,7 +959,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点jar脚本",
                 "终止节点名称": "脚本节点相对路径",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1019,7 +976,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点相对路径",
                 "终止节点名称": "脚本节点绝对路径",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1036,7 +993,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点绝对路径",
                 "终止节点名称": "脚本节点操作个人目录",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1053,7 +1010,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点操作个人目录",
                 "终止节点名称": "脚本节点操作系统目录",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1070,7 +1027,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本节点操作系统目录",
                 "终止节点名称": "脚本执行超时",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1087,7 +1044,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本执行超时",
                 "终止节点名称": "脚本执行超时重试",
-                "关联关系": "无条件"
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"
@@ -1138,6 +1095,20 @@ class ScriptNode(unittest.TestCase):
             }
         }
         msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_52_process_test(self):
+        u"""流程列表，测试流程"""
+        action = {
+            "操作": "TestProcess",
+            "参数": {
+                "流程名称": "auto_流程_脚本调用"
+            }
+        }
+        msg = "调用测试流程成功,请到流程运行日志中查看"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

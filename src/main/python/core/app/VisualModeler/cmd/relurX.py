@@ -230,7 +230,7 @@ class RulerX:
             self.step_format_table(begin_row=format_table_cfg.get("解析开始行"), enable_magic=format_table_cfg.get("通过正则匹配数据列"),
                                    total_columns=format_table_cfg.get("列总数"), row_split_type=format_table_cfg.get("拆分方式"),
                                    split_tag=format_table_cfg.get("列分隔符"), magic=format_table_cfg.get("正则魔方"),
-                                   sample=format_table_cfg.get("样例数据"))
+                                   advance=format_table_cfg.get("高级配置"), sample=format_table_cfg.get("样例数据"))
             # 点击下一步
             self.browser.find_element(By.XPATH, "//*[contains(@data-i18n-text,'nextStep')]").click()
             page_wait(timeout=3)
@@ -430,7 +430,7 @@ class RulerX:
 
         sleep(1)
 
-    def step_format_table(self, begin_row, enable_magic, total_columns, row_split_type, split_tag, magic, sample):
+    def step_format_table(self, begin_row, enable_magic, total_columns, row_split_type, split_tag, magic, advance, sample):
         """
         # 格式化二维表配置
         :param begin_row: 解析开始行
@@ -439,12 +439,13 @@ class RulerX:
         :param row_split_type: 拆分方式，文本/正则
         :param split_tag: 列分隔符
         :param magic: 正则魔方，开启通过正则匹配数据列或拆分方式为正则时使用
+        :param advance: 高级配置
         :param sample: 样例数据，指定resources下的文件名，自动从文件加载并填充
         """
         # 正则配置
         regular_cube = RegularCube()
         regular_cube.setAnalyze(begin_row=begin_row, enable_magic=enable_magic, total_columns=total_columns,
-                                row_split_type=row_split_type, split_tag=split_tag, magic=magic)
+                                row_split_type=row_split_type, split_tag=split_tag, advance_conf=advance, magic=magic)
         if regular_cube.needJumpIframe:
             # 向上返回2级，切换到解析模版配置iframe
             self.browser.switch_to.parent_frame()
@@ -659,19 +660,10 @@ class RulerX:
         ignore_status = self.browser.execute_script(js)
         log.info("【忽略大小写】勾选状态: {0}".format(ignore_status))
         ignore_element = self.browser.find_element(By.XPATH, "//*[@class='ignoreCase']")
-        if ignore_case:
-            if ignore_case == "是":
-                if ignore_status:
-                    log.info("【忽略大小写】已勾选")
-                else:
-                    ignore_element.click()
-                    log.info("勾选【忽略大小写】")
-            else:
-                if ignore_status:
-                    ignore_element.click()
-                    log.info("取消勾选【忽略大小写】")
-                else:
-                    log.info("【忽略大小写】未勾选")
+        temp = True if ignore_case == "是" else False
+        if temp ^ ignore_status:
+            ignore_element.click()
+            log.info("设置【忽略大小写】: {}".format(ignore_case))
 
         # 段结果关系
         if section_relation:

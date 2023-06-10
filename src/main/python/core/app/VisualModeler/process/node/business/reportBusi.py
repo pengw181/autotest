@@ -6,17 +6,21 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.processVar import choose_var
 from src.main.python.lib.input import set_textarea
 from src.main.python.lib.loadData import load_sample
 from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.lib.input import set_text_enable_var
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
 
-def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_name, remark, sample_data):
+def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_name, remark, sample_data, dash_mode=None,
+                    link_name=None, link_url=None):
     """
     :param node_name: 节点名称
     :param opt_type: 操作方式，添加/修改/删除
@@ -26,6 +30,9 @@ def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_n
     :param interface_name: 数据接口名称
     :param remark: 备注
     :param sample_data: 样例数据
+    :param dash_mode: 报表模式，仪表盘模式/链接模式
+    :param link_name: 链接名称
+    :param link_url: 链接地址
 
     # 添加
     {
@@ -99,29 +106,49 @@ def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_n
 
     # 操作方式
     if opt_type == "添加":
-        # 点击添加按钮
-        browser.find_element(By.XPATH, "//*[@onclick='toVarCfg()']").click()
-        # 切换到变量配置页面
-        page_wait()
-        wait = WebDriverWait(browser, 30)
-        wait.until(ec.frame_to_be_available_and_switch_to_it((
-            By.XPATH, "//iframe[contains(@src,'reportNodeEdit.html')]")))
-        sleep(1)
-    elif opt_type == "修改":
-        # 变量名
-        if obj_var:
-            # 双击变量进入修改页面
-            obj = browser.find_element(By.XPATH, "//*[contains(@id,'tableVarCfg')]//*[text()='{0}']".format(obj_var))
-            action = ActionChains(browser)
-            action.double_click(obj).perform()
+        # 报表模式，默认仪表盘模式
+        if dash_mode:
+            browser.find_element(By.XPATH, "//*[@id='node_model_id']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath(timeout=1)
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(dash_mode)).click()
+            log.info("设置报表模式: {}".format(dash_mode))
+            sleep(1)
+
+        # 获取报表模式当前值
+        cur_dash_mode = get_dash_mode_id()
+        if cur_dash_mode is None or cur_dash_mode == "1601":  # 仪表盘模式
+            # 点击添加按钮
+            browser.find_element(By.XPATH, "//*[@onclick='toVarCfg()']").click()
             # 切换到变量配置页面
             page_wait()
-            wait = WebDriverWait(browser, 30)
-            wait.until(ec.frame_to_be_available_and_switch_to_it((
-                By.XPATH, "//iframe[contains(@src,'reportNodeEdit.html')]")))
-            sleep(1)
+
+            # 仪表盘模式
+            set_dashboard_mode(var_name, var_map, interface_name, remark, sample_data)
         else:
-            raise KeyError("修改变量时，未指定变量名")
+            # 链接模式
+            set_link_mode(link_name, link_url)
+
+    elif opt_type == "修改":
+        # 获取报表模式当前值
+        cur_dash_mode = get_dash_mode_id()
+        if cur_dash_mode is None or cur_dash_mode == "1601":     # 仪表盘模式
+            # 变量名
+            if obj_var:
+                # 双击变量进入修改页面
+                obj = browser.find_element(By.XPATH, "//*[contains(@id,'tableVarCfg')]//*[text()='{0}']".format(obj_var))
+                action = ActionChains(browser)
+                action.double_click(obj).perform()
+                # 切换到变量配置页面
+                page_wait()
+
+                # 仪表盘模式
+                set_dashboard_mode(var_name, var_map, interface_name, remark, sample_data)
+            else:
+                raise KeyError("修改变量时，未指定变量名")
+        else:
+            # 链接模式
+            set_link_mode(link_name, link_url)
+
     elif opt_type == "删除":
         # 变量名
         if obj_var:
@@ -148,6 +175,41 @@ def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_n
             raise KeyError("删除变量时，未指定变量名")
     else:
         raise KeyError("操作方式 仅支持添加/修改/删除，当前值: {0}".format(opt_type))
+
+    # 获取节点名称
+    node_name = browser.find_element(By.XPATH, "//*[@name='node_name']/preceding-sibling::input[1]").get_attribute("value")
+
+    # 保存业务配置
+    browser.find_element(By.XPATH, "//*[@id='save_node_info']").click()
+    log.info("保存业务配置")
+
+    alert = BeAlertBox(back_iframe="default")
+    msg = alert.get_msg()
+    if alert.title_contains("操作成功"):
+        log.info("保存业务配置成功")
+    else:
+        log.warning("保存业务配置失败，失败提示: {0}".format(msg))
+    gbl.temp.set("ResultMsg", msg)
+
+    # 刷新页面，返回画流程图
+    browser.refresh()
+    return node_name
+
+
+def set_dashboard_mode(var_name, var_map, interface_name, remark, sample_data):
+    """
+    :param var_name: 变量选择
+    :param var_map: 变量索引配置，字典
+    :param interface_name: 数据接口名称
+    :param remark: 备注
+    :param sample_data: 样例数据
+    """
+    browser = gbl.service.get("browser")
+
+    wait = WebDriverWait(browser, 30)
+    wait.until(ec.frame_to_be_available_and_switch_to_it((
+        By.XPATH, "//iframe[contains(@src,'reportNodeEdit.html')]")))
+    sleep(1)
 
     # 变量名称
     if var_name:
@@ -267,21 +329,39 @@ def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_n
         log.warning("保存节点变量配置失败，失败提示: {0}".format(msg))
     gbl.temp.set("ResultMsg", msg)
 
-    # 获取节点名称
-    node_name = browser.find_element(By.XPATH, "//*[@name='node_name']/preceding-sibling::input[1]").get_attribute("value")
 
-    # 保存业务配置
-    browser.find_element(By.XPATH, "//*[@id='save_node_info']").click()
-    log.info("保存业务配置")
+def set_link_mode(link_name, link_url):
 
-    alert = BeAlertBox(back_iframe="default")
-    msg = alert.get_msg()
-    if alert.title_contains("操作成功"):
-        log.info("保存业务配置成功")
+    browser = gbl.service.get("browser")
+
+    wait = WebDriverWait(browser, 30)
+    wait.until(ec.frame_to_be_available_and_switch_to_it((
+        By.XPATH, "//iframe[contains(@src,'reportNodeLink.html')]")))
+
+    # 链接名称
+    if link_name:
+        input_xpath = "//*[@name='linkName']/preceding-sibling::input[1]"
+        set_text_enable_var(input_xpath=input_xpath, msg=link_name)
+        log.info("设置链接名称: {}".format(link_name))
+
+    # 链接地址
+    if link_url:
+        input_xpath = "//*[@name='linkUrl']/preceding-sibling::input[1]"
+        set_text_enable_var(input_xpath=input_xpath, msg=link_url)
+        log.info("设置链接地址: {}".format(link_url))
+
+    browser.switch_to.parent_frame()
+
+
+def get_dash_mode_id():
+    browser = gbl.service.get("browser")
+    # 获取报表模式当前值
+    try:
+        browser.find_element(By.XPATH, "//*[@name='node_model_id']")
+    except NoSuchElementException:
+        dash_mode_id = None
     else:
-        log.warning("保存业务配置失败，失败提示: {0}".format(msg))
-    gbl.temp.set("ResultMsg", msg)
-
-    # 刷新页面，返回画流程图
-    browser.refresh()
-    return node_name
+        js = "return $(\"input[name='node_model_id']\").val();"
+        dash_mode_id = browser.execute_script(js)
+        log.info("报表模式: {0}".format(dash_mode_id))
+    return dash_mode_id
