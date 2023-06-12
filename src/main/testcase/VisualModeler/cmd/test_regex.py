@@ -553,6 +553,116 @@ class RegexTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_18_regex_add(self):
+        u"""添加正则模版，auto_正则模版_查看Slab"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_查看Slab",
+                "模版描述": "auto_正则模版_查看Slab，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "数字",
+                            "长度": "1到多个",
+                            "是否取值": "绿色"
+                        },
+                        {
+                            "标签": "空格",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": "kB",
+                            "是否取值": "绿色"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_19_regex_add(self):
+        u"""添加正则模版，auto_正则模版_内存利用率"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_内存利用率",
+                "模版描述": "auto_正则模版_内存利用率，勿删",
+                "正则魔方": {
+                    "高级模式": "是",
+                    "表达式": r"(.+):\s+(\d+)\s+(\d+)\s+(\d+)\s*(\d*)\s*(\d*)\s*(\d*)\s*",
+                    "开启验证": "是",
+                    "样例数据": "free_sample.txt"
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_20_regex_add(self):
+        u"""添加正则模版，auto_正则模版_cpu空闲率值提取"""
+        action = {
+            "操作": "AddRegexpTemp",
+            "参数": {
+                "正则模版名称": "auto_正则模版_cpu空闲率值提取",
+                "模版描述": "auto_正则模版_cpu空闲率值提取，勿删",
+                "正则魔方": {
+                    "标签配置": [
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": "Cpu(s)",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "任意字符",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": ",",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "空格",
+                            "长度": "1到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "数字",
+                            "匹配小数": "是",
+                            "长度": "1到多个",
+                            "是否取值": "黄色"
+                        },
+                        {
+                            "标签": "空格",
+                            "长度": "0到多个",
+                            "是否取值": "无"
+                        },
+                        {
+                            "标签": "自定义文本",
+                            "自定义值": "id,",
+                            "是否取值": "无"
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "正则模版保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

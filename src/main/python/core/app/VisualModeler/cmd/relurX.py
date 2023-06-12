@@ -600,9 +600,8 @@ class RulerX:
                 self.browser.execute_script("arguments[0].scrollIntoView(true);", add_element)
                 add_element.click()
                 log.info("设置规则{}".format(i))
-                self.ruler(left_value=rule.get("列名"), relation=rule.get("关系"), right_value=rule.get("匹配值"),
-                           when_matched=rule.get("条件满足时"), when_not_matched=rule.get("匹配不到值时"),
-                           error_tips=rule.get("异常提示信息"), row_num=i)
+                self.ruler(algorithm_list=rule.get("运算规则配置"), when_matched=rule.get("条件满足时"),
+                           when_not_matched=rule.get("匹配不到值时"), error_tips=rule.get("异常提示信息"), row_num=i)
                 i += 1
 
         # 解析结果预览
@@ -900,9 +899,8 @@ class RulerX:
                 self.browser.execute_script("arguments[0].scrollIntoView(true);", add_element)
                 add_element.click()
                 log.info("设置规则{}".format(i))
-                self.ruler(left_value=rule.get("列名"), relation=rule.get("关系"), right_value=rule.get("匹配值"),
-                           when_matched=rule.get("条件满足时"), when_not_matched=rule.get("匹配不到值时"),
-                           error_tips=rule.get("异常提示信息"), row_num=i)
+                self.ruler(algorithm_list=rule.get("运算规则配置"),  when_matched=rule.get("条件满足时"),
+                           when_not_matched=rule.get("匹配不到值时"), error_tips=rule.get("异常提示信息"), row_num=i)
                 i += 1
 
         # 下发指令
@@ -1131,11 +1129,9 @@ class RulerX:
             log.warning("指令下发失败，失败提示: {0}".format(msg))
         gbl.temp.set("ResultMsg", msg)
 
-    def ruler(self, left_value, relation, right_value, row_num, when_matched, when_not_matched, error_tips):
+    def ruler(self, algorithm_list, row_num, when_matched, when_not_matched, error_tips):
         """
-        :param left_value: 列名
-        :param relation: 关系
-        :param right_value: 匹配值
+        :param algorithm_list: 运算规则配置
         :param when_matched: 条件满足时
         :param when_not_matched: 匹配不到值时
         :param error_tips: 异常提示信息
@@ -1145,41 +1141,45 @@ class RulerX:
         rule_element = self.browser.find_element(By.XPATH, "//*[@class='rowRuleDiv']")
         self.browser.execute_script("arguments[0].scrollIntoView(true);", rule_element)
 
-        # 列名
-        if left_value:
-            self.browser.find_element(
-                By.XPATH, parent_ruler_xpath + "//*[contains(@class,'leftValue')]/following-sibling::span//a").click()
-            panel_xpath = getPanelXpath()
-            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left_value)).click()
-            log.info("规则{0}选择列名: {1}".format(row_num, left_value))
+        # # 列名
+        # if left_value:
+        #     self.browser.find_element(
+        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'leftValue')]/following-sibling::span//a").click()
+        #     panel_xpath = getPanelXpath()
+        #     self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left_value)).click()
+        #     log.info("规则{0}选择列名: {1}".format(row_num, left_value))
+        #
+        # # 关系
+        # if relation:
+        #     self.browser.find_element(
+        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'operator')]/following-sibling::span//a").click()
+        #     panel_xpath = getPanelXpath()
+        #     self.browser.find_element(
+        #         By.XPATH, panel_xpath + "//*[contains(@id,'_combobox_') and text()='{}']".format(relation)).click()
+        #     log.info("规则{0}选择关系: {1}".format(row_num, relation))
+        #
+        # # 匹配值
+        # if right_value:
+        #     self.browser.find_element(
+        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
+        #     panel_xpath = getPanelXpath()
+        #     try:
+        #         self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(right_value)).click()
+        #         log.info("规则{0}选择匹配值: {1}".format(row_num, right_value))
+        #     except NoSuchElementException:
+        #         # 如果下拉框没有预期的值，则在输入框手动输入
+        #         self.browser.find_element(
+        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
+        #         self.browser.find_element(
+        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").clear()
+        #         self.browser.find_element(
+        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").send_keys(
+        #             right_value)
+        #         log.info("规则{0}输入匹配值: {1}".format(row_num, right_value))
 
-        # 关系
-        if relation:
-            self.browser.find_element(
-                By.XPATH, parent_ruler_xpath + "//*[contains(@class,'operator')]/following-sibling::span//a").click()
-            panel_xpath = getPanelXpath()
-            self.browser.find_element(
-                By.XPATH, panel_xpath + "//*[contains(@id,'_combobox_') and text()='{}']".format(relation)).click()
-            log.info("规则{0}选择关系: {1}".format(row_num, relation))
-
-        # 匹配值
-        if right_value:
-            self.browser.find_element(
-                By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
-            panel_xpath = getPanelXpath()
-            try:
-                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(right_value)).click()
-                log.info("规则{0}选择匹配值: {1}".format(row_num, right_value))
-            except NoSuchElementException:
-                # 如果下拉框没有预期的值，则在输入框手动输入
-                self.browser.find_element(
-                    By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
-                self.browser.find_element(
-                    By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").clear()
-                self.browser.find_element(
-                    By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").send_keys(
-                    right_value)
-                log.info("规则{0}输入匹配值: {1}".format(row_num, right_value))
+        # 运算规则配置
+        if algorithm_list:
+            self._ruler_algorithm(algorithm_list=algorithm_list)
 
         # 条件满足时
         if when_matched:
@@ -1209,6 +1209,89 @@ class RulerX:
         # 规则N配置完成
         log.info("规则{}配置完成".format(row_num))
         sleep(1)
+
+    def _ruler_algorithm(self, algorithm_list):
+        """
+        # 规则管理每条规则里的运算规则
+        :param algorithm_list: 运算规则配置，数组
+
+        [
+            ["", "", "列1", "大于", "1", ""],
+            ["", "且", "列2", "大于", "1", ""],
+            ["", "且", "列3", "大于", "1", ""]
+        ]
+        """
+        row_num = 1
+        for algorithm in algorithm_list:
+            row_xpath = "//*[@class='rowRuleDiv']/div[{}]".format(row_num)
+            if len(algorithm) != 6:
+                raise KeyError("每条运算规则数组长度需要是6")
+            left1 = algorithm[0]
+            left2 = algorithm[1]
+            left_val = algorithm[2]
+            operator = algorithm[3]
+            right_val = algorithm[4]
+            right1 = algorithm[5]
+
+            # 左一
+            if left1:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'left1')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left1)).click()
+
+            # 左二
+            if left2:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'left2')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left2)).click()
+
+            # 左值
+            if left_val:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'leftValue')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left_val)).click()
+
+            # 运算符
+            if operator:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'operator')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(operator)).click()
+
+            # 右值
+            if right_val:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                try:
+                    self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(right_val)).click()
+                except NoSuchElementException:
+                    # 下拉框没值，则手动输入
+                    self.browser.find_element(
+                        By.XPATH,
+                        row_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//input[1]").clear()
+                    self.browser.find_element(
+                        By.XPATH,
+                        row_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//input[1]").send_keys(
+                        right_val)
+                    self.browser.find_element(
+                        By.XPATH, row_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
+
+            # 右一
+            if right1:
+                self.browser.find_element(
+                    By.XPATH, row_xpath + "//*[contains(@class,'right1')]/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath(timeout=3)
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(right1)).click()
+
+            if row_num < len(algorithm_list):
+                self.browser.find_element(
+                    By.XPATH, "//*[contains(@class,'row_action')]//*[contains(@class,'icon-add')]").click()
+                sleep(1)
+            row_num += 1
 
     def data_clear(self, analyzer_name, fuzzy_match=False):
         """

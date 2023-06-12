@@ -427,7 +427,7 @@ class RegularCube:
                     self.browser.find_element(
                         By.XPATH, "//*[@class='my_checkbox2' and contains(text(),'匹配小数(选中将匹配小数点)')]").click()
 
-            # 匹配小数
+            # 匹配%
             if tag_info.__contains__("匹配%"):
                 if tag_info.get("匹配%") == "是":
                     self.browser.find_element(

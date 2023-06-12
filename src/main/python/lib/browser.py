@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from src.main.python.lib.logger import log
 
 
-def initBrowser(chrome_driver_path, download_path=None):
+def initBrowser(chrome_driver_path, download_path=None, background=True):
     log.info("开始初始化浏览器.")
     options = webdriver.ChromeOptions()
     prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': download_path}
@@ -19,9 +19,10 @@ def initBrowser(chrome_driver_path, download_path=None):
     options.add_argument('disable-infobars')    # 不弹出chrome正在受到自动测试软件的控制
 
     # 后台运行
-    options.add_argument('headless')
-    browser_width, browser_height = pyautogui.size()
-    options.add_argument('--window-size={}x{}'.format(browser_width, browser_height))
+    if background:
+        options.add_argument('headless')
+        browser_width, browser_height = pyautogui.size()
+        options.add_argument('--window-size={}x{}'.format(browser_width, browser_height))
 
     chrome_server = Service(chrome_driver_path)
     browser = webdriver.Chrome(service=chrome_server, options=options)

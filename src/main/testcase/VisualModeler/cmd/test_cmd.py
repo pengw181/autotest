@@ -581,7 +581,7 @@ class Command(unittest.TestCase):
             "操作": "AddCmdSet",
             "参数": {
                 "指令名称": "auto_指令_磁盘利用率检查",
-                "指令类别": "带参指令",
+                "指令类别": "不带参数指令",
                 "指令用途": "巡检类",
                 "网元分类": ["4G,4G_MME"],
                 "厂家": "华为",
@@ -593,7 +593,131 @@ class Command(unittest.TestCase):
                 "指令等待超时": "20",
                 "指令": ["df -hl"],
                 "说明": "磁盘利用率检查",
-                "指令解析模版": [],
+                "指令解析模版": ["auto_解析模板_服务器磁盘利用率检查"],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_cmd_add(self):
+        u"""添加指令集，auto_指令_查看Slab"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_查看Slab",
+                "指令类别": "不带参数指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["cat /proc/meminfo | grep ^Slab"],
+                "说明": "查看Slab",
+                "指令解析模版": ["auto_解析模板_查看Slab解析"],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_26_cmd_add(self):
+        u"""添加指令集，auto_指令_内存利用率检查"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_内存利用率检查",
+                "指令类别": "不带参数指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["free -m | grep Mem"],
+                "说明": "内存利用率检查",
+                "指令解析模版": ["auto_解析模板_内存利用率解析"],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_27_cmd_add(self):
+        u"""添加指令集，auto_指令_服务器性能检测Top"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_服务器性能检测Top",
+                "指令类别": "不带参数指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["top -bn 1"],
+                "说明": "top指令监测设备性能负荷",
+                "指令解析模版": ["auto_解析模板_cpu利用率检查"],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_28_cmd_add(self):
+        u"""添加指令集，auto_指令_服务器负载检查"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_服务器负载检查",
+                "指令类别": "不带参数指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["cat /proc/loadavg"],
+                "说明": [
+                    "前三个值分别代表系统5分钟、10分钟、15分钟前的平均负载",
+                    "第四个值的分子是正在运行的进程数，分母为总进程数",
+                    "第五个值是最近运行的进程id"]
+                ,
+                "指令解析模版": ["auto_解析模板_服务器负载检查"],
                 "指令翻页符": "",
                 "期待返回的结束符": "",
                 "隐藏指令返回": ""
