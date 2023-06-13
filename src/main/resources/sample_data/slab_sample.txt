@@ -1,0 +1,3 @@
+[log@qa-share-server ~]$ cat /proc/meminfo | grep ^Slab
+Slab:             11128388 kB
+[log@qa-share-server ~]$

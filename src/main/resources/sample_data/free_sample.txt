@@ -1,0 +1,4 @@
+[hhdata@app1 proc]$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:         257911       66798         898          89      190213      189828
+[hhdata@app1 proc]$

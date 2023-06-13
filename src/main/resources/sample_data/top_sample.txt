@@ -1,0 +1,6 @@
+[zhangbz@app3 ~]$ top -bn 1
+top - 09:24:23 up 99 days, 16:23, 15 users,  load average: 9.31, 11.08, 10.21
+Tasks: 605 total,   1 running, 604 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  3.3 us,  0.1 sy,  0.0 ni, 30.1 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 26410089+total,  5856516 free, 97873312 used, 16037107+buff/cache
+KiB Swap:  8388604 total,  8013060 free,   375544 used. 16427459+avail Mem
