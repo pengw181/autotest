@@ -580,7 +580,357 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_cmdTpl_update_status(self):
+    def test_28_cmdTpl_add(self):
+        u"""添加指令模版，磁盘利用率检查"""
+        action = {
+            "操作": "AddCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "专业领域": ["AiSee"],
+                "网络层级": ["4G"],
+                "选择方式": "网元",
+                "备注": "磁盘利用率检查"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_29_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "修改内容": {
+                    "模版网元绑定": {
+                        "网元名称": "MME",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配网元": [
+                            "${NetunitMME1}",
+                            "${NetunitMME2}",
+                            "${NetunitMME3}"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_30_cmdTpl_update(self):
+        u"""修改指令模版，绑定指令"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "修改内容": {
+                    "模版指令绑定": {
+                        "指令名称": "auto_指令_磁盘利用率检查",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配指令": [
+                            ["auto_指令_磁盘利用率检查", "auto_解析模板_服务器磁盘利用率检查"]
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_31_cmdTpl_add(self):
+        u"""添加指令模版，查看Slab"""
+        action = {
+            "操作": "AddCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_查看Slab",
+                "专业领域": ["AiSee"],
+                "网络层级": ["4G"],
+                "选择方式": "网元",
+                "备注": "查看Slab"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_32_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_查看Slab",
+                "修改内容": {
+                    "模版网元绑定": {
+                        "网元名称": "MME",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配网元": [
+                            "${NetunitMME1}",
+                            "${NetunitMME2}",
+                            "${NetunitMME3}"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_33_cmdTpl_update(self):
+        u"""修改指令模版，绑定指令"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_查看Slab",
+                "修改内容": {
+                    "模版指令绑定": {
+                        "指令名称": "auto_指令_查看Slab",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配指令": [
+                            ["auto_指令_查看Slab", "auto_解析模板_查看Slab解析"]
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_34_cmdTpl_add(self):
+        u"""添加指令模版，内存利用率检查"""
+        action = {
+            "操作": "AddCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_内存利用率检查",
+                "专业领域": ["AiSee"],
+                "网络层级": ["4G"],
+                "选择方式": "网元",
+                "备注": "内存利用率检查"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_35_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_内存利用率检查",
+                "修改内容": {
+                    "模版网元绑定": {
+                        "网元名称": "MME",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配网元": [
+                            "${NetunitMME1}",
+                            "${NetunitMME2}",
+                            "${NetunitMME3}"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_36_cmdTpl_update(self):
+        u"""修改指令模版，绑定指令"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_内存利用率检查",
+                "修改内容": {
+                    "模版指令绑定": {
+                        "指令名称": "auto_指令_查看Slab",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配指令": [
+                            ["auto_指令_内存利用率检查", "auto_解析模板_内存利用率解析"]
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_37_cmdTpl_add(self):
+        u"""添加指令模版，服务器性能检测Top"""
+        action = {
+            "操作": "AddCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "专业领域": ["AiSee"],
+                "网络层级": ["4G"],
+                "选择方式": "网元",
+                "备注": "服务器性能检测Top"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_38_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "修改内容": {
+                    "模版网元绑定": {
+                        "网元名称": "MME",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配网元": [
+                            "${NetunitMME1}",
+                            "${NetunitMME2}",
+                            "${NetunitMME3}"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_39_cmdTpl_update(self):
+        u"""修改指令模版，绑定指令"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "修改内容": {
+                    "模版指令绑定": {
+                        "指令名称": "auto_指令_查看Slab",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配指令": [
+                            ["auto_指令_服务器性能检测Top", "auto_解析模板_cpu利用率检查"]
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_40_cmdTpl_add(self):
+        u"""添加指令模版，服务器负载检查"""
+        action = {
+            "操作": "AddCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器负载检查",
+                "专业领域": ["AiSee"],
+                "网络层级": ["4G"],
+                "选择方式": "网元",
+                "备注": "服务器负载检查"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_41_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器负载检查",
+                "修改内容": {
+                    "模版网元绑定": {
+                        "网元名称": "MME",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配网元": [
+                            "${NetunitMME1}",
+                            "${NetunitMME2}",
+                            "${NetunitMME3}"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_42_cmdTpl_update(self):
+        u"""修改指令模版，绑定指令"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器负载检查",
+                "修改内容": {
+                    "模版指令绑定": {
+                        "指令名称": "auto_指令_查看Slab",
+                        "网元分类": ["4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "待分配指令": [
+                            ["auto_指令_服务器负载检查", "auto_解析模板_服务器负载检查"]
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_43_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_date"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -595,7 +945,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_cmdTpl_update_status(self):
+    def test_44_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_指令带参数"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -610,7 +960,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_cmdTpl_update_status(self):
+    def test_45_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_组合指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -625,7 +975,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_cmdTpl_update_status(self):
+    def test_46_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_多指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -640,12 +990,87 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_cmdTpl_update_status(self):
+    def test_47_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_按网元类型"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
                 "模版名称": "auto_指令模板_按网元类型",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_48_cmdTpl_update_status(self):
+        u"""启动指令模版：auto_指令模板_磁盘利用率检查"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_49_cmdTpl_update_status(self):
+        u"""启动指令模版：auto_指令模板_查看Slab"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_查看Slab",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_50_cmdTpl_update_status(self):
+        u"""启动指令模版：auto_指令模板_内存利用率检查"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_内存利用率检查",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_51_cmdTpl_update_status(self):
+        u"""启动指令模版：auto_指令模板_服务器性能检测Top"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_52_cmdTpl_update_status(self):
+        u"""启动指令模版：auto_指令模板_服务器负载检查"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_服务器负载检查",
                 "状态": "启用"
             }
         }

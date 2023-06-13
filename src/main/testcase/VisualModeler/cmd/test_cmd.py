@@ -715,8 +715,8 @@ class Command(unittest.TestCase):
                 "说明": [
                     "前三个值分别代表系统5分钟、10分钟、15分钟前的平均负载",
                     "第四个值的分子是正在运行的进程数，分母为总进程数",
-                    "第五个值是最近运行的进程id"]
-                ,
+                    "第五个值是最近运行的进程id"
+                ],
                 "指令解析模版": ["auto_解析模板_服务器负载检查"],
                 "指令翻页符": "",
                 "期待返回的结束符": "",
@@ -724,6 +724,106 @@ class Command(unittest.TestCase):
             }
         }
         msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_29_cmd_status_update(self):
+        u"""启用指令集：auto_指令_磁盘利用率检查"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_磁盘利用率检查",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_30_cmd_status_update(self):
+        u"""启用指令集：auto_指令_查看Slab"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_查看Slab",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_31_cmd_status_update(self):
+        u"""启用指令集：auto_指令_内存利用率检查"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_内存利用率检查",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_32_cmd_status_update(self):
+        u"""启用指令集：auto_指令_服务器性能检测Top"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_服务器性能检测Top",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_33_cmd_status_update(self):
+        u"""启用指令集：auto_指令_服务器负载检查"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_服务器负载检查",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))
