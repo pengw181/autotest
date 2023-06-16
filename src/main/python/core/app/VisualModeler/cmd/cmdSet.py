@@ -768,6 +768,194 @@ class CmdSet:
             log.warning("设置输出参数失败，失败原因: {}".format(msg))
         gbl.temp.set("ResultMsg", msg)
 
+    def set_log_wash(self, query, wash_direction, wash_by_date, wash_by_key):
+        """
+        # 日志清洗
+        :param query: 查询条件
+        :param wash_direction: 日志清洗方向，正向/反向
+        :param wash_by_date: 按日期清洗，字典
+        :param wash_by_key: 按关键字清洗，字典
+
+        按日期清洗
+        {
+            "是否启用": "是",
+            "日期格式": "2014-05-28 12:30:00",
+            "清洗范围": ["取N天内的日志", "1"]
+
+        }
+
+        按关键字清洗
+        {
+            "是否启用": "是",
+            "关键字列表": [
+                {
+                    "关键字": {
+                        "设置方式": "选择",
+                        "正则模版名称": "pw按时间拆分"
+                    },
+                    "关系": ""
+                },
+                {
+                    "关键字": {
+                        "设置方式": "添加",
+                        "正则模版名称": "auto_正则模版",
+                        "高级模式": "否",
+                        "标签配置": [
+                            {
+                                "标签": "自定义文本",
+                                "自定义值": "pw",
+                                "是否取值": "黄色"
+                            },
+                            {
+                                "标签": "任意字符",
+                                "长度": "1到多个",
+                                "是否取值": "绿色"
+                            },
+                            {
+                                "标签": "自定义文本",
+                                "自定义值": "test",
+                                "是否取值": "无"
+                            }
+                        ]
+                    },
+                    "关系": "或"
+                }
+            ]
+        }
+        """
+        self.search(query=query, need_choose=True)
+        self.browser.find_element(
+            By.XPATH, "//*[contains(@class,'selected')]//*[@field='o']//*[@funcid='cmd_logWash']").click()
+        page_wait(10)
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'../cmd/logWashWin.html')]")))
+
+        # 日志清洗方向
+        if wash_direction:
+            self.browser.find_element(
+                By.XPATH, "//*[@name='washDirection']/following-sibling::span[text()='{}']".format(
+                    wash_direction)).click()
+            log.info("选择日志清洗方向: {}".format(wash_direction))
+
+        # 按日期清洗
+        if wash_by_date:
+            usable = wash_by_date.get("是否启用")
+            date_format = wash_by_date.get("日期格式")
+            wash_range = wash_by_date.get("清洗范围")
+
+            # 是否启用
+            js = 'return $("#dateFilter")[0].checked;'
+            status = self.browser.execute_script(js)
+            temp = True if usable == "是" else False
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@id='dateFilter']").click()
+
+            # 日期格式
+            if date_format:
+                self.browser.find_element(By.XPATH, "//*[@id='dateFormat']/following-sibling::span//a").click()
+                log.info("设置日期格式: {}".format(date_format))
+
+            # 清洗范围
+            if wash_range:
+                wash_type, interval = wash_range
+                self.browser.find_element(
+                    By.XPATH, "//*[@name='dateWashType']/following-sibling::label[text()='{}']".format(
+                        wash_type)).click()
+                log.info("设置过滤类型: {}".format(wash_type))
+
+                self.browser.find_element(
+                    By.XPATH,
+                    "//*[contains(@class,'dateView_opt')]/div[not(contains(@class,'disabled')) and contains(@class,'col_item')]/span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH,
+                    "//*[contains(@class,'dateView_opt')]/div[not(contains(@class,'disabled')) and contains(@class,'col_item')]/span/input[1]").send_keys(
+                    interval)
+                log.info("设置间隔: {}".format(interval))
+
+        # 按关键字清洗
+        if wash_by_key:
+            usable = wash_by_key.get("是否启用")
+            keywords_list = wash_by_key.get("关键字列表")
+
+            # 是否启用
+            js = 'return $("#keywordFilter")[0].checked;'
+            status = self.browser.execute_script(js)
+            temp = True if usable == "是" else False
+            if temp ^ status:
+                self.browser.find_element(By.XPATH, "//*[@id='keywordFilter']").click()
+
+            # 关键字列表
+            if keywords_list:
+                for keyword in keywords_list:
+                    kw = keyword.get("关键字")
+                    relation = keyword.get("关系")
+
+                    self.browser.find_element(By.XPATH, "//*[@id='logWash-addKeyword']").click()
+                    # 关系
+                    if relation:
+                        try:    # 第一个关键字不需要设置关系
+                            self.browser.find_element(
+                                By.XPATH,
+                                "//*[@id='keywordContent']//*[@class='kwData' and not(@value)]/../preceding-sibling::div[1]//a").click()
+                            panel_xpath = getPanelXpath()
+                            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(relation))
+                            log.info("设置关系: {}".format(relation))
+                        except NoSuchElementException:
+                            pass
+
+                    # 关键字
+                    self.browser.find_element(
+                        By.XPATH,
+                        "//*[@id='keywordContent']//*[@class='kwData' and not(@value)]/following-sibling::span//a").click()
+                    # 切换到关键字选正则iframe
+                    self.browser.switch_to.frame(
+                        self.browser.find_element(
+                            By.XPATH, "//*[contains(@src,'/VisualModeler/frame/regexcube/regexpTmplPopUpWin.html')]"))
+                    sleep(1)
+                    # 开始配置正则
+                    confirm_selector = "//*[@id='regexpPopUp']"
+                    regular_cube = RegularCube()
+                    regular_cube.setRegular(confirm_selector=confirm_selector, set_type=kw.get("设置方式"),
+                                            regular_name=kw.get("正则模版名称"), advance_mode=kw.get("高级模式"),
+                                            regular=kw.get("标签配置"), expression=kw.get("表达式"))
+                    if regular_cube.needJumpIframe:
+                        self.browser.switch_to.parent_frame()
+                        alert = BeAlertBox(back_iframe="default")
+                        # 切换到指令集iframe
+                        self.browser.switch_to.frame(
+                            self.browser.find_element(
+                                By.XPATH, "//iframe[contains(@src,'/VisualModeler/html/cmd/cmdSet.html')]"))
+                        msg = alert.get_msg()
+                        if alert.title_contains("成功"):
+                            log.info("保存正则模版成功")
+                            # 切换到日记清洗iframe
+                            self.browser.switch_to.frame(
+                                self.browser.find_element(
+                                    By.XPATH, "//iframe[contains(@src,'../cmd/logWashWin.html')]"))
+                            # 切换到关键字选正则iframe
+                            self.browser.switch_to.frame(
+                                self.browser.find_element(
+                                    By.XPATH,
+                                    "//*[contains(@src,'/VisualModeler/frame/regexcube/regexpTmplPopUpWin.html')]"))
+                        else:
+                            log.warning("保存正则模版失败，失败提示: {0}".format(msg))
+                        gbl.temp.set("ResultMsg", msg)
+                    # 点击确定
+                    self.browser.find_element(By.XPATH, "//*[@id='regexp-ok']").click()
+                    # 返回上层iframe
+                    self.browser.switch_to.parent_frame()
+
+        # 保存
+        self.browser.find_element(By.XPATH, "//*[@id='logWash-save']").click()
+        alert = BeAlertBox(timeout=3)
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功"):
+            log.info("设置日志清洗成功")
+        else:
+            log.warning("设置日志清洗失败，失败原因: {}".format(msg))
+        gbl.temp.set("ResultMsg", msg)
+
     def data_clear(self, cmd_name, fuzzy_match=False):
         """
         :param cmd_name: 指令名称

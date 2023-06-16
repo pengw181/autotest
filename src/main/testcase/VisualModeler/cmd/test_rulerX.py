@@ -1081,6 +1081,41 @@ class RulerX(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_19_ruler_add(self):
+        u"""添加指令解析模版，日志清洗判断清洗结果"""
+        action = {
+            "操作": "AddRulerX",
+            "参数": {
+                "基本信息配置": {
+                    "模版名称": "auto_解析模板_日志清洗",
+                    "模版说明": "auto_解析模板_日志清洗，自动化测试，勿删"
+                },
+                "结果格式化配置": {
+                    "分段": "否",
+                    "格式化成二维表": "否"
+                },
+                "选择判断规则": "结果行数判断",
+                "判断规则配置": {
+                    "条件": "等于",
+                    "行数": "7",
+                    "条件满足时": "正常",
+                    "异常提示信息": "日志清洗后结果行数不匹配",
+                    "下发指令": {
+                        "网元分类": ["4G,4G_MME"],
+                        "厂家": "华为",
+                        "设备型号": "ME60",
+                        "网元名称": "${NetunitMME1}",
+                        "指令名称": "auto_指令_ping",
+                    }
+                }
+            }
+        }
+        msg = "向导配置完成"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

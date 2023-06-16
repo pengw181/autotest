@@ -553,7 +553,10 @@ class CmdNode(unittest.TestCase):
                                 "解析模版": "auto_解析模板_解析date"
                             },
                             "auto_指令_ping": {
-                                "解析模版": "auto_解析模板_解析ping"
+                                "解析模版": "auto_二维表结果判断，添加变量配置"
+                            },
+                            "auto_指令_ping_日志清洗": {
+                                "解析模版": "auto_解析模板_日志清洗"
                             }
                         }
                     }
@@ -567,7 +570,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_20_process_node_fetch_conf(self):
-        u"""节点添加取数配置，成员-解析结果"""
+        u"""节点添加取数配置，成员解析结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -576,7 +579,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-成员-解析结果",
+                    "变量名称": "成员解析结果",
                     "对象类型": "成员",
                     "结果类型": "解析结果",
                     "赋值方式": "替换"
@@ -590,7 +593,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_21_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-原始结果"""
+        u"""节点添加取数配置，网元原始结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -599,7 +602,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-原始结果",
+                    "变量名称": "网元原始结果",
                     "对象类型": "网元",
                     "结果类型": "原始结果",
                     "指令": "全部指令",
@@ -614,7 +617,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_22_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-解析结果"""
+        u"""节点添加取数配置，网元解析结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -623,7 +626,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-解析结果",
+                    "变量名称": "网元解析结果",
                     "对象类型": "网元",
                     "结果类型": "解析结果",
                     "指令": "全部指令",
@@ -638,7 +641,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_23_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-清洗结果"""
+        u"""节点添加取数配置，网元清洗结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -647,7 +650,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-清洗结果",
+                    "变量名称": "网元清洗结果",
                     "对象类型": "网元",
                     "结果类型": "清洗结果",
                     "指令": "全部指令",
@@ -662,7 +665,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_24_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-格式化二维表结果"""
+        u"""节点添加取数配置，网元格式化二维表结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -671,7 +674,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-格式化二维表结果",
+                    "变量名称": "网元格式化二维表结果",
                     "对象类型": "网元",
                     "结果类型": "格式化二维表结果",
                     "指令": "全部指令",
@@ -686,7 +689,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_25_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-异常结果"""
+        u"""节点添加取数配置，网元异常结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -695,7 +698,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-异常结果",
+                    "变量名称": "网元异常结果",
                     "对象类型": "网元",
                     "结果类型": "异常结果",
                     "指令": "全部指令",
@@ -710,7 +713,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_26_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-所有结果"""
+        u"""节点添加取数配置，网元所有结果"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -719,7 +722,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-所有结果",
+                    "变量名称": "网元所有结果",
                     "对象类型": "网元",
                     "结果类型": "所有结果",
                     "指令": "全部指令",
@@ -734,7 +737,7 @@ class CmdNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_27_process_node_fetch_conf(self):
-        u"""节点添加取数配置，网元-解析模版变量值"""
+        u"""节点添加取数配置，网元解析模版变量值"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -743,7 +746,7 @@ class CmdNode(unittest.TestCase):
                 "节点名称": "指令节点多指令",
                 "取数配置": {
                     "操作": "添加",
-                    "变量名称": "指令节点-网元-解析模版变量值",
+                    "变量名称": "网元解析模版变量值",
                     "对象类型": "网元",
                     "结果类型": "解析模版变量值",
                     "变量名": "全部变量",

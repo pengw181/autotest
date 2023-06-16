@@ -213,6 +213,8 @@ def global_config(config_dict=None):
     gbl.service.set('ThirdSystem', configs.service.get('thirdSystem').get("url"))
     gbl.service.set('ThirdSystemHttps', configs.service.get('thirdSystem').get("https"))
 
-    gbl.service.set('NetunitMME1', configs.service.get('netunit')[0])
-    gbl.service.set('NetunitMME2', configs.service.get('netunit')[1])
-    gbl.service.set('NetunitMME3', configs.service.get('netunit')[2])
+    for i in range(len(configs.service.get('netunit'))):
+        gbl.service.set('NetunitMME{}'.format(i+1), configs.service.get('netunit')[i])
+    # gbl.service.set('NetunitMME1', configs.service.get('netunit')[0])
+    # gbl.service.set('NetunitMME2', configs.service.get('netunit')[1])
+    # gbl.service.set('NetunitMME3', configs.service.get('netunit')[2])

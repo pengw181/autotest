@@ -26,7 +26,7 @@ def actions(func, param):
     elif func == "NetUnitLoginConfig":
         action = NetUnit()
         config = param.get("登录信息配置")
-        action.login_config(netunit_name=param.get("目标网元"), login_model_name=config.get("登录模式"),
+        action.login_config(netunit_name=param.get("网元名称"), login_model_name=config.get("登录模式"),
                             terminal=config.get("终端配置"), cmd_config=config.get("指令配置"))
 
     elif func == "NetUnitDataClear":
@@ -36,7 +36,7 @@ def actions(func, param):
     elif func == "UpdateNetUnit":
         action = NetUnit()
         update_map = param.get("修改内容")
-        action.update(netunit=param.get("目标网元"), netunit_name=update_map.get("网元名称"),
+        action.update(netunit=param.get("网元名称"), netunit_name=update_map.get("网元名称"),
                       netunit_type=update_map.get("网元类型"), ip=update_map.get("网元IP"),
                       vendor=update_map.get("生产厂家"), netunit_model=update_map.get("设备型号"),
                       state=update_map.get("业务状态"), maxCocurrentNum=update_map.get("最大并发数"))

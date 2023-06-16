@@ -682,6 +682,11 @@ def actions(func, param):
         action.set_output_param(query=param.get("查询条件"), regex_param=param.get("正则参数"),
                                 table_param=param.get("二维表参数"))
 
+    elif func == "CmdSetWash":
+        action = CmdSet()
+        action.set_log_wash(query=param.get("查询条件"), wash_direction=param.get("日志清洗方向"),
+                            wash_by_date=param.get("按日期清洗"), wash_by_key=param.get("按关键字清洗"))
+
     elif func == "CmdSetDataClear":
         action = CmdSet()
         action.data_clear(cmd_name=param.get("指令名称"), fuzzy_match=param.get("模糊匹配"))

@@ -64,6 +64,7 @@ case:
     - test_node_cmd_normal.py
     - test_node_cmd_io.py
     - test_node_cmd_netype.py
+    - test_node_cmd_check.py
     - test_node_cmdTpl_check.py
     - test_node_crawler_data.py
     - test_node_crawler_download.py

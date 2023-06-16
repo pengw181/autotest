@@ -85,7 +85,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_5_process_node_opt_conf(self):
-        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，自定义参数"""
+        u"""通用节点，添加一个自定义变量，自定义参数"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -122,7 +122,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_6_process_node_opt_conf(self):
-        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，相对路径"""
+        u"""通用节点，添加一个自定义变量，相对路径"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -159,7 +159,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_7_process_node_opt_conf(self):
-        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，绝对路径"""
+        u"""通用节点，添加一个自定义变量，绝对路径"""
         pres = """
         ${Database}.main|select catalog_path from tn_catalog_def t where belong_id='440100' and domain_id='AiSeeCore' and catalog_type=1|CatalogPath
         """
@@ -201,7 +201,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_8_process_node_opt_conf(self):
-        u"""通用节点，操作配置,添加操作，基础运算，添加一个自定义变量，文件名"""
+        u"""通用节点，添加一个自定义变量，文件名"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -238,7 +238,7 @@ class ScriptNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_9_process_node_opt_conf(self):
-        u"""通用节点，操作配置，添加操作，基础运算，添加一个自定义变量，内置变量，时间变量"""
+        u"""通用节点，添加一个自定义变量，内置变量，时间变量"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -565,7 +565,7 @@ class ScriptNode(unittest.TestCase):
                     "参数列表": {
                         "param1": {
                             "设置方式": "固定值",
-                            "参数值": "/personal/auto_一级目录/request.txt"
+                            "参数值": "/personal/auto_一级目录"
                         },
                         "param2": {
                             "设置方式": "变量",
@@ -615,7 +615,7 @@ class ScriptNode(unittest.TestCase):
                     "参数列表": {
                         "param1": {
                             "设置方式": "固定值",
-                            "参数值": "/system/auto_系统一级目录/request.txt"
+                            "参数值": "/system/auto_系统一级目录"
                         },
                         "param2": {
                             "设置方式": "变量",
@@ -665,7 +665,7 @@ class ScriptNode(unittest.TestCase):
                     "参数列表": {
                         "param1": {
                             "设置方式": "固定值",
-                            "参数值": "/system/auto_系统一级目录/request.txt"
+                            "参数值": "/system/auto_系统一级目录"
                         },
                         "param2": {
                             "设置方式": "变量",
@@ -715,7 +715,7 @@ class ScriptNode(unittest.TestCase):
                     "参数列表": {
                         "param1": {
                             "设置方式": "固定值",
-                            "参数值": "/system/auto_系统一级目录/request.txt"
+                            "参数值": "/system/auto_系统一级目录"
                         },
                         "param2": {
                             "设置方式": "变量",

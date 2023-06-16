@@ -219,18 +219,22 @@ class RulerX:
 
         # 分段规则配置
         if segment_cfg:
+            self.judge_type = "分段"
             self.step_segment(regexp_start=segment_cfg.get("段开始特征行"), regexp_end=segment_cfg.get("段结束特征行"),
-                              sample=segment_cfg.get("样例数据"), extract_header=segment_cfg.get("抽取头部字段"))
+                              issuing_cmd=segment_cfg.get("下发指令"), sample=segment_cfg.get("样例数据"),
+                              extract_header=segment_cfg.get("抽取头部字段"))
             # 点击下一步
             self.browser.find_element(By.XPATH, "//*[contains(@data-i18n-text,'nextStep')]").click()
             page_wait(timeout=3)
 
         # 格式化二维表配置
         if format_table_cfg:
+            self.judge_type = "格式化成二维表"
             self.step_format_table(begin_row=format_table_cfg.get("解析开始行"), enable_magic=format_table_cfg.get("通过正则匹配数据列"),
                                    total_columns=format_table_cfg.get("列总数"), row_split_type=format_table_cfg.get("拆分方式"),
                                    split_tag=format_table_cfg.get("列分隔符"), magic=format_table_cfg.get("正则魔方"),
-                                   advance=format_table_cfg.get("高级配置"), sample=format_table_cfg.get("样例数据"))
+                                   advance=format_table_cfg.get("高级配置"), issuing_cmd=format_table_cfg.get("下发指令"),
+                                   sample=format_table_cfg.get("样例数据"))
             # 点击下一步
             self.browser.find_element(By.XPATH, "//*[contains(@data-i18n-text,'nextStep')]").click()
             page_wait(timeout=3)
@@ -328,11 +332,12 @@ class RulerX:
             log.info("【格式化成二维表】状态已经是: {0}".format(enable_format_table))
         sleep(1)
 
-    def step_segment(self, regexp_start, regexp_end, sample, extract_header):
+    def step_segment(self, regexp_start, regexp_end, issuing_cmd, sample, extract_header):
         """
         # 分段规则配置
         :param regexp_start: 段开始特征行，正则
         :param regexp_end: 段结束特征行，正则
+        :param issuing_cmd: 下发指令，下发指令则自动填充样例数据
         :param sample: 样例数据，文件名
         :param extract_header: 抽取头部字段，是/否
         """
@@ -413,6 +418,13 @@ class RulerX:
             self.browser.switch_to.parent_frame()
             sleep(1)
 
+        # 下发指令
+        if issuing_cmd:
+            self.issuing_cmd(level=issuing_cmd.get("网元分类"), vendor=issuing_cmd.get("厂家"),
+                             model=issuing_cmd.get("设备型号"), netunit=issuing_cmd.get("网元名称"),
+                             cmd=issuing_cmd.get("指令名称"))
+            log.info("执行下发指令操作")
+
         # 样例数据
         if sample:
             sample_textarea = self.browser.find_element(
@@ -430,7 +442,8 @@ class RulerX:
 
         sleep(1)
 
-    def step_format_table(self, begin_row, enable_magic, total_columns, row_split_type, split_tag, magic, advance, sample):
+    def step_format_table(self, begin_row, enable_magic, total_columns, row_split_type, split_tag, magic, advance,
+                          issuing_cmd, sample):
         """
         # 格式化二维表配置
         :param begin_row: 解析开始行
@@ -440,6 +453,7 @@ class RulerX:
         :param split_tag: 列分隔符
         :param magic: 正则魔方，开启通过正则匹配数据列或拆分方式为正则时使用
         :param advance: 高级配置
+        :param issuing_cmd: 下发指令
         :param sample: 样例数据，指定resources下的文件名，自动从文件加载并填充
         """
         # 正则配置
@@ -460,6 +474,13 @@ class RulerX:
             else:
                 log.warning("保存正则模版失败，失败提示: {0}".format(msg))
             gbl.temp.set("ResultMsg", msg)
+
+        # 下发指令
+        if issuing_cmd:
+            self.issuing_cmd(level=issuing_cmd.get("网元分类"), vendor=issuing_cmd.get("厂家"),
+                             model=issuing_cmd.get("设备型号"), netunit=issuing_cmd.get("网元名称"),
+                             cmd=issuing_cmd.get("指令名称"))
+            log.info("执行下发指令操作")
 
         # 样例数据
         if sample:
@@ -1037,33 +1058,39 @@ class RulerX:
         :param netunit: 网元名称
         :param cmd: 指令名称
         """
+        if self.judge_type == "匹配关键字判断":
+            value = "Kw"
+        elif self.judge_type == "匹配关键字的值比较判断":
+            value = "KwValue"
+        elif self.judge_type == "结果行数判断":
+            value = "Row"
+        elif self.judge_type == "分段":
+            value = "Subsection"
+        elif self.judge_type == "格式化成二维表":
+            value = "TabletableFormatCfgDiv"
+        else:
+            raise KeyError("不支持的判断规则: {0}".format(self.judge_type))
 
         # 切换到下发指令页面iframe
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.frame_to_be_available_and_switch_to_it((
-            By.XPATH, "//iframe[contains(@src,'./issuingCmdIframe.html')]")))
-        if self.judge_type == "匹配关键字判断":
-            value = "kwExampleData"
-        elif self.judge_type == "匹配关键字的值比较判断":
-            value = ""
-        elif self.judge_type == "结果行数判断":
-            value = ""
-        else:
-            raise KeyError("不支持的判断规则: {0}".format(self.judge_type))
+            By.XPATH,
+            "//iframe[contains(@src,'./issuingCmdIframe.html') and contains(@src,'iframeSuffix={}')]".format(value))))
 
         # 划到下发指令填充样例数据
-        step_element = self.browser.find_element(By.XPATH, "//*[text()='下发指令填充样例数据']")
+        step_element = self.browser.find_element(
+            By.XPATH, "//*[@value='{}']/following-sibling::div//*[text()='下发指令填充样例数据']".format(value))
         self.browser.execute_script("arguments[0].scrollIntoView(true);", step_element)
         sleep(1)
+
         # 点开下发指令页面
-        self.browser.find_element(By.XPATH, "//*[@value='{0}']/following-sibling::div/div/div[2]/a".format(value))
+        self.browser.find_element(
+            By.XPATH, "//*[@value='{}']/following-sibling::div//*[@onclick='toggleBox($(this))']".format(value)).click()
 
         # 网元分类
         if level:
             self.browser.find_element(By.XPATH, "//*[@id='level']/following-sibling::span//a").click()
             choose_level(level_list=level)
-            # 再次点击收起下拉框
-            self.browser.find_element(By.XPATH, "//*[@id='level']/following-sibling::span//a").click()
             log.info("设置网元分类: {0}".format(level))
 
         # 厂家
@@ -1109,20 +1136,29 @@ class RulerX:
         self.browser.find_element(By.XPATH, "//*[@id='issuingCmd']").click()
         self.browser.switch_to.default_content()
         # 进入解析模版配置列表页面
-        self.browser.switch_to.frame(self.browser.find_element(By.XPATH, self.ruler_main_iframe_xpath))
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((By.XPATH, self.ruler_main_iframe_xpath)))
+        # self.browser.switch_to.frame(self.browser.find_element(By.XPATH, self.ruler_main_iframe_xpath))
         alert = BeAlertBox(back_iframe=False)
         msg = alert.get_msg()
-        if alert.title_contains("确定在网元【{0}】上下发指令吗".format(cmd), auto_click_ok=False):
+        if alert.title_contains("确定在网元【{0}】上下发指令吗".format(netunit), auto_click_ok=False):
             alert.click_ok()
             alert = BeAlertBox(back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("下发成功，正在尝试查询下发日志"):
                 log.info("指令【{0}】下发成功".format(cmd))
 
-                # 切换到解析模版配置页面
-                wait = WebDriverWait(self.browser, 30)
-                wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    By.XPATH, "//iframe[contains(@src,'rulerxTmplEditWin.html')]")))
+                alert = BeAlertBox(timeout=60, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("填充样例数据成功"):
+                    log.info("填充样例数据成功")
+
+                    # 切换到解析模版配置页面
+                    wait = WebDriverWait(self.browser, 30)
+                    wait.until(ec.frame_to_be_available_and_switch_to_it((
+                        By.XPATH, "//iframe[contains(@src,'rulerxTmplEditWin.html')]")))
+                else:
+                    log.warning("指令下发失败，失败提示: {0}".format(msg))
             else:
                 log.warning("指令下发失败，失败提示: {0}".format(msg))
         else:

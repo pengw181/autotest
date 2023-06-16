@@ -140,9 +140,10 @@ def choose_level(level_list):
                 first_level)
             first_level_element = browser.find_element(By.XPATH, first_level_xpath)
             # 如果第一个层级存在，则判断层级是否已展开
-            browser.execute_script("arguments[0].scrollIntoView(true);", first_level_element)
+            # browser.execute_script("arguments[0].scrollIntoView(true);", first_level_element)
             log.info("定位到层级: {0}".format(first_level))
-            expanded_element = browser.find_element(By.XPATH, first_level_xpath + "/preceding-sibling::span[3]")
+            expanded_element = browser.find_element(
+                By.XPATH, first_level_xpath + "/preceding-sibling::span[contains(@class,'tree-hit')]")
             # 获取展开标识
             expand_class = expanded_element.get_attribute("class")
             # log.info(expand_class)
@@ -160,7 +161,7 @@ def choose_level(level_list):
                     "//*[contains(@id,'_tree_')]/span[@class='tree-title' and text()='{0}']".format(second_path))))
                 second_level_element = browser.find_element(
                     By.XPATH, "//*[contains(@id,'_tree_')]/span[@class='tree-title' and text()='{0}']".format(second_path))
-                browser.execute_script("arguments[0].scrollIntoView(true);", second_level_element)
+                # browser.execute_script("arguments[0].scrollIntoView(true);", second_level_element)
                 log.info("定位到层级: {0}".format(second_path))
                 second_level_element.click()
                 sleep(1)

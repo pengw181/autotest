@@ -51,7 +51,7 @@ class Command(unittest.TestCase):
                 "隐藏输入指令": "否",
                 "个性指令": "否",
                 "指令等待超时": "20",
-                "指令": ["ping www.baidu.com -c 5"],
+                "指令": ["ping www.baidu.com -c 3"],
                 "说明": "ping百度",
                 "指令解析模版": ["auto_解析模板_解析ping"],
                 "指令翻页符": "",
@@ -81,7 +81,7 @@ class Command(unittest.TestCase):
                 "隐藏输入指令": "否",
                 "个性指令": "否",
                 "指令等待超时": "20",
-                "指令": ["ping www.baidu.com -c 5"],
+                "指令": ["ping www.baidu.com -c 3"],
                 "说明": "ping百度",
                 "指令解析模版": ["auto_解析模板_解析ping"],
                 "指令翻页符": "",
@@ -576,6 +576,117 @@ class Command(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_24_cmd_add(self):
+        u"""添加指令集，ping指令，日志清洗"""
+        action = {
+            "操作": "AddCmdSet",
+            "参数": {
+                "指令名称": "auto_指令_ping_日志清洗",
+                "指令类别": "ping指令",
+                "指令用途": "巡检类",
+                "网元分类": ["4G,4G_MME"],
+                "厂家": "华为",
+                "设备型号": ["ME60"],
+                "登录模式": "普通模式",
+                "公有指令": "是",
+                "隐藏输入指令": "否",
+                "个性指令": "否",
+                "指令等待超时": "20",
+                "指令": ["ping www.baidu.com -c 5"],
+                "说明": "ping百度",
+                "指令解析模版": ["auto_解析模板_日志清洗"],
+                "指令翻页符": "",
+                "期待返回的结束符": "",
+                "隐藏指令返回": ""
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_cmd_set_log_wash(self):
+        u"""指令集设置日志清洗：auto_指令_ping_日志清洗"""
+        action = {
+            "操作": "CmdSetWash",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_ping_日志清洗",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "日志清洗方向": "正向",
+                "按关键字清洗": {
+                    "是否启用": "是",
+                    "关键字列表": [
+                        {
+                            "关键字": {
+                                "设置方式": "选择",
+                                "正则模版名称": "auto_正则模版_清洗ping指令"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    # def test_25_cmd_set_log_wash(self):
+    #     u"""指令集设置日志清洗：auto_指令_ping_日志清洗"""
+    #     action = {
+    #         "操作": "CmdSetWash",
+    #         "参数": {
+    #             "查询条件": {
+    #                 "指令名称": "auto_指令_ping_日志清洗",
+    #                 "网元分类": ["4G,4G_MME"],
+    #                 "厂家": "华为",
+    #                 "设备型号": "ME60"
+    #             },
+    #             "日志清洗方向": "正向",
+    #             "按关键字清洗": {
+    #                 "是否启用": "是",
+    #                 "关键字列表": [
+    #                     {
+    #                         "关键字": {
+    #                             "设置方式": "添加",
+    #                             "正则模版名称": "auto_正则模版",
+    #                             "高级模式": "否",
+    #                             "标签配置": [
+    #                                 {
+    #                                     "标签": "自定义文本",
+    #                                     "自定义值": "pw",
+    #                                     "是否取值": "黄色"
+    #                                 },
+    #                                 {
+    #                                     "标签": "任意字符",
+    #                                     "长度": "1到多个",
+    #                                     "是否取值": "绿色"
+    #                                 },
+    #                                 {
+    #                                     "标签": "自定义文本",
+    #                                     "自定义值": "test",
+    #                                     "是否取值": "无"
+    #                                 }
+    #                             ]
+    #                         },
+    #                         "关系": "与"
+    #                     }
+    #                 ]
+    #             }
+    #         }
+    #     }
+    #     msg = "保存成功"
+    #     result = self.worker.action(action)
+    #     assert result
+    #     log.info(gbl.temp.get("ResultMsg"))
+    #     assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_26_cmd_add(self):
         u"""添加指令集，auto_指令_磁盘利用率检查"""
         action = {
             "操作": "AddCmdSet",
@@ -605,7 +716,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_cmd_add(self):
+    def test_27_cmd_add(self):
         u"""添加指令集，auto_指令_查看Slab"""
         action = {
             "操作": "AddCmdSet",
@@ -635,7 +746,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_cmd_add(self):
+    def test_28_cmd_add(self):
         u"""添加指令集，auto_指令_内存利用率检查"""
         action = {
             "操作": "AddCmdSet",
@@ -665,7 +776,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_cmd_add(self):
+    def test_29_cmd_add(self):
         u"""添加指令集，auto_指令_服务器性能检测Top"""
         action = {
             "操作": "AddCmdSet",
@@ -695,7 +806,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_cmd_add(self):
+    def test_30_cmd_add(self):
         u"""添加指令集，auto_指令_服务器负载检查"""
         action = {
             "操作": "AddCmdSet",
@@ -729,7 +840,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_cmd_status_update(self):
+    def test_31_cmd_status_update(self):
         u"""启用指令集：auto_指令_磁盘利用率检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -749,7 +860,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_cmd_status_update(self):
+    def test_32_cmd_status_update(self):
         u"""启用指令集：auto_指令_查看Slab"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -769,7 +880,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_cmd_status_update(self):
+    def test_33_cmd_status_update(self):
         u"""启用指令集：auto_指令_内存利用率检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -789,7 +900,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_cmd_status_update(self):
+    def test_34_cmd_status_update(self):
         u"""启用指令集：auto_指令_服务器性能检测Top"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -809,13 +920,33 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_cmd_status_update(self):
+    def test_35_cmd_status_update(self):
         u"""启用指令集：auto_指令_服务器负载检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
             "参数": {
                 "查询条件": {
                     "指令名称": "auto_指令_服务器负载检查",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "状态": "启用"
+            }
+        }
+        msg = "启用成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_36_cmd_status_update(self):
+        u"""启用指令集：auto_指令_ping_日志清洗"""
+        action = {
+            "操作": "UpdateCmdSetStatus",
+            "参数": {
+                "查询条件": {
+                    "指令名称": "auto_指令_ping_日志清洗",
                     "网元分类": ["4G,4G_MME"],
                     "厂家": "华为",
                     "设备型号": "ME60"

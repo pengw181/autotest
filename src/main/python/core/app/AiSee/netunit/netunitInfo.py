@@ -141,7 +141,7 @@ class NetUnit(object):
 
     def update(self, netunit, netunit_name, netunit_type, ip, vendor, netunit_model, state, maxCocurrentNum):
         """
-        :param netunit: 目标网元
+        :param netunit: 网元
         :param netunit_name: 网元名称
         :param netunit_type: 网元类型
         :param ip: 网元IP
@@ -250,16 +250,16 @@ class NetUnit(object):
                 By.XPATH, "//*[@name='maxCocurrentNum']/preceding-sibling::input").send_keys(maxCocurrentNum)
             log.info("设置最大并发数: {}".format(maxCocurrentNum))
 
-        # 提交
-        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
-        alert = BeAlertBox(back_iframe="default")
-        msg = alert.get_msg()
-        if alert.title_contains("保存成功"):
-            log.info("保存配置成功")
-        else:
-            log.warning("保存配置失败，失败提示: {0}".format(msg))
-            alert.click_ok()
-        gbl.temp.set("ResultMsg", msg)
+        # # 提交
+        # self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+        # alert = BeAlertBox(back_iframe="default")
+        # msg = alert.get_msg()
+        # if alert.title_contains("保存成功"):
+        #     log.info("保存配置成功")
+        # else:
+        #     log.warning("保存配置失败，失败提示: {0}".format(msg))
+        #     alert.click_ok()
+        # gbl.temp.set("ResultMsg", msg)
 
     def delete(self, netunit_name):
         """
@@ -868,14 +868,10 @@ class NetUnit(object):
 
     def data_clear(self, netunit_name, fuzzy_match=False):
         """
-        :param netunit_name: 目标网元
+        :param netunit_name: 网元名称
         :param fuzzy_match: 是否模糊查询，使用关键字开头模糊查询
         """
-        # 用于清除数据，在测试之前执行, 使用关键字开头模糊查询
-        self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").clear()
-        self.browser.find_element(
-            By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(netunit_name)
-        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
+        self.search(query={"网元名称": netunit_name}, need_choose=False)
         page_wait()
         fuzzy_match = True if fuzzy_match == "是" else False
         if fuzzy_match:
