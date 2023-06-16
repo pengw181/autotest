@@ -2,6 +2,7 @@
 # @Author: peng wei
 # @Time: 2021/9/17 下午4:04
 
+import json
 from time import sleep
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -28,18 +29,61 @@ class Terminal(object):
         page_wait()
         sleep(1)
 
-    def choose(self, terminal_name):
+    def search(self, query, need_choose=False):
         """
-        :param terminal_name: 终端名称
+        :param query: 查询条件，字典
+        :param need_choose: True/False
         """
-        input_ele = self.browser.find_element(By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]")
-        input_ele.clear()
-        input_ele.send_keys(terminal_name)
+        if not isinstance(query, dict):
+            raise TypeError("查询条件需要是字典格式")
+        log.info("查询条件: {0}".format(json.dumps(query, ensure_ascii=False)))
+        select_item = None
+
+        # 终端名称
+        if query.__contains__("终端名称"):
+            terminal_name_key = query.get("终端名称")
+            self.browser.find_element(By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").send_keys(terminal_name_key)
+            log.info("终端名称输入关键字: {}".format(terminal_name_key))
+            select_item = terminal_name_key
+
+        # 终端类型
+        if query.__contains__("终端类型"):
+            terminal_type = query.get("终端类型")
+            self.browser.find_element(By.XPATH, "//*[@id='loginMode']/following-sibling::span//a").click()
+            type_list = self.browser.find_element(
+                By.XPATH, "//*[contains(@id,'loginMode') and text()='{}']".format(terminal_type))
+            action = ActionChains(self.browser)
+            action.move_to_element(type_list).click().perform()
+            log.info("终端类型选择: {}".format(terminal_type))
+
+        # 终端IP
+        if query.__contains__("终端IP"):
+            terminal_ip = query.get("终端IP")
+            self.browser.find_element(By.XPATH, "//*[@id='ip']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(By.XPATH, "//*[@id='ip']/following-sibling::span/input[1]").send_keys(terminal_ip)
+            log.info("终端IP输入关键字: {}".format(terminal_ip))
+
+        # 点击查询
         self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         page_wait()
-        self.browser.find_element(
-            By.XPATH, "//*[@field='accountTempName']//*[@data-mtips='{}']".format(terminal_name)).click()
-        log.info("已选终端: {}".format(terminal_name))
+        alert = BeAlertBox(timeout=1, back_iframe=False)
+        if alert.exist_alert:
+            msg = alert.get_msg()
+            log.info("弹出框返回: {0}".format(msg))
+            gbl.temp.set("ResultMsg", msg)
+            return
+        if need_choose:
+            if select_item:
+                try:
+                    self.browser.find_element(
+                        By.XPATH, "//*[@field='customName']//*[@data-mtips='{0}']".format(select_item)).click()
+                except NoSuchElementException:
+                    raise KeyError("未找到匹配数据")
+                log.info("选择: {0}".format(select_item))
+            else:
+                raise KeyError("条件不足，无法选择数据")
 
     def add(self, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return, terminal_ip,
             terminal_port, remark, login_cmd):
@@ -55,17 +99,14 @@ class Terminal(object):
         :param remark: 用途
         :param login_cmd: 登录指令
         """
-        self.browser.find_element(By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").clear()
-        self.browser.find_element(
-            By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").send_keys(terminal_name)
-        self.browser.find_element(By.XPATH, "//*[@id='btn']//*[text()='查询']").click()
+        self.search(query={"终端名称": terminal_name}, need_choose=False)
         page_wait()
         sleep(1)
         try:
             self.browser.find_element(
                 By.XPATH, "//*[@field='terminal_name']//*[text()='{0}']".format(terminal_name))
             log.info("终端【{}】已存在，开始修改".format(terminal_name))
-            self.update(obj_terminal=terminal_name, terminal_name=terminal_name, terminal_type=terminal_type,
+            self.update(terminal=terminal_name, terminal_name=terminal_name, terminal_type=terminal_type,
                         account_temp=account_temp, charset=charset, expect_return=expect_return, fail_return=fail_return,
                         terminal_ip=terminal_ip, terminal_port=terminal_port, remark=remark, login_cmd=login_cmd)
         except NoSuchElementException:
@@ -86,13 +127,12 @@ class Terminal(object):
                 log.info("保存配置成功")
             else:
                 log.warning("保存配置失败，失败提示: {0}".format(msg))
-                alert.click_ok()
             gbl.temp.set("ResultMsg", msg)
 
-    def update(self, obj_terminal, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return,
+    def update(self, terminal, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return,
                terminal_ip, terminal_port, remark, login_cmd):
         """
-        :param obj_terminal: 目标终端
+        :param terminal: 终端名称
         :param terminal_name: 终端名称
         :param terminal_type: 终端类型
         :param account_temp: 账号名称
@@ -104,7 +144,7 @@ class Terminal(object):
         :param remark: 用途
         :param login_cmd: 登录指令
         """
-        self.choose(terminal_name=obj_terminal)
+        self.search(query={"终端名称": terminal}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
         exist = alert.exist_alert
@@ -131,7 +171,6 @@ class Terminal(object):
                 log.info("保存配置成功")
             else:
                 log.warning("保存配置失败，失败提示: {0}".format(msg))
-                alert.click_ok()
             gbl.temp.set("ResultMsg", msg)
 
     def terminal_page(self, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return,
@@ -249,7 +288,7 @@ class Terminal(object):
         测试选中终端
         :param terminal_name: 终端名称
         """
-        self.choose(terminal_name=terminal_name)
+        self.search(query={"终端名称": terminal_name}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='testSelectedBtn']").click()
         alert = BeAlertBox(back_iframe="default", timeout=1)
         msg = alert.get_msg()
@@ -268,37 +307,12 @@ class Terminal(object):
             alert.click_ok()
         gbl.temp.set("ResultMsg", msg)
 
-    def test_all_terminal(self, condition):
+    def test_all_terminal(self, query):
         """
         测试全部终端
-        :param condition: 过滤条件，字典
+        :param query: 查询条件，字典
         """
-        # 终端名称
-        if condition.__contains__("终端名称"):
-            terminal_name_key = condition.get("终端名称")
-            self.browser.find_element(By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").clear()
-            self.browser.find_element(
-                By.XPATH, "//*[@id='customName']/following-sibling::span/input[1]").send_keys(terminal_name_key)
-            log.info("终端名称输入关键字: {}".format(terminal_name_key))
-
-        # 终端类型
-        if condition.__contains__("终端类型"):
-            terminal_type = condition.get("终端类型")
-            self.browser.find_element(By.XPATH, "//*[@id='loginMode']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'loginMode') and text()='{}']".format(terminal_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
-            log.info("终端类型选择: {}".format(terminal_type))
-
-        # 终端IP
-        if condition.__contains__("终端IP"):
-            terminal_ip = condition.get("终端IP")
-            self.browser.find_element(By.XPATH, "//*[@id='ip']/following-sibling::span/input[1]").clear()
-            self.browser.find_element(By.XPATH, "//*[@id='ip']/following-sibling::span/input[1]").send_keys(terminal_ip)
-            log.info("终端IP输入关键字: {}".format(terminal_ip))
-
-        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
+        self.search(query=query, need_choose=True)
         page_wait()
         self.browser.find_element(By.XPATH, "//*[@id='testSelectedBtn']").click()
         alert = BeAlertBox(back_iframe="default", timeout=1)

@@ -9,28 +9,17 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class NetUnit(unittest.TestCase):
+class Terminal(unittest.TestCase):
 
-    log.info("装载网元管理配置测试用例")
+    log.info("装载统一终端配置测试用例")
     worker = CaseWorker()
 
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理
         self.browser = gbl.service.get("browser")
         self.worker.init()
 
-    def test_1_netunit_clear(self):
-        u"""网元管理，数据清理"""
-        action = {
-            "操作": "NetUnitDataClear",
-            "参数": {
-                "网元名称": "test_auto_manual"
-            }
-        }
-        result = self.worker.action(action)
-        assert result
-
-    def test_2_netunit_add(self):
-        u"""添加网元"""
+    def test_1_terminal_add(self):
+        u"""添加统一终端"""
         action = {
             "操作": "AddNetUnit",
             "参数": {

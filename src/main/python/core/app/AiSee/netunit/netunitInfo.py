@@ -370,8 +370,7 @@ class NetUnit(object):
         self.search(query={"网元名称": netunit_name}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='loginConfigBtn']").click()
         alert = BeAlertBox(back_iframe=False, timeout=1)
-        exist = alert.exist_alert
-        if exist:
+        if alert.exist_alert:
             msg = alert.get_msg()
             gbl.temp.set("ResultMsg", msg)
         else:

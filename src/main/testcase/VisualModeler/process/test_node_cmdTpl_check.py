@@ -480,6 +480,7 @@ class CmdTplNode(unittest.TestCase):
 
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
+        # 判断用例是否执行成功
         saveScreenShot()
         self.browser.refresh()
 

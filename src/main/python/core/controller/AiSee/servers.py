@@ -4,6 +4,7 @@
 
 from src.main.python.core.app.AiSee.netunit.netunitInfo import NetUnit
 from src.main.python.core.app.AiSee.netunit.account import AccountTemp
+from src.main.python.core.app.AiSee.netunit.terminal import Terminal
 from src.main.python.core.app.AiSee.netunit.report import ConnectTestReport
 from src.main.python.core.app.AiSee.user.org import Organization
 from src.main.python.core.app.AiSee.user.user import User
@@ -64,6 +65,24 @@ def actions(func, param):
                            account_scope=account_info.get("账号作用域"), username=account_info.get("用户名"),
                            password=account_info.get("密码"))
 
+    # 统一终端配置
+    elif func == "AddTerminal":
+        action = Terminal()
+        action.add(terminal_name=param.get("终端名称"), terminal_type=param.get("终端类型"),
+                   account_temp=param.get("账号名称"), charset=param.get("字符集"),
+                   expect_return=param.get("期待返回符"), fail_return=param.get("失败返回符"),
+                   terminal_ip=param.get("终端IP"), terminal_port=param.get("终端端口"),
+                   remark=param.get("用途"), login_cmd=param.get("登录指令"))
+
+    elif func == "UpdateTerminal":
+        action = Terminal()
+        update_map = param.get("修改内容")
+        action.update(terminal=param.get("终端名称"), terminal_name=update_map.get("终端名称"),
+                      terminal_type=update_map.get("终端类型"), account_temp=update_map.get("账号名称"),
+                      charset=update_map.get("字符集"), expect_return=update_map.get("期待返回符"),
+                      fail_return=update_map.get("失败返回符"), terminal_ip=update_map.get("终端IP"),
+                      terminal_port=update_map.get("终端端口"), remark=update_map.get("用途"),
+                      login_cmd=update_map.get("登录指令"))
     # 连通性测试报告
     elif func == "GetConnectReport":
         action = ConnectTestReport()
