@@ -27,7 +27,7 @@ class Initiation:
     def remove_download_file():
 
         # 清空下载目录里的文件
-        download_path = gbl.service.get("ProjectPath") + '/src/main/python/download/'
+        download_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + '/download/'
         for f in os.listdir(download_path):
             file_data = download_path + f
             if os.path.isfile(file_data):
@@ -38,7 +38,7 @@ class Initiation:
     def remove_screen_shot():
 
         # 清空截图文件
-        screen_shot_path = gbl.service.get("ProjectPath") + '/src/main/python/screenShot/'
+        screen_shot_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + '/screenShot/'
         for f in os.listdir(screen_shot_path):
             file_data = screen_shot_path + f
             if os.path.isfile(file_data):   # 删除文件
@@ -101,6 +101,11 @@ def initiation_work():
     gbl.service.set('Y', now.strftime('%Y'))
     gbl.service.set('YM', now.strftime('%Y%m'))
     gbl.service.set('YMD', now.strftime('%Y%m%d'))
+
+    # 获取当前用户名
+    sql_util = SQLUtil(environment, "sso")
+    sql = "select user_name from tn_user where user_id='{}'".format(gbl.service.get("LoginUser"))
+    gbl.service.set('CurrentUser', sql_util.select(sql))
 
     # 设置当前默认数据库
     gbl.service.set('Database', environment)

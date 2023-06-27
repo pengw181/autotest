@@ -2,12 +2,12 @@
 # @Author: peng wei
 # @Time: 2022/8/12 下午5:41
 
+import os
 import xlrd
 import xlwt
 import shutil
 from xlutils.copy import copy
 from datetime import datetime
-from src.main.python.lib.globals import gbl
 
 
 class ReportRunner:
@@ -15,8 +15,10 @@ class ReportRunner:
     def __init__(self):
 
         timestamp = datetime.strftime(datetime.now(), "%Y_%m_%d_%H_%M_%S")
-        self.path = gbl.service.get("projectMainPath") + "/reports/output/AutoTestReport_" + timestamp + ".xls"
-        template_file_path = gbl.service.get("projectMainPath") + "/reports/template/AutoTestReport.xls"
+        self.path = os.path.dirname(
+            os.path.dirname(os.path.dirname(__file__))) + "/reports/output/AutoTestReport_" + timestamp + ".xls"
+        template_file_path = os.path.dirname(
+            os.path.dirname(os.path.dirname(__file__))) + "/reports/template/AutoTestReport.xls"
 
         # 打开excel，formatting_info=True保留Excel当前格式
         shutil.copy(template_file_path, self.path)

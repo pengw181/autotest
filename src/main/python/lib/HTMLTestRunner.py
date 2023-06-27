@@ -23,10 +23,10 @@ from src.main.python.lib.globals import gbl
 # pattren = re.compile(r"(.*)reback_filename:(.*)", re.S)
 # screenshot_dir_name = "screenPicture"
 
-reportpath = os.path.dirname(os.path.abspath('.')) + gbl.service.get("reportPath")
+reportpath = os.path.dirname(os.path.abspath('.')) + "/report/"
 if not os.path.exists(reportpath):
     os.makedirs(reportpath)
-screen_image_path = gbl.service.get("screenImagePath")
+screen_image_path = "/screenShot/"
 # if not os.path.exists(screen_image_path):
 #     os.makedirs(screen_image_path)
 __version__ = "0.0.1"

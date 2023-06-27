@@ -2,12 +2,12 @@
 # @Author: peng wei
 # @Time: 2021/11/8 下午3:33
 
+import os
 from src.main.python.lib.logger import log
-from src.main.python.lib.globals import gbl
 
 
 def load_sample(sample_file_name):
-    file_path = gbl.service.get("ProjectPath") + '/src/main/resources/sample_data/' + sample_file_name
+    file_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + '/resources/sample_data/' + sample_file_name
     log.info("从{}加载sample数据".format(file_path))
     content = []
     with open(file_path, 'r') as f:

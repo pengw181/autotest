@@ -4,13 +4,15 @@
 
 import json
 from time import sleep
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
-from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.netunit.menu import choose_domain
 from src.main.python.core.app.AiSee.netunit.menu import choose_menu
+from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
@@ -20,6 +22,14 @@ class Confirm(object):
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=gbl.service.get("Domain"))
         choose_menu(menu="登录配置确认")
 
         # 切到登录配置确认页面
@@ -52,30 +62,31 @@ class Confirm(object):
         if query.__contains__("网元类型"):
             level_type = query.get("网元类型")
             self.browser.find_element(By.XPATH, "//*[@id='levelType']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'levelType') and text()='{}']".format(level_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            wait = WebDriverWait(self.browser, 30)
+            wait.until(ec.element_to_be_clickable((By.XPATH, panel_xpath + "//*[text()='{}']".format(level_type))))
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(level_type)).click()
             log.info("网元类型选择: {}".format(level_type))
 
         # 生产厂家
         if query.__contains__("生产厂家"):
             vendor = query.get("生产厂家")
             self.browser.find_element(By.XPATH, "//*[@id='vendorId']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            wait = WebDriverWait(self.browser, 30)
+            wait.until(ec.element_to_be_clickable((By.XPATH, panel_xpath + "//*[text()='{}']".format(vendor))))
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(vendor)).click()
             log.info("生产厂家选择: {}".format(vendor))
 
         # 设备型号
         if query.__contains__("设备型号"):
             model = query.get("设备型号")
             self.browser.find_element(By.XPATH, "//*[@id='netunitModelId']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'netunitModelId') and text()='{}']".format(model))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            wait = WebDriverWait(self.browser, 30)
+            wait.until(ec.element_to_be_clickable((By.XPATH, panel_xpath + "//*[text()='{}']".format(model))))
+            self.browser.find_element(
+                By.XPATH, panel_xpath + "//*[contains(@id,'netunitModelId') and text()='{}']".format(model)).click()
             log.info("设备型号选择: {}".format(model))
 
         # 点击查询
@@ -139,8 +150,9 @@ class Confirm(object):
         self.search(query=query, need_choose=False)
         for netunit in netunit_list:
             self.browser.find_element(
-                    By.XPATH, "//*[@field='netunitName']//*[@data-mtips='{}']/../../../following-sibling::td[1]/*[text()='新值']".format(
-                        netunit)).click()
+                By.XPATH,
+                "//*[@field='netunitName']//*[@data-mtips='{}']/../../../following-sibling::td[1]/*[text()='新值']".format(
+                    netunit)).click()
             log.info("选择待确认网元: {}".format(netunit))
         self.browser.find_element(By.XPATH, "//*[@id='confirmSelected']").click()
         alert = BeAlertBox(back_iframe="default")

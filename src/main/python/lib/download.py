@@ -16,7 +16,7 @@ def exist_download_file(filename, file_suffix):
     """
 
     find_flag = False
-    downLoadPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/download/'
+    downLoadPath = os.path.dirname(os.path.dirname(__file__)) + '/download/'
     dir_files = os.listdir(downLoadPath)
     for f in dir_files:
         if f.find(filename) > -1 and f.endswith(file_suffix.lower()):

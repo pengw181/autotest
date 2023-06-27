@@ -10,17 +10,27 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.netunit.menu import choose_domain
 from src.main.python.core.app.AiSee.netunit.menu import choose_menu
 from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
-from src.main.python.lib.alertBox import BeAlertBox
 
 
 class JumpCmd(object):
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=gbl.service.get("Domain"))
         choose_menu(menu="统一登录指令配置")
 
         # 切到统一登录指令配置页面
@@ -69,55 +79,113 @@ class JumpCmd(object):
             else:
                 raise KeyError("条件不足，无法选择数据")
 
-    def add(self, cmd_temp_name, remark, jump_cmd):
+    def add(self, cmd_temp_name, remark, command, search_if_exist=True):
         """
         :param cmd_temp_name: 登录指令名称
         :param remark: 登录指令用途
-        :param jump_cmd: 指令配置
+        :param command: 指令配置
+        :param search_if_exist: 搜索是否存在，存在则修改
         """
-        self.search(query={"登录指令名称": cmd_temp_name}, need_choose=False)
-        page_wait()
-        sleep(1)
-        try:
-            self.browser.find_element(By.XPATH, "//*[@field='cmdTempName']//*[@data-mtips='{}']".format(cmd_temp_name))
-            log.info("登录指令【{}】存在，开始修改".format(cmd_temp_name))
-            self.update(cmd_temp=cmd_temp_name, cmd_temp_name=cmd_temp_name, remark=remark, jump_cmd=jump_cmd)
-        except NoSuchElementException:
-            log.info("登录指令【{}】不存在，开始添加".format(cmd_temp_name))
-            self.browser.find_element(By.XPATH, "//*[@id='addBtn']//*[text()='添加']").click()
-            self.browser.switch_to.frame(
-                self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html?type=add')]"))
+        search_if_exist = True if search_if_exist == "是" else False
+        if search_if_exist:
+            self.search(query={"登录指令名称": cmd_temp_name}, need_choose=False)
+            page_wait()
             sleep(1)
-            self.cmd_temp_page(cmd_temp_name=cmd_temp_name, remark=remark, jump_cmd=jump_cmd)
+            try:
+                # 尝试找到一条记录并点击，点击为了修改时使用
+                self.browser.find_element(
+                    By.XPATH, "//*[@field='cmdTempName']//*[@data-mtips='{}']".format(cmd_temp_name)).click()
+                log.info("统一登录指令【{}】存在，开始修改".format(cmd_temp_name))
+                self.update(cmd_temp=None, cmd_temp_name=cmd_temp_name, remark=remark, command=command)
+                return
+            except NoSuchElementException:
+                log.info("统一登录指令不存在")
 
-    def update(self, cmd_temp, cmd_temp_name, remark, jump_cmd):
+        log.info("开始添加统一登录指令")
+        self.browser.find_element(By.XPATH, "//*[@id='addBtn']").click()
+        self.browser.switch_to.frame(
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html')]"))
+        sleep(1)
+        self.cmd_temp_page(cmd_temp_name=cmd_temp_name, remark=remark, command=command)
+
+    def update(self, cmd_temp, cmd_temp_name, remark, command):
         """
         :param cmd_temp: 登录指令
         :param cmd_temp_name: 登录指令名称
         :param remark: 登录指令用途
-        :param jump_cmd: 指令配置
+        :param command: 指令配置
         """
-        self.search(query={"登录指令名称": cmd_temp}, need_choose=False)
+        if cmd_temp:
+            self.search(query={"登录指令名称": cmd_temp}, need_choose=False)
         self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
-        alert = BeAlertBox(back_iframe=False, timeout=1)
+        alert = BeAlertBox(back_iframe="default", timeout=1)
         if alert.exist_alert:
             msg = alert.get_msg()
             gbl.temp.set("ResultMsg", msg)
         else:
+            # 切到网元管理页面iframe
+            wait = WebDriverWait(self.browser, 120)
+            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+            # 切到统一登录指令配置页面iframe
+            wait = WebDriverWait(self.browser, 30)
+            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                By.XPATH, "//*[contains(@src,'/html/nu/midJumpCmdTempCfgInfo.html')]")))
             # 切换到修改终端页面iframe
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.frame_to_be_available_and_switch_to_it((
-                By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html?type=edit')]")))
+                By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html')]")))
             sleep(1)
             wait = WebDriverWait(self.browser, 30)
-            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='accountTempName']/preceding-sibling::input")))
-            self.cmd_temp_page(cmd_temp_name=cmd_temp_name, remark=remark, jump_cmd=jump_cmd)
+            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='cmdTempName']/preceding-sibling::input")))
+            self.cmd_temp_page(cmd_temp_name=cmd_temp_name, remark=remark, command=command)
 
-    def cmd_temp_page(self, cmd_temp_name, remark, jump_cmd):
+    def cmd_temp_page(self, cmd_temp_name, remark, command):
         """
         :param cmd_temp_name: 登录指令名称
         :param remark: 登录指令用途
-        :param jump_cmd: 指令配置
+        :param command: 指令配置
+
+        指令配置
+        [
+            {
+                "操作类型": "添加",
+                "指令信息": {
+                    "指令内容": "",
+                    "账号名称": "",
+                    "期待返回符": "",
+                    "失败返回符": "",
+                    "隐藏输入指令": "换行符",
+                    "隐藏指令返回": "",
+                    "退出命令": "",
+                    "执行后等待时间": "",
+                    "是否适配网元": "是",
+                    "字符集": "GBK",
+                    "换行符": r"\n"
+                }
+            },
+            {
+                "操作类型": "修改",
+                "指令内容": "%USERNAME",
+                "指令信息": {
+                    "指令内容": "",
+                    "账号名称": "",
+                    "期待返回符": "",
+                    "失败返回符": "",
+                    "隐藏输入指令": "换行符",
+                    "隐藏指令返回": "",
+                    "退出命令": "",
+                    "执行后等待时间": "",
+                    "是否适配网元": "是",
+                    "字符集": "GBK",
+                    "换行符": r"\n"
+                }
+            },
+            {
+                "操作类型": "删除",
+                "指令内容": "%USERNAME",
+            }
+        ]
         """
         # 登录指令名称
         if cmd_temp_name:
@@ -134,29 +202,102 @@ class JumpCmd(object):
             log.info("设置登录指令用途: {}".format(remark))
 
         # 指令配置
-        if jump_cmd:
-            cmd_field = "//*[@id='tb']/following-sibling::div[1]"
-            row_num = 1
-
-            for cmd in jump_cmd:
-                try:
-                    row_ele = self.browser.find_element(
-                        By.XPATH, cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(
-                            row_num))
-                    # 如果已存在，则单击修改
-                    action = ActionChains(self.browser)
-                    action.move_to_element(row_ele).click().perform()
-                    sleep(1)
-                except NoSuchElementException:
-                    # 如果不存在，则点击添加按钮
+        if command:
+            for cmd in command:
+                opt_type = cmd.get("操作类型")
+                obj_cmd = cmd.get("指令内容")
+                cmd_info = cmd.get("指令信息")
+                if opt_type == "添加":
                     self.browser.find_element(By.XPATH, "//*[@onclick='appendCmd()']").click()
-                finally:
-                    self.set_cmd(cmd=cmd.get("指令内容"), account=cmd.get("账号名称"), expected_str=cmd.get("期待返回符"),
-                                 failed_str=cmd.get("失败返回符"), hide_input_cmd=cmd.get("隐藏输入指令"),
-                                 hide_return=cmd.get("隐藏指令返回"), quit_cmd=cmd.get("退出命令"),
-                                 sleep_time=cmd.get("执行后等待时间"), translate_netunit=cmd.get("是否适配网元"),
-                                 charset=cmd.get("字符集"), line_break=cmd.get("换行符"), cmd_field=cmd_field)
-                    row_num += 1
+                    self.set_cmd_page(cmd=cmd_info.get("指令内容"), account=cmd_info.get("账号名称"),
+                                      expected_str=cmd_info.get("期待返回符"), failed_str=cmd_info.get("失败返回符"),
+                                      hide_input_cmd=cmd_info.get("隐藏输入指令"), hide_return=cmd_info.get("隐藏指令返回"),
+                                      quit_cmd=cmd_info.get("退出命令"), sleep_time=cmd_info.get("执行后等待时间"),
+                                      translate_netunit=cmd_info.get("是否适配网元"), charset=cmd_info.get("字符集"),
+                                      line_break=cmd_info.get("换行符"))
+
+                elif opt_type == "修改":
+                    self.browser.find_element(
+                        By.XPATH, "//*[@field='command']//*[@data-mtips='{}']".format(obj_cmd)).click()
+                    self.set_cmd_page(cmd=cmd_info.get("指令内容"), account=cmd_info.get("账号名称"),
+                                      expected_str=cmd_info.get("期待返回符"), failed_str=cmd_info.get("失败返回符"),
+                                      hide_input_cmd=cmd_info.get("隐藏输入指令"), hide_return=cmd_info.get("隐藏指令返回"),
+                                      quit_cmd=cmd_info.get("退出命令"), sleep_time=cmd_info.get("执行后等待时间"),
+                                      translate_netunit=cmd_info.get("是否适配网元"), charset=cmd_info.get("字符集"),
+                                      line_break=cmd_info.get("换行符"))
+
+                elif opt_type == "删除":
+                    if obj_cmd:
+                        self.browser.find_element(
+                            By.XPATH, "//*[@field='command']//*[@data-mtips='{}']".format(obj_cmd)).click()
+                        self.browser.find_element(By.XPATH, "//*[@onclick='deleteCmdRow()']").click()
+                        alert = BeAlertBox(back_iframe="default")
+                        msg = alert.get_msg()
+                        if alert.title_contains("您确定需要删除{}吗".format(obj_cmd), auto_click_ok=False):
+                            alert.click_ok()
+                            # 切换到网元管理菜单iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                            # 切换到统一登录指令页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpCmdTempCfgInfo.html')]")))
+                            # 切换到统一登录指令编辑页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html')]")))
+                        else:
+                            log.warning("删除指令失败，失败提示: {0}".format(msg))
+                        gbl.temp.set("ResultMsg", msg)
+
+                    else:   # 不指定指令内容，则删除所有指令
+                        record_element = self.browser.find_elements(
+                            By.XPATH,
+                            "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='command']")
+                        if len(record_element) == 0:
+                            log.info("当前不存在指令需要删除")
+                            exist_data = False
+                        else:
+                            exist_data = True
+                        while exist_data:
+                            pe = record_element[0]
+                            search_result = pe.text
+                            pe.click()
+                            log.info("选择: {0}".format(search_result))
+                            self.browser.find_element(By.XPATH, "//*[@onclick='deleteCmdRow()']").click()
+                            alert = BeAlertBox(back_iframe="default")
+                            msg = alert.get_msg()
+                            if alert.title_contains("您确定需要删除{}吗".format(search_result), auto_click_ok=False):
+                                alert.click_ok()
+                                page_wait()
+                                # 切换到网元管理菜单iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                                # 切换到统一登录指令页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH,
+                                    "//iframe[contains(@src,'../../html/nu/midJumpCmdTempCfgInfo.html')]")))
+                                # 切换到统一登录指令编辑页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'midJumpCmdTempCfgInfoEdit.html')]")))
+                                # 重新获取页面查询结果
+                                record_element = self.browser.find_elements(
+                                    By.XPATH,
+                                    "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='command']")
+                                if len(record_element) == 0:
+                                    log.info("指令清理完成")
+                                    exist_data = False
+                            else:
+                                log.warning("删除指令失败，失败提示: {0}".format(msg))
+                                gbl.temp.set("ResultMsg", msg)
+                                break
+
+                else:
+                    raise KeyError("不支持的操作类型: {}".format(opt_type))
 
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
@@ -166,11 +307,10 @@ class JumpCmd(object):
             log.info("保存配置成功")
         else:
             log.warning("保存配置失败，失败提示: {0}".format(msg))
-            alert.click_ok()
         gbl.temp.set("ResultMsg", msg)
 
-    def set_cmd(self, cmd, account, expected_str, failed_str, hide_input_cmd, hide_return, quit_cmd, sleep_time,
-                translate_netunit, charset, line_break, cmd_field):
+    def set_cmd_page(self, cmd, account, expected_str, failed_str, hide_input_cmd, hide_return, quit_cmd, sleep_time,
+                     translate_netunit, charset, line_break):
         """
         :param cmd: 指令内容
         :param account: 账号名称
@@ -183,44 +323,49 @@ class JumpCmd(object):
         :param translate_netunit: 是否适配网元
         :param charset: 字符集
         :param line_break: 换行符
-        :param cmd_field:
-        :return:
         """
+        action = ActionChains(self.browser)
         # 指令内容
         if cmd:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
+                By.XPATH, "//*[contains(@class,'selected')]//*[@field='command']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='command']//*[@class='textbox']/input[1]").send_keys(cmd)
             log.info("设置指令内容: {}".format(cmd))
 
         # 账号名称
         if account:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='accountTempId']//a").click()
-            account_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(account))
-            action = ActionChains(self.browser)
-            action.move_to_element(account_list).click().perform()
+            self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='accountTempId']//a").click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(account)).click()
             log.info("设置账号名称: {}".format(account))
 
         # 期待返回符
         if expected_str:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(expected_str)
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='readUntil']//*[@class='textbox']/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='readUntil']//*[@class='textbox']/input[1]").send_keys(
+                expected_str)
             log.info("设置期待返回符: {}".format(expected_str))
 
         # 失败返回符
         if failed_str:
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='failureReaduntil']//*[@class='textbox']/input[1]").send_keys(
                 failed_str)
             log.info("设置失败返回符: {}".format(failed_str))
 
         # 隐藏输入指令
         if hide_input_cmd:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='sensitiveCmd']//a").click()
+            self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='sensitiveCmd']//a").click()
             panel_xpath = getPanelXpath()
             self.browser.find_element(
                 By.XPATH, panel_xpath + "//*[text()='{}']".format(hide_input_cmd)).click()
@@ -229,30 +374,45 @@ class JumpCmd(object):
         # 隐藏指令返回
         if hide_return:
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(hide_return)
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='sensitiveRegex']//*[@class='textbox']/input[1]").send_keys(
+                hide_return)
             log.info("设置隐藏指令返回: {}".format(hide_return))
 
         # 退出命令
         if quit_cmd:
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='quitCommand']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(quit_cmd)
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='quitCommand']//*[@class='textbox']/input[1]").send_keys(
+                quit_cmd)
             log.info("设置退出命令: {}".format(quit_cmd))
 
         # 执行后等待时间
         if sleep_time:
+            element = self.browser.find_element(
+                By.XPATH, "//*[contains(@class,'selected')]//*[@field='waitTime']//*[@class='textbox']/input[1]")
+            action.move_to_element(element).perform()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
+                By.XPATH, "//*[contains(@class,'selected')]//*[@field='waitTime']//*[@class='textbox']/input[1]").clear()
             self.browser.find_element(
-                By.XPATH, cmd_field + "//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(sleep_time)
+                By.XPATH,
+                "//*[contains(@class,'selected')]//*[@field='waitTime']//*[@class='textbox']/input[1]").send_keys(
+                sleep_time)
             log.info("设置执行后等待时间: {}".format(sleep_time))
 
         # 是否适配网元
         if translate_netunit:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='translateNetunit']//a").click()
+            element = self.browser.find_element(
+                By.XPATH, "//*[contains(@class,'selected')]//*[@field='translateNetunit']//a")
+            action.move_to_element(element).perform()
+            self.browser.find_element(
+                By.XPATH, "//*[contains(@class,'selected')]//*[@field='translateNetunit']//a").click()
             panel_xpath = getPanelXpath()
             self.browser.find_element(
                 By.XPATH, panel_xpath + "//*[text()='{}']".format(translate_netunit)).click()
@@ -260,7 +420,9 @@ class JumpCmd(object):
 
         # 字符集
         if charset:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='charset']//a").click()
+            element = self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='charset']//a")
+            action.move_to_element(element).perform()
+            self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='charset']//a").click()
             panel_xpath = getPanelXpath()
             self.browser.find_element(
                 By.XPATH, panel_xpath + "//*[text()='{}']".format(charset)).click()
@@ -268,7 +430,10 @@ class JumpCmd(object):
 
         # 换行符
         if line_break:
-            self.browser.find_element(By.XPATH, cmd_field + "//*[@field='lineBreak']//a").click()
+            # 含反斜杠时，用例输入里值前面需要加r
+            element = self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='lineBreak']//a")
+            action.move_to_element(element).perform()
+            self.browser.find_element(By.XPATH, "//*[contains(@class,'selected')]//*[@field='lineBreak']//a").click()
             panel_xpath = getPanelXpath()
             self.browser.find_element(
                 By.XPATH, panel_xpath + "//*[text()='{}']".format(line_break)).click()

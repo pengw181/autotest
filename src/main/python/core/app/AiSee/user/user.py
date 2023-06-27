@@ -12,7 +12,9 @@ from src.main.python.core.mainPage import AiSee
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.lib.pagination import Pagination
 from src.main.python.lib.treeNode import TreeNode
+from src.main.python.db.SQLHelper import SQLUtil
 from src.main.python.lib.globals import gbl
 from src.main.python.lib.logger import log
 
@@ -273,12 +275,12 @@ class User:
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='user-form-submit']").click()
 
-    def delete(self, user):
+    def delete(self, user_id):
         """
-        :param user: 用户
+        :param user_id: 登录账号
         """
         log.info("开始修改用户")
-        self.search(query={"用户": user}, need_choose=True)
+        self.search(query={"用户": user_id}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='user-del']").click()
         alert = BeAlertBox(timeout=1)
         msg = alert.get_msg()
@@ -287,26 +289,26 @@ class User:
             alert = BeAlertBox(timeout=10, back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("用户信息删除成功"):
-                log.warning('删除用户 {0} 成功'.format(user))
+                log.warning('删除用户 {0} 成功'.format(user_id))
             else:
-                log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user, msg))
+                log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_id, msg))
         else:
-            log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user, msg))
+            log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_id, msg))
         gbl.temp.set("ResultMsg", msg)
 
-    def clear(self, user, fuzzy_match=False):
+    def data_clear(self, user_id, fuzzy_match=False):
         """
-        :param user: 用户名称
+        :param user_id: 登录账号
         :param fuzzy_match: 模糊匹配
         """
-        self.search(query={"用户": user}, need_choose=False)
+        self.search(query={"用户": user_id}, need_choose=False)
         fuzzy_match = True if fuzzy_match == "是" else False
         if fuzzy_match:
             record_element = self.browser.find_elements(
-                By.XPATH, "//*[@field='userName']//*[starts-with(text(),'{}')]".format(user))
+                By.XPATH, "//*[@field='userId']//*[starts-with(text(),'{}')]".format(user_id))
         else:
             record_element = self.browser.find_elements(
-                By.XPATH, "//*[@field='userName']//*[text()='{0}']".format(user))
+                By.XPATH, "//*[@field='userId']//*[text()='{0}']".format(user_id))
         if len(record_element) == 0:
             # 查询结果为空,结束处理
             log.info("查询不到满足条件的数据，无需清理")
@@ -315,7 +317,7 @@ class User:
         exist_data = True
         while exist_data:
             pe = record_element[0]
-            js = 'return $(".userInfoTab_datagrid-cell-c1-userName")[1].innerText;'
+            js = 'return $(".userInfoTab_datagrid-cell-c1-userId")[1].innerText;'
             search_result = self.browser.execute_script(js)
             js = 'return $(".userInfoTab_datagrid-cell-c1-isAliveText")[1].innerText;'
             is_alive = self.browser.execute_script(js)
@@ -333,8 +335,7 @@ class User:
                 page_wait()
                 sleep(1)
 
-            self.browser.find_element(By.XPATH, "//*[@field='userName']//*[text()='{0}']".format(
-                search_result)).click()
+            self.browser.find_element(By.XPATH, "//*[@field='userId']//*[text()='{0}']".format(search_result)).click()
             log.info("选择: {0}".format(search_result))
             # 删除
             self.browser.find_element(By.XPATH, "//*[@id='user-del']").click()
@@ -356,7 +357,7 @@ class User:
                     if fuzzy_match:
                         # 重新获取页面查询结果
                         record_element = self.browser.find_elements(
-                            By.XPATH, "//*[@field='userName']//*[starts-with(text(),'{}')]".format(user))
+                            By.XPATH, "//*[@field='userId']//*[starts-with(text(),'{}')]".format(user_id))
                         if len(record_element) == 0:
                             # 查询结果为空,修改exist_data为False，退出循环
                             log.info("数据清理完成")
@@ -367,6 +368,246 @@ class User:
                     raise Exception("删除数据时出现未知异常: {0}".format(msg))
             else:
                 # 无权操作
-                log.warning("{0} 删除失败，失败提示: {1}".format(user, msg))
+                log.warning("{0} 删除失败，失败提示: {1}".format(user_id, msg))
                 gbl.temp.set("ResultMsg", msg)
                 break
+
+
+class DataAssign:
+
+    """数据权限分配"""
+
+    def __init__(self, user_id):
+        """
+        :param user_id: 登录账号
+        """
+        self.browser = gbl.service.get("browser")
+        user = User()
+        user.search(query={"用户": user_id}, need_choose=True)
+        self.browser.find_element(By.XPATH, "//*[@id='user-dataAssign']").click()
+        # 切换到数据权限分配页面iframe
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
+        page_wait()
+
+    def assign_data_permissions(self, query, data_info, assign_type):
+        """
+        :param query: 查询条件
+        :param data_info: 数据信息，数组
+        :param assign_type: 分配类型，分配所选/分配全部/移除所选/移除全部
+
+        查询条件
+        {
+            "名称": "",
+            "厂家": "",
+            "归属": "",
+            "领域": "",
+            "数据类型": ""
+        }
+        """
+        # 查询条件
+        if query:
+            netunit_name = query.get("名称")
+            vendor = query.get("厂家")
+            belong = query.get("归属")
+            domain = query.get("领域")    # 填写domain_id，自动从tn_domain表查询domain_name
+            data_catalog = query.get("数据类型")
+            # 默认网元类型
+            data_catalog = "网元类型" if data_catalog is None else data_catalog
+
+            # 名称
+            if netunit_name:
+                self.browser.find_element(By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]").send_keys(netunit_name)
+                log.info("设置名称: {}".format(netunit_name))
+
+            # 厂家
+            if vendor:
+                self.browser.find_element(By.XPATH, "//*[@id='vendorCname']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='vendorCname']/following-sibling::span/input[1]").send_keys(vendor)
+                log.info("设置厂家: {}".format(vendor))
+
+            # 归属
+            if belong:
+                self.browser.find_element(By.XPATH, "//*[@id='belongName']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='belongName']/following-sibling::span/input[1]").send_keys(belong)
+                log.info("设置归属: {}".format(belong))
+
+            # 领域
+            if domain:
+                # 获取当前用户名
+                sql_util = SQLUtil(gbl.service.get("environment"), "sso")
+                sql = "select domain_name from tn_domain where domain_id = '{}'".format(domain)
+                domain = sql_util.select(sql)
+                self.browser.find_element(By.XPATH, "//*[@id='domainName']/following-sibling::span/input[1]").clear()
+                self.browser.find_element(
+                    By.XPATH, "//*[@id='domainName']/following-sibling::span/input[1]").send_keys(domain)
+                log.info("设置领域: {}".format(domain))
+
+            # 数据类型
+            if data_catalog:
+                self.browser.find_element(By.XPATH, "//*[@id='dataCatId']/following-sibling::span//a").click()
+                panel_xpath = getPanelXpath()
+                self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(data_catalog)).click()
+                log.info("设置数据类型: {}".format(data_catalog))
+                page_wait()
+
+        # 分配类型
+        if assign_type == "分配所选":
+
+            # 数据信息
+            if data_info is None:
+                raise KeyError("未指明参数【数据信息】，无法确认操作对象")
+
+            # 设置每页条数
+            table_xpath = "//*[@data-i18n-text='nu.nuConfig.toBeSelected']/following-sibling::div[1]//div[contains(@class,'pagination')]//table"
+            p = Pagination(table_xpath=table_xpath)
+            p.set_page_size(size="50")
+
+            for data in data_info:
+                self.browser.find_element(
+                    By.XPATH,
+                    "//*[contains(@id,'dg1')]//*[@field='rowName']//*[@data-mtips='{}']".format(data)).click()
+                log.info("选择: {}".format(data))
+            self.browser.find_element(By.XPATH, "//*[@id='optBtnGroup']//*[@id='toQuoted']").click()
+            alert = BeAlertBox(timeout=1, back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要分配所选数据吗", auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=30, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("分配成功"):
+                    log.warning('分配数据权限成功')
+
+                    # # 切换到用户管理iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
+                    # # 切换到数据权限分配页面iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.element_to_be_clickable(
+                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
+                else:
+                    log.warning('分配数据权限失败，失败原因: {}'.format(msg))
+                    return
+            else:
+                log.warning('分配数据权限失败，失败原因: {}'.format(msg))
+                return
+            gbl.temp.set("ResultMsg", msg)
+
+        elif assign_type == "移除所选":
+
+            # 数据信息
+            if data_info is None:
+                raise KeyError("未指明参数【数据信息】，无法确认操作对象")
+
+            # 设置每页条数
+            table_xpath = "//*[@data-i18n-text='nu.nuConfig.haveSelected']/following-sibling::div[1]//div[contains(@class,'pagination')]//table"
+            p = Pagination(table_xpath=table_xpath)
+            p.set_page_size(size="50")
+
+            for data in data_info:
+                self.browser.find_element(
+                    By.XPATH,
+                    "//*[contains(@id,'dg2')]//*[@field='rowName']//*[@data-mtips='{}']".format(data)).click()
+                log.info("选择: {}".format(data))
+            self.browser.find_element(By.XPATH, "//*[@id='optBtnGroup']//*[@id='toUnQuote']").click()
+            alert = BeAlertBox(timeout=1, back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要批量移除吗", auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=30, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("移除成功"):
+                    log.warning('移除数据权限成功')
+
+                    # # 切换到用户管理iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
+                    # # 切换到数据权限分配页面iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.element_to_be_clickable(
+                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
+                else:
+                    log.warning('移除数据权限失败，失败原因: {}'.format(msg))
+                    return
+            else:
+                log.warning('移除数据权限失败，失败原因: {}'.format(msg))
+                return
+            gbl.temp.set("ResultMsg", msg)
+
+        elif assign_type == "分配全部":
+            self.browser.find_element(By.XPATH, "//*[@id='optBtnGroup']//*[@id='allToQuoted']").click()
+            alert = BeAlertBox(timeout=1, back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要分配全部数据吗", auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=30, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("分配成功"):
+                    log.warning('分配数据权限成功')
+
+                    # # 切换到用户管理iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
+                    # # 切换到数据权限分配页面iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.element_to_be_clickable(
+                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
+                else:
+                    log.warning('分配数据权限失败，失败原因: {}'.format(msg))
+                    return
+            else:
+                log.warning('分配数据权限失败，失败原因: {}'.format(msg))
+                return
+            gbl.temp.set("ResultMsg", msg)
+
+        elif assign_type == "移除全部":
+            self.browser.find_element(By.XPATH, "//*[@id='optBtnGroup']//*[@id='allToUnQuote']").click()
+            alert = BeAlertBox(timeout=1, back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要移除全部吗", auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=30, back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("移除成功"):
+                    log.warning('移除数据权限成功')
+
+                    # # 切换到用户管理iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
+                    # # 切换到数据权限分配页面iframe
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
+                    # wait = WebDriverWait(self.browser, 30)
+                    # wait.until(ec.element_to_be_clickable(
+                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
+                else:
+                    log.warning('移除数据权限失败，失败原因: {}'.format(msg))
+                    return
+            else:
+                log.warning('移除数据权限失败，失败原因: {}'.format(msg))
+                return
+            gbl.temp.set("ResultMsg", msg)
+
+        else:
+            raise KeyError("分配类型仅支持: 分配所选/分配全部/移除所选/移除全部，当前: {}".format(assign_type))

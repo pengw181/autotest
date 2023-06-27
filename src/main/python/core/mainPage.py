@@ -17,6 +17,7 @@ class AiSee:
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        page_wait()
 
     def close_tips(self):
         """
@@ -51,6 +52,9 @@ class AiSee:
         """
         :param menu: 填写如：用户管理、网元管理，或应用中心-云平台
         """
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@class='menu']")))
+        sleep(1)
         self.browser.find_element(By.XPATH, "//*[@class='menu']").click()
         sleep(1)
         menu_list = menu.split("-")

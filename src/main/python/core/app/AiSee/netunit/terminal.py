@@ -10,6 +10,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.netunit.menu import choose_domain
 from src.main.python.core.app.AiSee.netunit.menu import choose_menu
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.logger import log
@@ -20,6 +23,14 @@ class Terminal(object):
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=gbl.service.get("Domain"))
         choose_menu(menu="统一直连终端配置")
 
         # 切到统一直连终端配置页面
@@ -52,11 +63,9 @@ class Terminal(object):
         if query.__contains__("终端类型"):
             terminal_type = query.get("终端类型")
             self.browser.find_element(By.XPATH, "//*[@id='loginMode']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'loginMode') and text()='{}']".format(terminal_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
-            log.info("终端类型选择: {}".format(terminal_type))
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(terminal_type)).click()
+            log.info("设置终端类型: {}".format(terminal_type))
 
         # 终端IP
         if query.__contains__("终端IP"):
@@ -86,7 +95,7 @@ class Terminal(object):
                 raise KeyError("条件不足，无法选择数据")
 
     def add(self, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return, terminal_ip,
-            terminal_port, remark, login_cmd):
+            terminal_port, remark, login_cmd, search_if_exist=True):
         """
         :param terminal_name: 终端名称
         :param terminal_type: 终端类型
@@ -98,36 +107,45 @@ class Terminal(object):
         :param terminal_port: 终端端口
         :param remark: 用途
         :param login_cmd: 登录指令
+        :param search_if_exist: 搜索是否存在，存在则修改
         """
-        self.search(query={"终端名称": terminal_name}, need_choose=False)
-        page_wait()
-        sleep(1)
-        try:
-            self.browser.find_element(
-                By.XPATH, "//*[@field='terminal_name']//*[text()='{0}']".format(terminal_name))
-            log.info("终端【{}】已存在，开始修改".format(terminal_name))
-            self.update(terminal=terminal_name, terminal_name=terminal_name, terminal_type=terminal_type,
-                        account_temp=account_temp, charset=charset, expect_return=expect_return, fail_return=fail_return,
-                        terminal_ip=terminal_ip, terminal_port=terminal_port, remark=remark, login_cmd=login_cmd)
-        except NoSuchElementException:
-            log.info("终端【{}】不存在，开始添加".format(terminal_name))
-            self.browser.find_element(By.XPATH, "//*[@id='addBtn']").click()
-            self.browser.switch_to.frame(
-                self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html?type=add')]"))
+        search_if_exist = True if search_if_exist == "是" else False
+        if search_if_exist:
+            self.search(query={"终端名称": terminal_name}, need_choose=False)
+            page_wait()
             sleep(1)
-            self.terminal_page(terminal_name=terminal_name, terminal_type=terminal_type, account_temp=account_temp,
-                               charset=charset, expect_return=expect_return, fail_return=fail_return,
-                               terminal_ip=terminal_ip, terminal_port=terminal_port, remark=remark, login_cmd=login_cmd)
+            try:
+                # 尝试找到一条记录并点击，点击为了修改时使用
+                self.browser.find_element(
+                    By.XPATH, "//*[@field='customName']//*[text()='{0}']".format(terminal_name)).click()
+                log.info("统一直连终端【{}】已存在，开始修改".format(terminal_name))
+                self.update(terminal=None, terminal_name=terminal_name, terminal_type=terminal_type,
+                            account_temp=account_temp, charset=charset, expect_return=expect_return,
+                            fail_return=fail_return, terminal_ip=terminal_ip, terminal_port=terminal_port,
+                            remark=remark, login_cmd=login_cmd)
+                return
+            except NoSuchElementException:
+                log.info("统一直连终端不存在")
 
-            # 提交
-            self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
-            alert = BeAlertBox(back_iframe="default")
-            msg = alert.get_msg()
-            if alert.title_contains("保存成功"):
-                log.info("保存配置成功")
-            else:
-                log.warning("保存配置失败，失败提示: {0}".format(msg))
-            gbl.temp.set("ResultMsg", msg)
+        log.info("开始添加统一直连终端")
+        self.browser.find_element(By.XPATH, "//*[@id='addBtn']").click()
+        self.browser.switch_to.frame(
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html')]"))
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='customName']/preceding-sibling::input")))
+        self.terminal_page(terminal_name=terminal_name, terminal_type=terminal_type, account_temp=account_temp,
+                           charset=charset, expect_return=expect_return, fail_return=fail_return,
+                           terminal_ip=terminal_ip, terminal_port=terminal_port, remark=remark, login_cmd=login_cmd)
+
+        # 提交
+        self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
+        alert = BeAlertBox(back_iframe="default")
+        msg = alert.get_msg()
+        if alert.title_contains("保存成功"):
+            log.info("保存配置成功")
+        else:
+            log.warning("保存配置失败，失败提示: {0}".format(msg))
+        gbl.temp.set("ResultMsg", msg)
 
     def update(self, terminal, terminal_name, terminal_type, account_temp, charset, expect_return, fail_return,
                terminal_ip, terminal_port, remark, login_cmd):
@@ -144,21 +162,28 @@ class Terminal(object):
         :param remark: 用途
         :param login_cmd: 登录指令
         """
-        self.search(query={"终端名称": terminal}, need_choose=True)
+        if terminal:
+            self.search(query={"终端名称": terminal}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
-        alert = BeAlertBox(back_iframe=False, timeout=1)
-        exist = alert.exist_alert
-        if exist:
+        alert = BeAlertBox(back_iframe="default", timeout=1)
+        if alert.exist_alert:
             msg = alert.get_msg()
             gbl.temp.set("ResultMsg", msg)
         else:
+            # 切到网元管理页面iframe
+            wait = WebDriverWait(self.browser, 120)
+            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+            # 切到统一直连终端配置页面iframe
+            wait = WebDriverWait(self.browser, 30)
+            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                By.XPATH, "//*[contains(@src,'/html/nu/midJumpCustomCfgInfo.html')]")))
             # 切换到修改终端页面iframe
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.frame_to_be_available_and_switch_to_it((
-                By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html?type=edit')]")))
-            sleep(1)
+                By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html')]")))
             wait = WebDriverWait(self.browser, 30)
-            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='accountTempName']/preceding-sibling::input")))
+            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='customName']/preceding-sibling::input")))
             self.terminal_page(terminal_name=terminal_name, terminal_type=terminal_type, account_temp=account_temp,
                                charset=charset, expect_return=expect_return, fail_return=fail_return,
                                terminal_ip=terminal_ip, terminal_port=terminal_port, remark=remark, login_cmd=login_cmd)
@@ -186,6 +211,26 @@ class Terminal(object):
         :param terminal_port: 终端端口
         :param remark: 用途
         :param login_cmd: 登录指令
+
+        登录指令
+        [
+            {
+                "操作类型": "删除"
+            },
+            {
+                "操作类型": "添加",
+                "指令信息": ""
+            },
+            {
+                "操作类型": "修改",
+                "登录指令名称": "",
+                "指令信息": ""
+            },
+            {
+                "操作类型": "删除",
+                "登录指令名称": ""
+            }
+        ]
         """
         # 终端名称
         if terminal_name:
@@ -197,31 +242,22 @@ class Terminal(object):
         # 终端类型
         if terminal_type:
             self.browser.find_element(By.XPATH, "//*[@id='loginMode']/following-sibling::span//a").click()
-            sleep(1)
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'loginMode') and text()='{}']".format(terminal_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(terminal_type)).click()
             log.info("设置终端类型: {}".format(terminal_type))
 
         # 账号名称
         if account_temp:
             self.browser.find_element(By.XPATH, "//*[@id='accountTempId']/following-sibling::span//a").click()
-            sleep(1)
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'accountTempId') and text()='{}']".format(account_temp))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(account_temp)).click()
             log.info("设置账号名称: {}".format(account_temp))
 
         # 字符集
         if charset:
             self.browser.find_element(By.XPATH, "//*[@id='charset']/following-sibling::span//a").click()
-            sleep(1)
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'charset') and text()='{}']".format(charset))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(charset)).click()
             log.info("设置字符集: {}".format(charset))
 
         # 期待返回符
@@ -255,40 +291,115 @@ class Terminal(object):
         # 用途
         if remark:
             self.browser.find_element(By.XPATH, "//*[@id='remark']/following-sibling::span[1]/input[1]").clear()
-            self.browser.find_element(By.XPATH, "//*[@id='remark']/following-sibling::span[1]/input[1]").send_keys(remark)
+            self.browser.find_element(
+                By.XPATH, "//*[@id='remark']/following-sibling::span[1]/input[1]").send_keys(remark)
             log.info("设置用途: {}".format(remark))
 
         # 登录指令
         if login_cmd:
-            login_cmd_field = "//*[@id='cmdInfo_tool']/following-sibling::div[1]"
-            row_num = 1
-
-            for lc in login_cmd:
-                try:
-                    row_ele = self.browser.find_element(
-                        By.XPATH, login_cmd_field + "//*[contains(@class,'rownumber') and text()='{}']".format(row_num))
-                    # 如果已存在，则单击修改
-                    action = ActionChains(self.browser)
-                    action.move_to_element(row_ele).click().perform()
-                    sleep(1)
-                except NoSuchElementException:
-                    # 如果不存在，则点击添加按钮
+            for cmd in login_cmd:
+                opt_type = cmd.get("操作类型")
+                obj_cmd = cmd.get("登录指令名称")
+                cmd_info = cmd.get("指令信息")
+                if opt_type == "添加":
                     self.browser.find_element(By.XPATH, "//*[@onclick='appendCmd()']").click()
-                finally:
-                    self.browser.find_element(By.XPATH, login_cmd_field + "/div[2]/div[2]//tr[{}]//a".format(row_num)).click()
-                    account_list = self.browser.find_element(
-                        By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(lc))
-                    action = ActionChains(self.browser)
-                    action.move_to_element(account_list).click().perform()
-                    log.info("设置登录指令名称: {}".format(lc))
-                    row_num += 1
+                    self.browser.find_element(
+                        By.XPATH, "//*[contains(@class,'selected')]/*[@field='cmdTempId']//a").click()
+                    panel_xpath = getPanelXpath()
+                    self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(cmd_info)).click()
+                    log.info("设置登录指令名称: {}".format(cmd_info))
 
-    def test_terminal(self, terminal_name):
+                elif opt_type == "修改":
+                    self.browser.find_element(
+                        By.XPATH, "//*[@field='command']//*[@data-mtips='{}']".format(obj_cmd)).click()
+                    self.browser.find_element(
+                        By.XPATH, "//*[contains(@class,'selected')]/*[@field='cmdTempId']//a").click()
+                    panel_xpath = getPanelXpath()
+                    self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(cmd_info)).click()
+                    log.info("设置登录指令名称: {}".format(cmd_info))
+
+                elif opt_type == "删除":
+                    if obj_cmd:
+                        self.browser.find_element(
+                            By.XPATH, "//*[@field='command']//*[@data-mtips='{}']".format(obj_cmd)).click()
+                        self.browser.find_element(By.XPATH, "//*[@onclick='deleteCmdRow()']").click()
+                        alert = BeAlertBox(back_iframe="default")
+                        msg = alert.get_msg()
+                        if alert.title_contains("您确定需要删除{}吗".format(obj_cmd), auto_click_ok=False):
+                            alert.click_ok()
+                            # 切换到网元管理菜单iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                            # 切换到统一直连终端页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpCustomCfgInfo.html')]")))
+                            # 切换到统一直连终端编辑页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html')]")))
+                        else:
+                            log.warning("删除指令失败，失败提示: {0}".format(msg))
+                        gbl.temp.set("ResultMsg", msg)
+
+                    else:  # 不指定指令内容，则删除所有指令
+                        record_element = self.browser.find_elements(
+                            By.XPATH,
+                            "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='cmdTempId']")
+                        if len(record_element) == 0:
+                            log.info("当前不存在指令需要删除")
+                            exist_data = False
+                        else:
+                            exist_data = True
+                        while exist_data:
+                            pe = record_element[0]
+                            search_result = pe.text
+                            pe.click()
+                            log.info("选择: {0}".format(search_result))
+                            self.browser.find_element(By.XPATH, "//*[@onclick='deleteCmdRow()']").click()
+                            alert = BeAlertBox(back_iframe="default")
+                            msg = alert.get_msg()
+                            if alert.title_contains("您确定需要删除{}吗".format(search_result), auto_click_ok=False):
+                                alert.click_ok()
+                                page_wait()
+                                # 切换到网元管理菜单iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                                # 切换到统一直连终端页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpCustomCfgInfo.html')]")))
+                                # 切换到统一直连终端编辑页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'midJumpCustomCfgInfoEdit.html')]")))
+                                # 重新获取页面查询结果
+                                record_element = self.browser.find_elements(
+                                    By.XPATH,
+                                    "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='cmdTempId']")
+                                if len(record_element) == 0:
+                                    log.info("指令清理完成")
+                                    exist_data = False
+                            else:
+                                log.warning("删除指令失败，失败提示: {0}".format(msg))
+                                gbl.temp.set("ResultMsg", msg)
+                                break
+
+                else:
+                    raise KeyError("不支持的操作类型: {}".format(opt_type))
+
+    def test_terminal(self, query):
         """
         测试选中终端
-        :param terminal_name: 终端名称
+        :param query: 查询条件
         """
-        self.search(query={"终端名称": terminal_name}, need_choose=True)
+        self.search(query=query, need_choose=True)
+        if query.__contains__("终端名称"):
+            terminal_name = query.get("终端名称")
+        else:
+            raise KeyError("查询条件需要指明【终端名称】")
         self.browser.find_element(By.XPATH, "//*[@id='testSelectedBtn']").click()
         alert = BeAlertBox(back_iframe="default", timeout=1)
         msg = alert.get_msg()
@@ -301,10 +412,8 @@ class Terminal(object):
                 log.info("启动终端【{}】测试成功".format(terminal_name))
             else:
                 log.warning("启动终端【{0}】测试失败，失败提示: {1}".format(terminal_name, msg))
-                alert.click_ok()
         else:
             log.warning("启动终端【{0}】测试失败，失败提示: {1}".format(terminal_name, msg))
-            alert.click_ok()
         gbl.temp.set("ResultMsg", msg)
 
     def test_all_terminal(self, query):
@@ -326,8 +435,6 @@ class Terminal(object):
                 log.info("启动部分终端测试成功")
             else:
                 log.warning("启动部分终端测试失败，失败提示: {}".format(msg))
-                alert.click_ok()
         else:
             log.warning("启动部分终端测试失败，失败提示: {}".format(msg))
-            alert.click_ok()
         gbl.temp.set("ResultMsg", msg)

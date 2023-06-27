@@ -2,6 +2,7 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午6:31
 
+import os
 from selenium.webdriver.common.by import By
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
@@ -9,7 +10,7 @@ from src.main.python.lib.globals import gbl
 
 def upload(file_name, catalog=None, input_id='filebox_file_id_2'):
     browser = gbl.service.get("browser")
-    uploadPath = gbl.service.get("ProjectPath") + '/src/main/resources/upload/'
+    uploadPath = os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + '/resources/upload/'
     if not uploadPath.endswith("/"):
         uploadPath += "/"
     if catalog:

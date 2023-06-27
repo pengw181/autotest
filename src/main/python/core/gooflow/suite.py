@@ -10,7 +10,8 @@ from src.main.python.lib.globals import gbl
 
 def createSuite():
     # 设置测试用例目录
-    case_dir = gbl.service.get("ProjectPath") + '/src/main/testcase/' + gbl.service.get("application")
+    case_dir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__)))) + "/testcase/" + gbl.service.get("application")
     if not os.path.exists(case_dir):
         os.makedirs(case_dir)
 

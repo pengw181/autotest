@@ -21,9 +21,9 @@ class UserManager(unittest.TestCase):
     def test_1_user_clear(self):
         u"""用户数据清理，删除历史数据"""
         action = {
-            "操作": "ClearUser",
+            "操作": "UserDataClear",
             "参数": {
-                "用户名称": "自动化测试",
+                "登录账号": "auto",
                 "模糊匹配": "是"
             }
         }
@@ -142,7 +142,7 @@ class UserManager(unittest.TestCase):
         action = {
             "操作": "DeleteUser",
             "参数": {
-                "用户": "autom"
+                "登录账号": "autom"
             }
         }
         msg = "用户启用时禁止删除"
@@ -156,7 +156,7 @@ class UserManager(unittest.TestCase):
         action = {
             "操作": "UpdateUser",
             "参数": {
-                "用户": "autom",
+                "登录账号": "autom",
                 "修改内容": {
                     "启用状态": "禁用"
                 }
@@ -173,7 +173,7 @@ class UserManager(unittest.TestCase):
         action = {
             "操作": "DeleteUser",
             "参数": {
-                "用户": "autom"
+                "登录账号": "autom"
             }
         }
         msg = "用户信息删除成功"
@@ -227,6 +227,240 @@ class UserManager(unittest.TestCase):
             }
         }
         msg = "用户信息保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_11_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元数据，移除全部"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "数据类型": "网元数据"
+                },
+                "分配类型": "移除全部"
+            }
+        }
+        msg = "移除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_12_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，移除全部"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "数据类型": "网元类型数据"
+                },
+                "分配类型": "移除全部"
+            }
+        }
+        msg = "移除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_13_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元数据，分配所选"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "auto_",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元数据"
+                },
+                "数据信息": [
+                    "auto_TURK_TKea1",
+                    "auto_TURK_TKea2",
+                    "auto_TURK_TKea3"
+                ],
+                "分配类型": "分配所选"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_14_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元数据，分配全部"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "auto_",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元数据"
+                },
+                "分配类型": "分配全部"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_15_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，分配所选"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元类型数据"
+                },
+                "数据信息": [
+                    "AUTO",
+                    "POP"
+                ],
+                "分配类型": "分配所选"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_16_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，分配全部"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元类型数据"
+                },
+                "分配类型": "分配全部"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_17_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元数据，移除所选"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "auto_",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元数据"
+                },
+                "数据信息": [
+                    "auto_TURK_TKea1",
+                    "auto_TURK_TKea2",
+                    "auto_TURK_TKea3"
+                ],
+                "分配类型": "移除所选"
+            }
+        }
+        msg = "移除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_18_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，移除所选"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元类型数据"
+                },
+                "数据信息": [
+                    "AUTO",
+                    "POP"
+                ],
+                "分配类型": "移除所选"
+            }
+        }
+        msg = "移除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_19_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，分配所选"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "autom1",
+                "查询条件": {
+                    "名称": "",
+                    "厂家": "图科",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元类型数据"
+                },
+                "数据信息": [
+                    "AUTO",
+                    "POP"
+                ],
+                "分配类型": "分配所选"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_20_data_permission_assign(self):
+        u"""用户管理，数据权限分配，网元类型数据，分配全部"""
+        action = {
+            "操作": "AssignDataPermissions",
+            "参数": {
+                "登录账号": "${LoginUser}",
+                "查询条件": {
+                    "名称": "",
+                    "厂家": "",
+                    "归属": "${Belong}",
+                    "领域": "${DomainID}",
+                    "数据类型": "网元类型数据"
+                },
+                "分配类型": "分配全部"
+            }
+        }
+        msg = "分配成功"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

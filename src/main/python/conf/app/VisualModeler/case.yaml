@@ -1,0 +1,108 @@
+path:
+  - /commonInfo
+  - /cmd
+  - /edata
+  - /process
+  - /personal
+  - /task
+  - /workflow
+
+case:
+  commonInfo:
+    - test_template.py
+    - test_proxy.py
+    - test_field.py
+    - test_database.py
+    - test_script.py
+    - test_email.py
+    - test_ftp.py
+    - test_file.py
+    - test_system.py
+    - test_interface.py
+    - test_ai.py
+    - test_db_table_mysql.py
+    - test_db_table_oracle.py
+    - test_db_table_postgres.py
+    - test_db_table_oushu.py
+
+  cmd:
+    - test_regex.py
+    - test_rulerX.py
+    - test_cmd.py
+    - test_cmdTpl.py
+
+  edata:
+    - test_edata.py
+
+  process:
+    - test_node_common_part1.py
+    - test_node_common_part2.py
+    - test_node_common_part3.py
+    - test_node_common_part4.py
+    - test_node_cmd.py
+    - test_node_cmdTpl.py
+    - test_node_edata.py
+    - test_node_file.py
+    - test_node_script.py
+    - test_node_sql_part1.py
+    - test_node_sql_part2.py
+    - test_node_crawler_part1.py
+    - test_node_crawler_part2.py
+    - test_node_crawler_part3.py
+    - test_node_crawler_part4.py
+    - test_node_crawler_part5.py
+    - test_node_info.py
+    - test_node_handle.py
+    - test_node_email.py
+    - test_node_interface.py
+    - test_node_report.py
+    - test_node_ocr.py
+    - test_node_ai.py
+    - test_process.py
+    - test_process_copy.py
+
+  workflow:
+    - test_workflow_all_part1.py
+    - test_workflow_all_part2.py
+    - test_workflow_all_part3.py
+    - test_workflow_all_part4.py
+    - test_workflow_cmd_normal.py
+    - test_workflow_cmd_io.py
+    - test_workflow_cmd_netype.py
+    - test_workflow_cmd_check.py
+    - test_workflow_cmdTpl_check.py
+    - test_workflow_cmdTpl_normal.py
+    - test_workflow_crawler_data.py
+    - test_workflow_crawler_download.py
+    - test_workflow_crawler_upload.py
+    - test_workflow_data_handle.py
+    - test_workflow_email_send.py
+    - test_workflow_email_receive.py
+    - test_workflow_file_storage.py
+    - test_workflow_file_copy.py
+    - test_workflow_file_load.py
+    - test_workflow_info_show.py
+    - test_workflow_info_alarm.py
+    - test_workflow_script_call.py
+    - test_workflow_interface_webservice.py
+    - test_workflow_interface_restful.py
+    - test_workflow_interface_soap.py
+    - test_workflow_report_link.py
+    - test_workflow_report_dashboard.py
+    - test_workflow_ai_prediction.py
+    - test_workflow_ocr_identify.py
+    - test_workflow_logic.py
+    - test_workflow_calculate.py
+    - test_workflow_function.py
+    - test_workflow_sql_advance_part1.py
+    - test_workflow_sql_advance_part2.py
+    - test_workflow_sql_advance_oushu.py
+    - test_workflow_sql_config_part1.py
+    - test_workflow_sql_config_part2.py
+    - test_workflow_sql_permission.py
+
+  personal:
+    - test_monitor.py
+
+  task:
+    - test_task.py

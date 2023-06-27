@@ -31,7 +31,7 @@ class Configuration:
         self.load_mongo()
         self.load_login()
         self.load_schema()
-        self.load_case()
+        # self.load_case()
 
     def load_properties(self, file_content):
         self.properties = Properties().get_properties(file_content)
@@ -56,7 +56,8 @@ class Configuration:
         self.schema = IniConfig(conf_dir).get_config()
 
     def load_case(self):
-        with open(os.path.dirname(os.path.abspath(__file__)) + "/case.yaml", 'r') as f:
+        application = self.properties.get('application')
+        with open(os.path.dirname(os.path.abspath(__file__)) + "/app/{}/case.yaml".format(application), 'r') as f:
             first_line = True
             file_content = ""
             for line in f.readlines():
@@ -163,6 +164,9 @@ def global_config(config_dict=None):
                     file_content = file_content + line
             configs.load_yaml(file_content)
 
+    # 加载case文件
+    configs.load_case()
+
     # properties配置文件
     for key, value in configs.properties.items():
         gbl.service.set(key, value)
@@ -187,11 +191,11 @@ def global_config(config_dict=None):
     for key, value in configs.case.items():
         gbl.case.set(key, value)
 
-    # 项目绝对路径
-    cur_path = os.path.abspath(os.path.dirname(__file__))
-    project_name = gbl.service.get("projectName")
-    project_path = cur_path[:cur_path.find(project_name) + len(project_name)]
-    gbl.service.set('ProjectPath', project_path)
+    # # 项目绝对路径
+    # cur_path = os.path.abspath(os.path.dirname(__file__))
+    # project_name = gbl.service.get("projectName")
+    # project_path = cur_path[:cur_path.find(project_name) + len(project_name)]
+    # gbl.service.set('ProjectPath', project_path)
 
     # yaml配置文件
     gbl.service.set('ControllerPath', configs.service.get('controller').get("path"))
@@ -215,6 +219,3 @@ def global_config(config_dict=None):
 
     for i in range(len(configs.service.get('netunit'))):
         gbl.service.set('NetunitMME{}'.format(i+1), configs.service.get('netunit')[i])
-    # gbl.service.set('NetunitMME1', configs.service.get('netunit')[0])
-    # gbl.service.set('NetunitMME2', configs.service.get('netunit')[1])
-    # gbl.service.set('NetunitMME3', configs.service.get('netunit')[2])

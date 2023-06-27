@@ -2,12 +2,13 @@
 # @Author: peng wei
 # @Time: 2022/5/11 下午9:38
 
+import os
 from src.main.python.lib.logger import log
-from src.main.python.lib.globals import gbl
 
 
 def load_dictionary(dictionary_file_name):
-    file_path = gbl.service.get("ProjectPath") + '/src/main/resources/dictionary/' + dictionary_file_name
+    file_path = os.path.dirname(
+        os.path.dirname(os.path.dirname(__file__))) + '/resources/dictionary/' + dictionary_file_name
     log.info("从{}加载字典数据".format(file_path))
     content = []
     with open(file_path, 'r') as f:

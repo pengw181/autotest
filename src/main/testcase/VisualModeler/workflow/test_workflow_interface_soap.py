@@ -234,7 +234,7 @@ class InterfaceNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_10_process_node_fetch_conf(self):
-        u"""节点添加取数配置，返回内容为xml，取完整内容"""
+        u"""节点添加取数配置，返回内容为xml，解析xml"""
         action = {
             "操作": "NodeFetchConf",
             "参数": {
@@ -244,7 +244,7 @@ class InterfaceNode(unittest.TestCase):
                 "取数配置": {
                     "操作": "添加",
                     "变量名称": "soap接口返回",
-                    "表达式": "$",
+                    "表达式": "//soapenv:Body/sam:loginResponse/sessionid",
                     "赋值方式": "替换"
                 }
             }

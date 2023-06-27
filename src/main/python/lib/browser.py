@@ -12,7 +12,10 @@ from src.main.python.lib.logger import log
 def initBrowser(chrome_driver_path, download_path=None, background=True):
     log.info("开始初始化浏览器.")
     options = webdriver.ChromeOptions()
-    prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': download_path}
+    prefs = {'profile.default_content_settings.popups': 0,
+             'download.default_directory': download_path,
+             'credentials_enable_service': False,       # 防弹窗保存密码
+             'profile.password_manager_enabled': False}      # 防弹窗保存密码
     options.add_experimental_option('prefs', prefs)
     options.add_experimental_option('useAutomationExtension', False)
     options.add_experimental_option('excludeSwitches', ['enable-automation'])

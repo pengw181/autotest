@@ -20,6 +20,9 @@ pyyaml = {version = "==6.0", index = "https://pypi.tuna.tsinghua.edu.cn/simple"}
 pandas = "*"
 flask = "*"
 pyautogui = "*"
+xlrd = "*"
+xlwt = "*"
+xlutils = "*"
 
 [requires]
 python_version = "3.9"

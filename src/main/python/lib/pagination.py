@@ -63,7 +63,7 @@ class Pagination:
                 By.XPATH, self.table_xpath + "//td[1]//option[text()='{0}']".format(size))))
             self.browser.find_element(By.XPATH, self.table_xpath + "//td[1]//option[text()='{0}']".format(size)).click()
             log.info("设置每页{0}条".format(size))
-            page_wait(10)
+            page_wait(5)
         except NoSuchElementException:
             option_pool = self.browser.find_elements(By.XPATH, self.table_xpath + "//td[1]/select/option")
             size_pool = []

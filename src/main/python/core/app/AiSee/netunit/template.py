@@ -11,6 +11,8 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.positionPanel import getPanelXpath
+from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.netunit.menu import choose_domain
 from src.main.python.core.app.AiSee.netunit.menu import choose_menu
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.logger import log
@@ -21,6 +23,14 @@ class Template(object):
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=gbl.service.get("Domain"))
         choose_menu(menu="统一网元配置")
 
         # 切到统一网元配置页面
@@ -53,11 +63,9 @@ class Template(object):
         if query.__contains__("网元类型"):
             level_type = query.get("网元类型")
             self.browser.find_element(By.XPATH, "//*[@id='levelType']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'levelType') and text()='{}']".format(level_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
-            log.info("网元类型选择: {}".format(level_type))
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(level_type)).click()
+            log.info("设置网元类型: {}".format(level_type))
 
         # 点击查询
         self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
@@ -79,20 +87,20 @@ class Template(object):
             else:
                 raise KeyError("条件不足，无法选择数据")
 
-    def add(self, template_name, netunit_type, login_type, remark, login_set):
+    def add(self, template_name, netunit_type, login_type, remark, login_step):
         """
         :param template_name: 模版名称
         :param netunit_type: 网元类型
         :param login_type: 登录模式
         :param remark: 用途说明
-        :param login_set: 登录配置
+        :param login_step: 登录配置
         """
         self.browser.find_element(By.XPATH, "//*[@id='addBtn']").click()
         self.browser.switch_to.frame(
-            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html?type=add')]"))
+            self.browser.find_element(By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html')]"))
         sleep(1)
         self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
-                           remark=remark, login_set=login_set)
+                           remark=remark, login_step=login_step)
 
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
@@ -105,14 +113,12 @@ class Template(object):
             alert.click_ok()
         gbl.temp.set("ResultMsg", msg)
 
-    def update(self, template, template_name, netunit_type, login_type, remark, login_set):
+    def update(self, template, template_name, remark, login_step):
         """
         :param template: 模版名称
         :param template_name: 模版名称
-        :param netunit_type: 网元类型
-        :param login_type: 登录模式
         :param remark: 用途说明
-        :param login_set: 登录配置
+        :param login_step: 登录配置
         """
         self.search(query={"模版名称": template}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='editBtn']").click()
@@ -124,12 +130,12 @@ class Template(object):
             # 切换iframe
             wait = WebDriverWait(self.browser, 30)
             wait.until(ec.frame_to_be_available_and_switch_to_it((
-                By.XPATH, "//iframe[contains(@src,'netunitInfoEdit.html?type=edit')]")))
+                By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html')]")))
             sleep(1)
             wait = WebDriverWait(self.browser, 30)
-            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='ip']/preceding-sibling::input")))
-            self.template_page(template_name=template_name, netunit_type=netunit_type, login_type=login_type,
-                               remark=remark, login_set=login_set)
+            wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='tempName']/preceding-sibling::input")))
+            self.template_page(template_name=template_name, netunit_type=None, login_type=None, remark=remark,
+                               login_step=login_step)
 
             # 提交
             self.browser.find_element(By.XPATH, "//*[@id='saveBtn']").click()
@@ -142,13 +148,33 @@ class Template(object):
                 alert.click_ok()
             gbl.temp.set("ResultMsg", msg)
 
-    def template_page(self, template_name, netunit_type, login_type, remark, login_set):
+    def template_page(self, template_name, netunit_type, login_type, remark, login_step):
         """
         :param template_name: 模版名称
         :param netunit_type: 网元类型
         :param login_type: 登录模式
         :param remark: 用途说明
-        :param login_set: 登录配置
+        :param login_step: 登录配置
+
+        登录配置
+        [
+            {
+                "操作类型": "删除"
+            },
+            {
+                "操作类型": "添加",
+                "步骤信息": ""
+            },
+            {
+                "操作类型": "修改",
+                "登录步骤": "",
+                "步骤信息": ""
+            },
+            {
+                "操作类型": "删除",
+                "登录步骤": ""
+            }
+        ]
         """
         # 模版名称
         if template_name:
@@ -160,21 +186,15 @@ class Template(object):
         # 网元类型
         if netunit_type:
             self.browser.find_element(By.XPATH, "//*[@id='levelId']/following-sibling::span//a").click()
-            sleep(1)
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'levelId') and text()='{}']".format(netunit_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(netunit_type)).click()
             log.info("设置网元类型: {}".format(netunit_type))
 
         # 登录模式
         if login_type:
             self.browser.find_element(By.XPATH, "//*[@id='loginTypeId']/following-sibling::span//a").click()
-            sleep(1)
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'loginTypeId') and text()='{}']".format(login_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(login_type)).click()
             log.info("设置登录模式: {}".format(login_type))
 
         # 用途说明
@@ -184,32 +204,99 @@ class Template(object):
             log.info("设置用途说明: {}".format(remark))
 
         # 登录配置
-        if login_set:
-            login_cmd_field = "//*[@id='tb']/following-sibling::div[1]"
-            row_num = 1
-
-            for ls in login_set:
-                try:
-                    row_ele = self.browser.find_element(
-                        By.XPATH, login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
-                            row_num))
-                    # 如果已存在，则单击修改
-                    action = ActionChains(self.browser)
-                    action.move_to_element(row_ele).click().perform()
-                    sleep(1)
-                except NoSuchElementException:
-                    # 如果不存在，则点击添加按钮
-                    self.browser.find_element(By.XPATH, "//*[@onclick='appendCmd()']").click()
-                finally:
+        if login_step:
+            for step in login_step:
+                opt_type = step.get("操作类型")
+                obj_step = step.get("登录步骤")
+                step_info = step.get("步骤信息")
+                if opt_type == "添加":
+                    self.browser.find_element(By.XPATH, "//*[@onclick='appendRow()']").click()
                     self.browser.find_element(
-                        By.XPATH, login_cmd_field + "/div[2]/div[2]//tr[{}]/*[@field='customId']//input[contains(@id,'textbox')]".format(
-                            row_num)).click()
-                    jump_step_list = self.browser.find_element(
-                        By.XPATH, "//*[contains(@id,'_easyui_combobox_') and text()='{}']".format(ls))
-                    action = ActionChains(self.browser)
-                    action.move_to_element(jump_step_list).click().perform()
-                    log.info("设置登录指令名称: {}".format(ls))
-                    row_num += 1
+                        By.XPATH, "//*[contains(@class,'selected')]/*[@field='customId']//a").click()
+                    panel_xpath = getPanelXpath()
+                    self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(step_info)).click()
+                    log.info("设置登录步骤: {}".format(step_info))
+
+                elif opt_type == "修改":
+                    self.browser.find_element(
+                        By.XPATH, "//*[@field='customId']//*[text()='{}']".format(obj_step)).click()
+                    self.browser.find_element(
+                        By.XPATH, "//*[contains(@class,'selected')]/*[@field='customId']//a").click()
+                    panel_xpath = getPanelXpath()
+                    self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(step_info)).click()
+                    log.info("设置登录步骤: {}".format(step_info))
+
+                elif opt_type == "删除":
+                    if obj_step:
+                        self.browser.find_element(
+                            By.XPATH, "//*[@field='customId']//*[text()='{}']".format(obj_step)).click()
+                        self.browser.find_element(By.XPATH, "//*[@onclick='deleteRow()']").click()
+                        alert = BeAlertBox(back_iframe="default")
+                        msg = alert.get_msg()
+                        if alert.title_contains("您确定需要删除{}吗".format(obj_step), auto_click_ok=False):
+                            alert.click_ok()
+                            # 切换到网元管理菜单iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                            # 切换到统一网元配置页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpBatchCfgInfo.html')]")))
+                            # 切换到统一网元配置编辑页面iframe
+                            wait = WebDriverWait(self.browser, 30)
+                            wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html')]")))
+                        else:
+                            log.warning("删除步骤失败，失败提示: {0}".format(msg))
+                        gbl.temp.set("ResultMsg", msg)
+
+                    else:  # 不指定步骤名称，则删除所有步骤
+                        record_element = self.browser.find_elements(
+                            By.XPATH,
+                            "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='customId']")
+                        if len(record_element) == 0:
+                            log.info("当前不存在登录步骤需要删除")
+                            exist_data = False
+                        else:
+                            exist_data = True
+                        while exist_data:
+                            pe = record_element[0]
+                            search_result = pe.text
+                            pe.click()
+                            log.info("选择: {0}".format(search_result))
+                            self.browser.find_element(By.XPATH, "//*[@onclick='deleteRow()']").click()
+                            alert = BeAlertBox(back_iframe="default")
+                            msg = alert.get_msg()
+                            if alert.title_contains("您确定需要删除{}吗".format(search_result), auto_click_ok=False):
+                                alert.click_ok()
+                                page_wait()
+                                # 切换到网元管理菜单iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                                # 切换到统一网元配置页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpBatchCfgInfo.html')]")))
+                                # 切换到统一网元配置编辑页面iframe
+                                wait = WebDriverWait(self.browser, 30)
+                                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                                    By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoEdit.html')]")))
+                                # 重新获取页面查询结果
+                                record_element = self.browser.find_elements(
+                                    By.XPATH,
+                                    "//*[contains(@id,'dg') and not(contains(@style,'transparent'))]//*[@field='customId']")
+                                if len(record_element) == 0:
+                                    log.info("登录步骤清理完成")
+                                    exist_data = False
+                            else:
+                                log.warning("删除登录步骤失败，失败提示: {0}".format(msg))
+                                gbl.temp.set("ResultMsg", msg)
+                                break
+
+                else:
+                    raise KeyError("不支持的操作类型: {}".format(opt_type))
 
     def delete(self, template_name):
         """
@@ -232,6 +319,68 @@ class Template(object):
             log.warning("{0} 删除失败，失败提示: {1}".format(template_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
+    def data_clear(self, template_name, fuzzy_match=False):
+        """
+        :param template_name: 模版名称
+        :param fuzzy_match: 是否模糊匹配
+        """
+        # 用于清除数据，在测试之前执行, 使用关键字开头模糊查询
+        self.search(query={"模版名称": template_name}, need_choose=False)
+        fuzzy_match = True if fuzzy_match == "是" else False
+        if fuzzy_match:
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@field='tempName']//*[starts-with(@data-mtips,'{0}')]".format(template_name))
+        else:
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@field='tempName']//*[@data-mtips='{0}']".format(template_name))
+        if len(record_element) == 0:
+            # 查询结果为空,结束处理
+            log.info("查询不到满足条件的数据，无需清理")
+            return
+
+        exist_data = True
+        while exist_data:
+            pe = record_element[0]
+            search_result = pe.text
+            pe.click()
+            log.info("选择: {0}".format(search_result))
+            # 删除
+            self.browser.find_element(By.XPATH, "//*[@id='deleteBtn']").click()
+            alert = BeAlertBox(back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要删除{0}吗".format(search_result), auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(back_iframe=False)
+                msg = alert.get_msg()
+                if alert.title_contains("成功"):
+                    log.info("{0} 删除成功".format(search_result))
+                    page_wait()
+                    if fuzzy_match:
+                        # 切换到网元管理菜单iframe
+                        wait = WebDriverWait(self.browser, 30)
+                        wait.until(ec.frame_to_be_available_and_switch_to_it((
+                            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+                        # 切换到统一网元配置页面iframe
+                        wait = WebDriverWait(self.browser, 30)
+                        wait.until(ec.frame_to_be_available_and_switch_to_it((
+                            By.XPATH, "//iframe[contains(@src,'../../html/nu/midJumpBatchCfgInfo.html')]")))
+                        # 重新获取页面查询结果
+                        record_element = self.browser.find_elements(
+                            By.XPATH, "//*[@field='tempName']//*[starts-with(@data-mtips,'{0}')]".format(template_name))
+                        if len(record_element) == 0:
+                            # 查询结果为空,修改exist_data为False，退出循环
+                            log.info("数据清理完成")
+                            exist_data = False
+                    else:
+                        break
+                else:
+                    raise Exception("删除数据时出现未知异常: {0}".format(msg))
+            else:
+                # 无权操作
+                log.warning("{0} 清理失败，失败提示: {1}".format(template_name, msg))
+                gbl.temp.set("ResultMsg", msg)
+                break
+
     def bind_netunit(self, template_name, netunit_name, vendor, model, to_assigned_list, to_unassigned_list, assign_type):
         """
         :param template_name: 模版名称
@@ -245,12 +394,13 @@ class Template(object):
         self.search(query={"模版名称": template_name}, need_choose=True)
         # 点击网元绑定
         self.browser.find_element(
-            By.XPATH, "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='网元绑定']".format(template_name)).click()
+            By.XPATH, "//*[@data-mtips='{}']/../../following-sibling::td[4]//a[text()='网元绑定']".format(
+                template_name)).click()
 
         # 切换到绑定网元页面iframe
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.frame_to_be_available_and_switch_to_it((
-            By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoNetunitQuote.html?type=edit')]")))
+            By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoNetunitQuote.html')]")))
         sleep(1)
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='netunitName']/preceding-sibling::input")))
@@ -394,17 +544,18 @@ class Template(object):
         # 切换到配置下发页面iframe
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.frame_to_be_available_and_switch_to_it((
-            By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoNetunitConfirm.html?type=edit')]")))
+            By.XPATH, "//iframe[contains(@src,'midJumpBatchCfgInfoNetunitConfirm.html')]")))
         sleep(1)
 
         # 点击确认下发
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='btn']")))
+        self.browser.find_element(By.XPATH, "//*[@id='btn']").click()
         # 下发过程需等待片刻
         page_wait(timeout=180)
         alert = BeAlertBox(back_iframe="default")
         msg = alert.get_msg()
-        if alert.title_contains("请到“登录配置确认”页面确认更改内容"):
+        if alert.title_contains('请到“登录配置确认”页面确认更改内容'):
             log.info("网元配置下发成功")
         else:
             log.warning("网元配置下发失败，失败提示: {}".format(msg))

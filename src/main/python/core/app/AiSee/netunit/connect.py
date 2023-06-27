@@ -4,13 +4,15 @@
 
 import json
 from time import sleep
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
-from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.netunit.menu import choose_domain
 from src.main.python.core.app.AiSee.netunit.menu import choose_menu
+from src.main.python.lib.pageMaskWait import page_wait
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.alertBox import BeAlertBox
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
@@ -20,6 +22,14 @@ class ConnectTest(object):
 
     def __init__(self):
         self.browser = gbl.service.get("browser")
+        AiSee().choose_menu_func(menu="网元管理")
+        wait = WebDriverWait(self.browser, 120)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/nu/netunitMgtIndex.html')]")))
+        page_wait()
+        sleep(1)
+
+        choose_domain(domain=gbl.service.get("Domain"))
         choose_menu(menu="网元连通性")
 
         # 切到网元连通性页面
@@ -43,10 +53,8 @@ class ConnectTest(object):
         if query.__contains__("数据来源"):
             reuse = query.get("数据来源")
             self.browser.find_element(By.XPATH, "//*[@id='reuse']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'reuse') and text()='{}']".format(reuse))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(reuse)).click()
             log.info("数据来源选择: {}".format(reuse))
 
         # 网元名称
@@ -62,20 +70,16 @@ class ConnectTest(object):
         if query.__contains__("网元类型"):
             level_type = query.get("网元类型")
             self.browser.find_element(By.XPATH, "//*[@id='levelType']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'levelType') and text()='{}']".format(level_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(level_type)).click()
             log.info("网元类型选择: {}".format(level_type))
 
         # 登录模式
         if query.__contains__("登录模式"):
             login_type = query.get("登录模式")
             self.browser.find_element(By.XPATH, "//*[@id='loginTypeId']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'loginTypeId') and text()='{}']".format(login_type))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(login_type)).click()
             log.info("登录模式选择: {}".format(login_type))
             select_item["登录模式"] = login_type
 
@@ -83,30 +87,24 @@ class ConnectTest(object):
         if query.__contains__("登录状态"):
             result = query.get("登录状态")
             self.browser.find_element(By.XPATH, "//*[@id='result']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'result') and text()='{}']".format(result))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(result)).click()
             log.info("登录状态选择: {}".format(result))
 
         # 生产厂家
         if query.__contains__("生产厂家"):
             vendor = query.get("生产厂家")
             self.browser.find_element(By.XPATH, "//*[@id='vendorId']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'vendorId') and text()='{}']".format(vendor))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(vendor)).click()
             log.info("生产厂家选择: {}".format(vendor))
 
         # 设备型号
         if query.__contains__("设备型号"):
             model = query.get("设备型号")
             self.browser.find_element(By.XPATH, "//*[@id='netunitModelId']/following-sibling::span//a").click()
-            type_list = self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'netunitModelId') and text()='{}']".format(model))
-            action = ActionChains(self.browser)
-            action.move_to_element(type_list).click().perform()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(model)).click()
             log.info("设备型号选择: {}".format(model))
 
         # 点击查询
@@ -127,7 +125,6 @@ class ConnectTest(object):
                         By.XPATH,
                         "//[@field='netunitName']//[@data-mtips='{}']/../../following-sibling::td[@field='loginTypeName']//*[text()='{}']".format(
                             netunit_name, login_type)).click()
-
                 except NoSuchElementException:
                     raise KeyError("未找到匹配数据")
                 log.info("选择: {0}".format(select_item))
@@ -165,6 +162,18 @@ class ConnectTest(object):
         # 测试选中网元
         :param query: 查询条件
         :param netunit_list: 网元列表
+
+        网元列表
+        [
+            {
+                "网元名称": "",
+                "登录模式": ""
+            },
+            {
+                "网元名称": "",
+                "登录模式": ""
+            }
+        ]
         """
         if netunit_list is None:
             log.warning("未指定网元列表，无法测试")
@@ -176,7 +185,7 @@ class ConnectTest(object):
             login_type = netunit_data.get("登录模式")
             self.browser.find_element(
                 By.XPATH,
-                "//[@field='netunitName']//[@data-mtips='{}']/../../following-sibling::td[@field='loginTypeName']//*[text()='{}']".format(
+                "//*[@field='netunitName']//*[@data-mtips='{}']/../../following-sibling::td[@field='loginTypeName']//*[text()='{}']".format(
                     netunit_name, login_type)).click()
             log.info("选择待测试网元: {0}, 登录模式: {1}".format(netunit_name, login_type))
         self.browser.find_element(By.XPATH, "//*[@id='testSelectedBtn']").click()

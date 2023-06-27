@@ -14,7 +14,7 @@ def main():
     global_config()
     initiation_work()
     suites = createSuite()
-    report_path = gbl.service.get("ProjectPath") + '/src/main/python/reports/output/'
+    report_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/reports/output/'
     if not os.path.exists(report_path):
         os.mkdir(report_path)
     # now = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
