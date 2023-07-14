@@ -23,7 +23,9 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "TaskDataClear",
             "参数": {
-                "任务名称": "auto_指令任务_",
+                "查询条件": {
+                    "任务名称": "auto_指令任务_"
+                },
                 "模糊匹配": "是"
             }
         }
@@ -41,7 +43,40 @@ class CmdTpl(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_3_cmdTpl_clear(self):
+    def test_3_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_流程_指令模版系统检查"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_4_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_流程_指令模版通用功能"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_5_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_全流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_5_cmdTpl_clear(self):
         u"""指令模版数据清理，删除历史数据"""
         action = {
             "操作": "CmdTplDataClear",
@@ -53,7 +88,7 @@ class CmdTpl(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_4_cmdTpl_add(self):
+    def test_6_cmdTpl_add(self):
         u"""添加指令模版，指令不带参数"""
         action = {
             "操作": "AddCmdTpl",
@@ -71,7 +106,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_5_cmdTpl_update(self):
+    def test_7_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -79,7 +114,7 @@ class CmdTpl(unittest.TestCase):
                 "模版名称": "auto_指令模板_date",
                 "修改内容": {
                     "模版网元绑定": {
-                        "网元名称": "MME",
+                        "网元名称": "auto_",
                         "网元分类": ["4G_MME"],
                         "厂家": "华为",
                         "设备型号": "ME60",
@@ -98,7 +133,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_6_cmdTpl_update(self):
+    def test_8_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -123,7 +158,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_7_cmdTpl_add(self):
+    def test_9_cmdTpl_add(self):
         u"""添加指令模版，指令带参数"""
         action = {
             "操作": "AddCmdTpl",
@@ -141,7 +176,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_8_cmdTpl_update(self):
+    def test_10_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -149,7 +184,7 @@ class CmdTpl(unittest.TestCase):
                 "模版名称": "auto_指令模板_指令带参数",
                 "修改内容": {
                     "模版网元绑定": {
-                        "网元名称": "MME",
+                        "网元名称": "auto_",
                         "网元分类": ["4G_MME"],
                         "厂家": "华为",
                         "设备型号": "ME60",
@@ -168,7 +203,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_9_cmdTpl_update(self):
+    def test_11_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -193,7 +228,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_10_cmdTpl_add(self):
+    def test_12_cmdTpl_add(self):
         u"""添加指令模版，组合指令"""
         action = {
             "操作": "AddCmdTpl",
@@ -211,7 +246,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_11_cmdTpl_update(self):
+    def test_13_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -219,7 +254,7 @@ class CmdTpl(unittest.TestCase):
                 "模版名称": "auto_指令模板_组合指令",
                 "修改内容": {
                     "模版网元绑定": {
-                        "网元名称": "MME",
+                        "网元名称": "auto_",
                         "网元分类": ["4G_MME"],
                         "厂家": "华为",
                         "设备型号": "ME60",
@@ -238,7 +273,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_12_cmdTpl_update(self):
+    def test_14_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -263,7 +298,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_13_cmdTpl_add(self):
+    def test_15_cmdTpl_add(self):
         u"""添加指令模版，多指令"""
         action = {
             "操作": "AddCmdTpl",
@@ -281,7 +316,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_14_cmdTpl_update(self):
+    def test_16_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -289,7 +324,7 @@ class CmdTpl(unittest.TestCase):
                 "模版名称": "auto_指令模板_多指令",
                 "修改内容": {
                     "模版网元绑定": {
-                        "网元名称": "MME",
+                        "网元名称": "auto_",
                         "网元分类": ["4G_MME"],
                         "厂家": "华为",
                         "设备型号": "ME60",
@@ -308,7 +343,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_15_cmdTpl_update(self):
+    def test_17_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -334,7 +369,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_16_cmdTpl_add(self):
+    def test_18_cmdTpl_add(self):
         u"""添加指令模版，按网元类型"""
         action = {
             "操作": "AddCmdTpl",
@@ -352,7 +387,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_17_cmdTpl_update_status(self):
+    def test_19_cmdTpl_update_status(self):
         u"""指令模版未绑定网元，启动指令模版"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -362,42 +397,6 @@ class CmdTpl(unittest.TestCase):
             }
         }
         msg = "启用指令模版成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_18_cmdTpl_update(self):
-        u"""修改指令模版，绑定网元"""
-        action = {
-            "操作": "UpdateCmdTpl",
-            "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
-                "修改内容": {
-                    "模版网元类型绑定": {
-                        "待分配网元类型": [
-                            "MME"
-                        ]
-                    }
-                }
-            }
-        }
-        msg = "修改模版前，请先禁用该模版"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_19_cmdTpl_update_status(self):
-        u"""禁用指令模版"""
-        action = {
-            "操作": "UpdateCmpTplStatus",
-            "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
-                "状态": "禁用"
-            }
-        }
-        msg = "禁用指令模版成功"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))
@@ -418,28 +417,13 @@ class CmdTpl(unittest.TestCase):
                 }
             }
         }
-        msg = "保存成功"
+        msg = "修改模版前，请先禁用该模版"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_21_cmdTpl_update_status(self):
-        u"""指令模版未绑定指令，启动指令模版"""
-        action = {
-            "操作": "UpdateCmpTplStatus",
-            "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
-                "状态": "启用"
-            }
-        }
-        msg = "启用指令模版成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_22_cmdTpl_update_status(self):
         u"""禁用指令模版"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -454,7 +438,58 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_23_cmdTpl_update(self):
+    def test_22_cmdTpl_update(self):
+        u"""修改指令模版，绑定网元"""
+        action = {
+            "操作": "UpdateCmdTpl",
+            "参数": {
+                "模版名称": "auto_指令模板_按网元类型",
+                "修改内容": {
+                    "模版网元类型绑定": {
+                        "待分配网元类型": [
+                            "MME"
+                        ]
+                    }
+                }
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_23_cmdTpl_update_status(self):
+        u"""指令模版未绑定指令，启动指令模版"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_按网元类型",
+                "状态": "启用"
+            }
+        }
+        msg = "启用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_24_cmdTpl_update_status(self):
+        u"""禁用指令模版"""
+        action = {
+            "操作": "UpdateCmpTplStatus",
+            "参数": {
+                "模版名称": "auto_指令模板_按网元类型",
+                "状态": "禁用"
+            }
+        }
+        msg = "禁用指令模版成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -479,7 +514,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_cmdTpl_update(self):
+    def test_26_cmdTpl_update(self):
         u"""修改指令模版，启用自动跟进策略"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -508,7 +543,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_cmdTpl_update(self):
+    def test_27_cmdTpl_update(self):
         u"""修改指令模版，修改自动跟进策略"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -534,7 +569,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_cmdTpl_update(self):
+    def test_28_cmdTpl_update(self):
         u"""修改指令模版，禁用自动跟进策略"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -553,7 +588,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_cmdTpl_update(self):
+    def test_29_cmdTpl_update(self):
         u"""修改指令模版，启用自动跟进策略"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -580,7 +615,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_cmdTpl_add(self):
+    def test_30_cmdTpl_add(self):
         u"""添加指令模版，磁盘利用率检查"""
         action = {
             "操作": "AddCmdTpl",
@@ -598,7 +633,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_cmdTpl_update(self):
+    def test_31_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -625,7 +660,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_cmdTpl_update(self):
+    def test_32_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -650,7 +685,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_cmdTpl_add(self):
+    def test_33_cmdTpl_add(self):
         u"""添加指令模版，查看Slab"""
         action = {
             "操作": "AddCmdTpl",
@@ -668,7 +703,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_cmdTpl_update(self):
+    def test_34_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -695,7 +730,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_cmdTpl_update(self):
+    def test_35_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -720,7 +755,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_34_cmdTpl_add(self):
+    def test_36_cmdTpl_add(self):
         u"""添加指令模版，内存利用率检查"""
         action = {
             "操作": "AddCmdTpl",
@@ -738,7 +773,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_35_cmdTpl_update(self):
+    def test_37_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -765,7 +800,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_36_cmdTpl_update(self):
+    def test_38_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -790,7 +825,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_37_cmdTpl_add(self):
+    def test_39_cmdTpl_add(self):
         u"""添加指令模版，服务器性能检测Top"""
         action = {
             "操作": "AddCmdTpl",
@@ -808,7 +843,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_38_cmdTpl_update(self):
+    def test_40_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -835,7 +870,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_39_cmdTpl_update(self):
+    def test_41_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -860,7 +895,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_40_cmdTpl_add(self):
+    def test_42_cmdTpl_add(self):
         u"""添加指令模版，服务器负载检查"""
         action = {
             "操作": "AddCmdTpl",
@@ -878,7 +913,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_41_cmdTpl_update(self):
+    def test_43_cmdTpl_update(self):
         u"""修改指令模版，绑定网元"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -905,7 +940,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_42_cmdTpl_update(self):
+    def test_44_cmdTpl_update(self):
         u"""修改指令模版，绑定指令"""
         action = {
             "操作": "UpdateCmdTpl",
@@ -930,7 +965,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_43_cmdTpl_update_status(self):
+    def test_45_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_date"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -945,7 +980,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_44_cmdTpl_update_status(self):
+    def test_46_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_指令带参数"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -960,7 +995,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_45_cmdTpl_update_status(self):
+    def test_47_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_组合指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -975,7 +1010,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_46_cmdTpl_update_status(self):
+    def test_48_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_多指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -990,7 +1025,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_47_cmdTpl_update_status(self):
+    def test_49_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_按网元类型"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -1005,7 +1040,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_48_cmdTpl_update_status(self):
+    def test_50_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_磁盘利用率检查"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -1020,7 +1055,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_49_cmdTpl_update_status(self):
+    def test_51_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_查看Slab"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -1035,7 +1070,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_50_cmdTpl_update_status(self):
+    def test_52_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_内存利用率检查"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -1050,7 +1085,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_51_cmdTpl_update_status(self):
+    def test_53_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_服务器性能检测Top"""
         action = {
             "操作": "UpdateCmpTplStatus",
@@ -1065,7 +1100,7 @@ class CmdTpl(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_52_cmdTpl_update_status(self):
+    def test_54_cmdTpl_update_status(self):
         u"""启动指令模版：auto_指令模板_服务器负载检查"""
         action = {
             "操作": "UpdateCmpTplStatus",

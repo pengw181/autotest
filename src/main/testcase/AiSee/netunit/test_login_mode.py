@@ -177,6 +177,40 @@ class LoginMode(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_10_login_mode_add(self):
+        u"""添加网元登录模式，网元类型：MME，TELNET模式"""
+        action = {
+            "操作": "AddLoginMode",
+            "参数": {
+                "网元类型": "MME",
+                "登录模式名称": "TELNET模式",
+                "登录模式描述": "TELNET登录模式",
+                "搜索是否存在": "是"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_11_login_mode_add(self):
+        u"""添加网元登录模式，网元类型：CSCE，TELNET模式"""
+        action = {
+            "操作": "AddLoginMode",
+            "参数": {
+                "网元类型": "CSCE",
+                "登录模式名称": "TELNET模式",
+                "登录模式描述": "TELNET登录模式",
+                "搜索是否存在": "是"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

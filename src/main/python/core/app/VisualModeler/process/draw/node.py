@@ -511,8 +511,6 @@ class Node:
         # 高级配置
         if kwargs.__contains__("高级配置"):
             advance_set = kwargs.get("高级配置")
-            # node_control.advance_cfg(saveLog=advance_set.get("是否记录循环日志"), recordCycleNum=advance_set.get("循环日志记录条数"),
-            #                          outputLogPrintRuler=advance_set.get("输出日志打印规则"))
             loop_adv = LoopAdvance(where=2)
             loop_adv.advance_cfg(save_log=advance_set.get("是否记录循环日志"),
                                  record_cycle_num=advance_set.get("循环日志记录条数"),

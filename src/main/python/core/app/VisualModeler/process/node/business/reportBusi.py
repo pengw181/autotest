@@ -117,6 +117,22 @@ def report_business(node_name, opt_type, obj_var, var_name, var_map, interface_n
         # 获取报表模式当前值
         cur_dash_mode = get_dash_mode_id()
         if cur_dash_mode is None or cur_dash_mode == "1601":  # 仪表盘模式
+            # 保存业务配置
+            browser.find_element(By.XPATH, "//*[@id='save_node_info']").click()
+            log.info("保存业务配置")
+
+            alert = BeAlertBox(back_iframe="default")
+            msg = alert.get_msg()
+            if alert.title_contains("操作成功"):
+                log.info("保存业务配置成功")
+                # 切换到节点iframe
+                wait = WebDriverWait(browser, 30)
+                wait.until(ec.frame_to_be_available_and_switch_to_it((
+                    By.XPATH, "//iframe[contains(@src,'./node/reportNode.html')]")))
+            else:
+                log.warning("保存业务配置失败，失败提示: {0}".format(msg))
+            gbl.temp.set("ResultMsg", msg)
+
             # 点击添加按钮
             browser.find_element(By.XPATH, "//*[@onclick='toVarCfg()']").click()
             # 切换到变量配置页面

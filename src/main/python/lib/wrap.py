@@ -83,6 +83,8 @@ def auto_enter_vm(*args):
                 log.info("当前处于数据管理窗口")
             elif browser.current_window_handle == windows.win_handles.get("一键启动"):
                 log.info("当前处于一键启动窗口")
+            elif browser.current_window_handle == windows.win_handles.get("数据库管理"):
+                log.info("当前处于数据库管理窗口")
             else:
                 log.info("当前已登录，未进入领域，自动进入{0}".format(gbl.service.get("Domain")))
 

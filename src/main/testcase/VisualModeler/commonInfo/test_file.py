@@ -1632,6 +1632,42 @@ class File(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_96_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "新冠统计表.xlsx"
+            }
+        }
+        checks = """
+        CheckFile|新冠统计表.xlsx
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_97_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "weather.xlsx"
+            }
+        }
+        checks = """
+        CheckFile|weather.xlsx
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

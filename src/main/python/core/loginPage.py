@@ -2,6 +2,7 @@
 # @Author: peng wei
 # @Time: 2021/7/20 下午2:28
 
+import os
 from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -22,7 +23,7 @@ class LoginPage:
 
     def __init__(self):
         chrome_driver_path = gbl.service.get("chromeDriverPath")
-        download_path = gbl.service.get("ProjectPath") + '/src/main/python/download/'
+        download_path = os.path.dirname(os.path.dirname(__file__)) + '/download/'
         self.browser = initBrowser(chrome_driver_path, download_path)
         gbl.service.set("browser", self.browser)
         self.page_url = gbl.service.get("PageUrl")

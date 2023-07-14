@@ -191,12 +191,6 @@ def global_config(config_dict=None):
     for key, value in configs.case.items():
         gbl.case.set(key, value)
 
-    # # 项目绝对路径
-    # cur_path = os.path.abspath(os.path.dirname(__file__))
-    # project_name = gbl.service.get("projectName")
-    # project_path = cur_path[:cur_path.find(project_name) + len(project_name)]
-    # gbl.service.set('ProjectPath', project_path)
-
     # yaml配置文件
     gbl.service.set('ControllerPath', configs.service.get('controller').get("path"))
     gbl.service.set('TestCasePath', configs.service.get('testcase').get("path"))

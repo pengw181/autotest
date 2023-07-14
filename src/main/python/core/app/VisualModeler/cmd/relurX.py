@@ -1026,29 +1026,6 @@ class RulerX:
             By.XPATH, "//*[@id='issuingCmdIframeRow']/following-sibling::div//*[@class='formatBtn']").click()
         sleep(1)
 
-    # def variable_manage(self, var_mode, var_name, var_type, var_desc, algorithm_list, time_set, list_content,
-    #                     agg_func_set, func_set):
-    #     """
-    #     :param var_mode: 变量模式
-    #     :param var_name: 变量名称，高级模式使用
-    #     :param var_type: 变量类型，高级模式使用
-    #     :param var_desc: 变量描述，高级模式使用
-    #     :param algorithm_list: 运算规则配置，数组，高级模式使用
-    #     :param time_set: 时间配置，字典，高级模式使用
-    #     :param list_content: 列表内容，字符串，高级模式使用
-    #     :param agg_func_set: 聚合函数配置，字典，高级模式使用
-    #     :param func_set: 功能函数配置，字典，高级模式使用
-    #     """
-    #     # 切换到变量配置页面iframe
-    #     wait = WebDriverWait(self.browser, 30)
-    #     wait.until(ec.frame_to_be_available_and_switch_to_it((
-    #         By.XPATH, "//iframe[contains(@src,'/VisualModeler/frame/vareditor/varEditorWin.html')]")))
-    #     var_editor = VarEditor(var_mode=var_mode)
-    #     var_editor.add(var_name, var_type, var_desc, algorithm_list, time_set, list_content, agg_func_set, func_set)
-    #     # 返回上层iframe
-    #     self.browser.switch_to.parent_frame()
-    #     sleep(1)
-
     def issuing_cmd(self, level, vendor, model, netunit, cmd):
         """
         # 下发指令填充样例数据
@@ -1176,42 +1153,6 @@ class RulerX:
         parent_ruler_xpath = "//*[@class='cfg_box_row singleRule'][{0}]".format(row_num)
         rule_element = self.browser.find_element(By.XPATH, "//*[@class='rowRuleDiv']")
         self.browser.execute_script("arguments[0].scrollIntoView(true);", rule_element)
-
-        # # 列名
-        # if left_value:
-        #     self.browser.find_element(
-        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'leftValue')]/following-sibling::span//a").click()
-        #     panel_xpath = getPanelXpath()
-        #     self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(left_value)).click()
-        #     log.info("规则{0}选择列名: {1}".format(row_num, left_value))
-        #
-        # # 关系
-        # if relation:
-        #     self.browser.find_element(
-        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'operator')]/following-sibling::span//a").click()
-        #     panel_xpath = getPanelXpath()
-        #     self.browser.find_element(
-        #         By.XPATH, panel_xpath + "//*[contains(@id,'_combobox_') and text()='{}']".format(relation)).click()
-        #     log.info("规则{0}选择关系: {1}".format(row_num, relation))
-        #
-        # # 匹配值
-        # if right_value:
-        #     self.browser.find_element(
-        #         By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
-        #     panel_xpath = getPanelXpath()
-        #     try:
-        #         self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{}']".format(right_value)).click()
-        #         log.info("规则{0}选择匹配值: {1}".format(row_num, right_value))
-        #     except NoSuchElementException:
-        #         # 如果下拉框没有预期的值，则在输入框手动输入
-        #         self.browser.find_element(
-        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span//a").click()
-        #         self.browser.find_element(
-        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").clear()
-        #         self.browser.find_element(
-        #             By.XPATH, parent_ruler_xpath + "//*[contains(@class,'rightValue')]/following-sibling::span/input[1]").send_keys(
-        #             right_value)
-        #         log.info("规则{0}输入匹配值: {1}".format(row_num, right_value))
 
         # 运算规则配置
         if algorithm_list:

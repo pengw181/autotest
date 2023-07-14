@@ -564,6 +564,104 @@ class Template(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_24_template_add(self):
+        u"""添加统一网元配置，auto_网元模版_MME模版"""
+        action = {
+            "操作": "AddTemplate",
+            "参数": {
+                "模版名称": "auto_网元模版_MME模版",
+                "网元类型": "MME",
+                "登录模式": "普通模式",
+                "用途说明": "MME普通模式连接",
+                "登录配置": [
+                    {
+                        "操作类型": "添加",
+                        "步骤信息": "auto_终端_TELNET"
+                    }
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_template_bind_ne(self):
+        u"""统一网元配置网元绑定，模版名称：auto_网元模版_MME模版"""
+        action = {
+            "操作": "TemplateBindNE",
+            "参数": {
+                "模版名称": "auto_网元模版_MME模版",
+                "网元名称": "auto_test_",
+                "厂家": "华为",
+                "设备型号": "ME60",
+                "待分配网元": [
+                    "${NetunitMME1}",
+                    "${NetunitMME2}",
+                    "${NetunitMME3}",
+                    "${NetunitMME4}",
+                    "${NetunitMME5}",
+                    "${NetunitMME6}",
+                    "${NetunitMME7}",
+                    "${NetunitMME8}",
+                    "${NetunitMME9}",
+                    "${NetunitMME10}"
+                ],
+                "分配方式": "分配所选"
+            }
+        }
+        msg = "分配成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_26_template_delivery(self):
+        u"""统一网元配置下发配置"""
+        action = {
+            "操作": "TemplateDelivery",
+            "参数": {
+                "模版名称": "auto_网元模版_MME模版"
+            }
+        }
+        msg = '请到“登录配置确认”页面确认更改内容'
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_27_confirm_selected(self):
+        u"""登录配置确认，确认所选"""
+        action = {
+            "操作": "ConfirmSelected",
+            "参数": {
+                "查询条件": {
+                    "网元名称": "auto_test_",
+                    "网元类型": "MME",
+                    "生产厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "网元列表": [
+                    "${NetunitMME1}",
+                    "${NetunitMME2}",
+                    "${NetunitMME3}",
+                    "${NetunitMME4}",
+                    "${NetunitMME5}",
+                    "${NetunitMME6}",
+                    "${NetunitMME7}",
+                    "${NetunitMME8}",
+                    "${NetunitMME9}",
+                    "${NetunitMME10}"
+                ]
+            }
+        }
+        msg = "确认成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

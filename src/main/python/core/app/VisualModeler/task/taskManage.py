@@ -368,7 +368,7 @@ class TaskManage:
         :param query: 查询条件
         :param fuzzy_match: 模糊匹配
         """
-        self.search(query=query)
+        self.search(query=query, need_choose=False)
         fuzzy_match = True if fuzzy_match == "是" else False
         task_name = query.get("任务名称")
         if fuzzy_match:

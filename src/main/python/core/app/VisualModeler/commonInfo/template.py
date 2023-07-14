@@ -918,6 +918,8 @@ class ZgDataManage(Template):
                 self.browser.find_element(By.XPATH, "//*[@id='editDiv']//*[text()='{0}']/../following-sibling::div[1]//a".format(
                     col_name)).click()
                 panel_xpath = getPanelXpath()
+                wait = WebDriverWait(self.browser, 30)
+                wait.until(ec.element_to_be_clickable((By.XPATH, panel_xpath + "//*[text()='{0}']".format(col_value))))
                 self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(col_value)).click()
             log.info("{0} 设置值 {1}".format(col_name, col_value))
             sleep(1)

@@ -484,18 +484,6 @@ class DataAssign:
                 msg = alert.get_msg()
                 if alert.title_contains("分配成功"):
                     log.warning('分配数据权限成功')
-
-                    # # 切换到用户管理iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
-                    # # 切换到数据权限分配页面iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.element_to_be_clickable(
-                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
                 else:
                     log.warning('分配数据权限失败，失败原因: {}'.format(msg))
                     return
@@ -529,18 +517,6 @@ class DataAssign:
                 msg = alert.get_msg()
                 if alert.title_contains("移除成功"):
                     log.warning('移除数据权限成功')
-
-                    # # 切换到用户管理iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
-                    # # 切换到数据权限分配页面iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.element_to_be_clickable(
-                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
                 else:
                     log.warning('移除数据权限失败，失败原因: {}'.format(msg))
                     return
@@ -559,18 +535,6 @@ class DataAssign:
                 msg = alert.get_msg()
                 if alert.title_contains("分配成功"):
                     log.warning('分配数据权限成功')
-
-                    # # 切换到用户管理iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
-                    # # 切换到数据权限分配页面iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.element_to_be_clickable(
-                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
                 else:
                     log.warning('分配数据权限失败，失败原因: {}'.format(msg))
                     return
@@ -589,18 +553,6 @@ class DataAssign:
                 msg = alert.get_msg()
                 if alert.title_contains("移除成功"):
                     log.warning('移除数据权限成功')
-
-                    # # 切换到用户管理iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
-                    # # 切换到数据权限分配页面iframe
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.frame_to_be_available_and_switch_to_it((
-                    #     By.XPATH, "//iframe[contains(@src,'dataUserAssignWin.html')]")))
-                    # wait = WebDriverWait(self.browser, 30)
-                    # wait.until(ec.element_to_be_clickable(
-                    #     (By.XPATH, "//*[@id='netunitName']/following-sibling::span/input[1]")))
                 else:
                     log.warning('移除数据权限失败，失败原因: {}'.format(msg))
                     return

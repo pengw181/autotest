@@ -307,7 +307,7 @@ class Database:
                     if fuzzy_match:
                         # 重新获取页面查询结果
                         record_element = self.browser.find_elements(
-                            By.XPATH, "//*[@field='dbName']//*[text()='{0}']".format(db_name))
+                            By.XPATH, "//*[@field='dbName']//*[starts-with(text(),'{0}')]".format(db_name))
                         if len(record_element) == 0:
                             # 查询结果为空,修改exist_data为False，退出循环
                             log.info("数据清理完成")
@@ -407,8 +407,8 @@ class TableManagement(Database):
         self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
 
         for col in cols:
-            table_col_name = col.get("列名(自定义)")
-            zh_col_name = col.get("列中文名")
+            table_col_name = col.get("列名(数据库)")
+            zh_col_name = col.get("列名(自定义)")
             col_type = col.get("列类型")
             col_length = col.get("长度")
             col_floatNum = col.get("小位数")
@@ -441,7 +441,7 @@ class TableManagement(Database):
         self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
         self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
 
-        zh_col_name = col_info.get("列中文名")
+        zh_col_name = col_info.get("列名(自定义)")
         col_length = col_info.get("长度")
         col_floatNum = col_info.get("小位数")
         in_data_format = col_info.get("输入格式")
@@ -467,8 +467,8 @@ class TableManagement(Database):
 
     def _col_set_page(self, table_col_name, zh_col_name, col_type, col_length, col_floatNum, in_data_format, out_data_format):
         """
-        :param table_col_name: 列名(自定义)
-        :param zh_col_name: 列中文名
+        :param table_col_name: 列名(数据库)
+        :param zh_col_name: 列名(自定义)
         :param col_type: 列类型
         :param col_length: 长度
         :param col_floatNum: 小位数
@@ -484,19 +484,19 @@ class TableManagement(Database):
         wait.until(
             ec.element_to_be_clickable((By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]")))
 
-        # 列名(自定义)
+        # 列名(数据库)
         if table_col_name:
             self.browser.find_element(By.XPATH, "//*[@id='colNameEn']/following-sibling::span/input[1]").clear()
             self.browser.find_element(
                 By.XPATH, "//*[@id='colNameEn']/following-sibling::span/input[1]").send_keys(table_col_name)
-            log.info("设置列名(自定义): {}".format(table_col_name))
+            log.info("设置列名(数据库): {}".format(table_col_name))
 
-        # 列中文名
+        # 列名(自定义)
         if zh_col_name:
             self.browser.find_element(By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]").clear()
             self.browser.find_element(
                 By.XPATH, "//*[@id='colNameCh']/following-sibling::span/input[1]").send_keys(zh_col_name)
-            log.info("设置列中文名: {}".format(zh_col_name))
+            log.info("设置列名(自定义): {}".format(zh_col_name))
 
         # 列类型
         if col_type:
@@ -551,28 +551,29 @@ class TableManagement(Database):
                     custom_format)
                 log.info("设置自定义输出格式: {0}".format(custom_format))
 
-    def delete_col(self, zh_name, obj_col):
+    def delete_col(self, zh_name, zh_col_name):
         """
         :param zh_name: 数据表名称
-        :param obj_col: 列名(自定义)，必填
+        :param zh_col_name: 列名(自定义)，必填
         """
         # 点击表
         self.browser.find_element(By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name)).click()
         self.browser.find_element(By.XPATH, "//*[@id='cfg']").click()
 
-        self.browser.find_element(By.XPATH, "//*[@title='{}']/a[contains(@class,'deleteCol')]".format(obj_col)).click()
+        self.browser.find_element(
+            By.XPATH, "//*[@title='{}']/a[contains(@class,'deleteCol')]".format(zh_col_name)).click()
         alert = BeAlertBox(timeout=1)
         msg = alert.get_msg()
-        if alert.title_contains("您确定删除列【{}】吗".format(obj_col), auto_click_ok=False):
+        if alert.title_contains("您确定删除列【{}】吗".format(zh_col_name), auto_click_ok=False):
             alert.click_ok()
             alert = BeAlertBox(timeout=30)
             msg = alert.get_msg()
             if alert.title_contains("删除成功"):
-                log.info("列【{}】删除成功".format(obj_col))
+                log.info("列【{}】删除成功".format(zh_col_name))
             else:
-                log.warning("列【{}】删除失败，失败提示: {}".format(obj_col, msg))
+                log.warning("列【{}】删除失败，失败提示: {}".format(zh_col_name, msg))
         else:
-            log.warning("列【{}】删除失败，失败提示: {}".format(obj_col, msg))
+            log.warning("列【{}】删除失败，失败提示: {}".format(zh_col_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
     def import_table(self, zh_name, en_name, col_file_name):
@@ -612,3 +613,55 @@ class TableManagement(Database):
         else:
             log.warning("导入模式导入表{}失败，失败提示: {}".format(zh_name, msg))
         gbl.temp.set("ResultMsg", msg)
+
+    def data_clear(self, zh_name, fuzzy_match=False):
+        """
+        :param zh_name: 数据表名称
+        :param fuzzy_match: 模糊匹配
+        """
+        fuzzy_match = True if fuzzy_match == "是" else False
+        if fuzzy_match:
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@id='tableTree']//*[starts-with(text(), '{}')]".format(zh_name))
+        else:
+            record_element = self.browser.find_elements(
+                By.XPATH, "//*[@id='tableTree']//*[text()='{}']".format(zh_name))
+        if len(record_element) == 0:
+            # 查询结果为空,结束处理
+            log.info("查询不到满足条件的数据，无需清理")
+            return
+
+        exist_data = True
+        while exist_data:
+            pe = record_element[0]
+            search_result = pe.text
+            pe.click()
+            log.info("选择: {0}".format(search_result))
+            # 删除
+            self.browser.find_element(By.XPATH, "//*[@id='table-del']").click()
+            alert = BeAlertBox(timeout=1)
+            msg = alert.get_msg()
+            if alert.title_contains("您确定需要删除{}吗".format(search_result), auto_click_ok=False):
+                alert.click_ok()
+                alert = BeAlertBox(timeout=30)
+                msg = alert.get_msg()
+                if alert.title_contains("删除成功"):
+                    log.info("{0} 删除成功".format(search_result))
+                    page_wait()
+                    if fuzzy_match:
+                        # 重新获取页面查询结果
+                        record_element = self.browser.find_elements(
+                            By.XPATH, "//*[@id='tableTree']//*[starts-with(text(), '{}')]".format(zh_name))
+                        if len(record_element) == 0:
+                            # 查询结果为空,修改exist_data为False，退出循环
+                            log.info("数据清理完成")
+                            exist_data = False
+                    else:
+                        break
+                else:
+                    raise Exception("删除数据时出现未知异常: {0}".format(msg))
+            else:
+                # 无权操作
+                log.warning("{0} 清理失败，失败提示: {1}".format(zh_name, msg))
+                gbl.temp.set("ResultMsg", msg)
+                break

@@ -842,7 +842,7 @@ class Template(unittest.TestCase):
                 "模版名称": "auto_网元基础信息表",
                 "网元名称": "${NetunitMME1}",
                 "数据信息": [
-                    ["网元名称", "${NetunitMME2}"],
+                    ["网元名称", "${NetunitMME1}"],
                     ["网元类型", "MME"],
                     ["网元IP", "192.168.88.116"],
                     ["生产厂家", "华为"],
@@ -1218,6 +1218,448 @@ class Template(unittest.TestCase):
         assert result
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_64_table_data_list(self):
+        u"""网元基础信息，数据管理，按业务状态查询"""
+        action = {
+            "操作": "ZgListData",
+            "参数": {
+                "模版类型": "网元基础信息",
+                "模版名称": "auto_网元基础信息表",
+                "查询条件": {
+                    "业务状态": "带业务"
+                }
+            }
+        }
+        msg = ""
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_65_table_data_list(self):
+        u"""网元基础信息，数据管理，按网元类型查询"""
+        action = {
+            "操作": "ZgListData",
+            "参数": {
+                "模版类型": "网元基础信息",
+                "模版名称": "auto_网元基础信息表",
+                "查询条件": {
+                    "网元类型": "MME"
+                }
+            }
+        }
+        msg = ""
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_66_table_data_list(self):
+        u"""网元基础信息，数据管理，按生产厂家查询"""
+        action = {
+            "操作": "ZgListData",
+            "参数": {
+                "模版类型": "网元基础信息",
+                "模版名称": "auto_网元基础信息表",
+                "查询条件": {
+                    "生产厂家": "华为"
+                }
+            }
+        }
+        msg = ""
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_67_table_data_list(self):
+        u"""网元基础信息，数据管理，按生产厂家、设备型号查询"""
+        action = {
+            "操作": "ZgListData",
+            "参数": {
+                "模版类型": "网元基础信息",
+                "模版名称": "auto_网元基础信息表",
+                "查询条件": {
+                    "生产厂家": "华为",
+                    "设备型号": "ME60"
+                }
+            }
+        }
+        msg = ""
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_68_table_data_add(self):
+        u"""网元辅助资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME1}"],
+                    ["列1", "www.baidu.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_69_table_data_add(self):
+        u"""网元辅助资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME1}"],
+                    ["列1", "www.sina.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_70_table_data_add(self):
+        u"""网元辅助资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME2}"],
+                    ["列1", "www.huya.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_71_table_data_add(self):
+        u"""网元辅助资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME3}"],
+                    ["列1", "www.baidu.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_72_table_data_update(self):
+        u"""网元辅助资料，修改数据"""
+        action = {
+            "操作": "ZgUpdateData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "网元名称": "${NetunitMME3}",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME2}"],
+                    ["列1", "www.douyu.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_73_table_data_add(self):
+        u"""网元辅助资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "数据信息": [
+                    ["网元名称", "${NetunitMME3}"],
+                    ["列1", "www.baidu.com"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_74_table_data_delete(self):
+        u"""网元辅助资料，删除数据"""
+        action = {
+            "操作": "ZgDeleteData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "查询条件": {
+                    "网元名称": "${NetunitMME3}"
+                }
+            }
+        }
+        msg = "删除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_75_table_data_templ_download(self):
+        u"""网元辅助资料，数据管理，导入数据，下载模版"""
+        action = {
+            "操作": "ZgDownloadTempl",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料"
+            }
+        }
+        checks = """
+        CheckDownloadFile|网元辅助资料auto_网元辅助资料模板文件|xlsx
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_76_table_data_upload(self):
+        u"""网元辅助资料，导入数据"""
+        action = {
+            "操作": "ZgUploadData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料",
+                "文件路径": "网元辅助资料auto_网元辅助资料.xlsx"
+            }
+        }
+        msg = "文件导入成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_77_table_data_export(self):
+        u"""网元辅助资料，导出数据"""
+        action = {
+            "操作": "ZgExportData",
+            "参数": {
+                "模版类型": "网元辅助资料",
+                "模版名称": "auto_网元辅助资料"
+            }
+        }
+        checks = """
+        CheckDownloadFile|auto_网元辅助资料网元辅助资料|csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_78_table_data_clear(self):
+        u"""网元其它资料，清空数据"""
+        action = {
+            "操作": "ZgClearData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料"
+            }
+        }
+        msg = "删除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_79_table_data_add(self):
+        u"""网元其它资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料",
+                "数据信息": [
+                    ["列1", "theophilus"],
+                    ["列2", "c01"],
+                    ["列3", "88"],
+                    ["列4", "95"],
+                    ["列5", "90"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_80_table_data_add(self):
+        u"""网元其它资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料",
+                "数据信息": [
+                    ["列1", "theophilus"],
+                    ["列2", "c02"],
+                    ["列3", "81"],
+                    ["列4", "85"],
+                    ["列5", "70"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_81_table_data_add(self):
+        u"""网元其它资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料",
+                "数据信息": [
+                    ["列1", "jabara"],
+                    ["列2", "c01"],
+                    ["列3", "83"],
+                    ["列4", "91"],
+                    ["列5", "97"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_82_table_data_add(self):
+        u"""网元其它资料，添加数据"""
+        action = {
+            "操作": "ZgAddData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料",
+                "数据信息": [
+                    ["列1", "luna"],
+                    ["列2", "c01"],
+                    ["列3", "82"],
+                    ["列4", "81"],
+                    ["列5", "87"]
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_83_table_data_delete(self):
+        u"""网元其它资料，数据管理，删除数据"""
+        action = {
+            "操作": "ZgDeleteData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料",
+                "查询条件": {
+                    "列1": "theophilus"
+                }
+            }
+        }
+        msg = "删除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_84_table_data_clear(self):
+        u"""网元其它资料，数据管理，清空数据"""
+        action = {
+            "操作": "ZgClearData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料_vm仪表盘"
+            }
+        }
+        msg = "删除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_85_table_data_templ_download(self):
+        u"""网元其它资料，数据管理，导入数据，下载模版"""
+        action = {
+            "操作": "ZgDownloadTempl",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料_vm仪表盘"
+            }
+        }
+        checks = """
+        CheckDownloadFile|网元其它资料auto_网元其它资料_vm仪表盘模板文件|xlsx
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_86_table_data_upload(self):
+        u"""网元其它资料，数据管理，导入数据"""
+        action = {
+            "操作": "ZgUploadData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料_vm仪表盘",
+                "文件路径": "网元其它资料auto_网元其它资料_vm仪表盘.xlsx"
+            }
+        }
+        msg = "文件导入成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_87_table_data_export(self):
+        u"""网元其它资料，导出数据"""
+        action = {
+            "操作": "ZgExportData",
+            "参数": {
+                "模版类型": "网元其它资料",
+                "模版名称": "auto_网元其它资料_vm仪表盘"
+            }
+        }
+        checks = """
+        CheckDownloadFile|auto_网元其它资料_vm仪表盘网元其它资料|csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
 
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")

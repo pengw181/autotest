@@ -656,6 +656,42 @@ class NetUnit(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
+    def test_28_netunit_clear(self):
+        u"""网元管理，数据清理"""
+        action = {
+            "操作": "NetUnitDataClear",
+            "参数": {
+                "网元名称": "auto_test_",
+                "模糊匹配": "是"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_29_netunit_clear(self):
+        u"""网元管理，数据清理"""
+        action = {
+            "操作": "NetUnitDataClear",
+            "参数": {
+                "网元名称": "auto_mme_",
+                "模糊匹配": "是"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_30_netunit_clear(self):
+        u"""网元管理，数据清理"""
+        action = {
+            "操作": "NetUnitDataClear",
+            "参数": {
+                "网元名称": "auto_csce_",
+                "模糊匹配": "是"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

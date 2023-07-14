@@ -367,12 +367,16 @@ def actions(func, param):
 
     elif func == "DeleteDBTableCol":
         action = TableManagement(database_name=param.get("数据库名称"))
-        action.delete_col(zh_name=param.get("数据表名称"), obj_col=param.get("列名(自定义)"))
+        action.delete_col(zh_name=param.get("数据表名称"), zh_col_name=param.get("列名(自定义)"))
 
     elif func == "ImportDBTable":
         action = TableManagement(database_name=param.get("数据库名称"))
         action.import_table(zh_name=param.get("数据表名称"), en_name=param.get("表英文名"),
                             col_file_name=param.get("字段文件名"))
+
+    elif func == "DBTableClear":
+        action = TableManagement(database_name=param.get("数据库名称"))
+        action.data_clear(zh_name=param.get("数据表名称"), fuzzy_match=param.get("模糊匹配"))
 
     # 脚本管理
     elif func == "AddScript":

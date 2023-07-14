@@ -42,7 +42,7 @@ class Database(unittest.TestCase):
             "参数": {
                 "数据库名称": "auto_mysql数据库",
                 "数据库驱动": "mysql",
-                "数据库URL": "jdbc:mysql://192.168.88.116:3306/aisee1",
+                "数据库URL": "jdbc:mysql://192.168.88.116:3310/aisee1",
                 "用户名": "aisee1",
                 "密码": "aisee1_pass",
                 "归属类型": "外部库",
@@ -62,7 +62,7 @@ class Database(unittest.TestCase):
             "参数": {
                 "数据库名称": "auto_mysql数据库",
                 "数据库驱动": "mysql",
-                "数据库URL": "jdbc:mysql://192.168.88.116:3306/aisee1",
+                "数据库URL": "jdbc:mysql://192.168.88.116:3310/aisee1",
                 "用户名": "aisee1",
                 "密码": "aisee1_pass",
                 "归属类型": "外部库",
@@ -166,7 +166,7 @@ class Database(unittest.TestCase):
                 "修改内容": {
                     "数据库名称": "auto_mysql数据库",
                     "数据库驱动": "mysql",
-                    "数据库URL": "jdbc:mysql://192.168.88.116:3306/aisee1",
+                    "数据库URL": "jdbc:mysql://192.168.88.116:3310/aisee1",
                     "用户名": "aisee1",
                     "密码": "aisee2_pass",
                     "归属类型": "外部库",
@@ -263,7 +263,7 @@ class Database(unittest.TestCase):
             "参数": {
                 "数据库名称": "auto_mysql数据库",
                 "数据库驱动": "mysql",
-                "数据库URL": "jdbc:mysql://192.168.88.116:3306/aisee1",
+                "数据库URL": "jdbc:mysql://192.168.88.116:3310/aisee1",
                 "用户名": "aisee1",
                 "密码": "aisee1_pass",
                 "归属类型": "外部库",
