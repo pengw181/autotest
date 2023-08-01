@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class FileNode(unittest.TestCase):
+class WorkFlowFileNodeCopy(unittest.TestCase):
 
     log.info("装载流程文件拷贝移动配置测试用例")
     worker = CaseWorker()

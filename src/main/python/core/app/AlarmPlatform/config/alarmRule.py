@@ -802,6 +802,10 @@ class AlarmRule:
                 database_name = config_table.get("选择数据库")
                 self.browser.find_element(
                     By.XPATH, "//*[@id='select_output_databbase']/following-sibling::div//i").click()
+                wait = WebDriverWait(self.browser, 30)
+                wait.until(ec.element_to_be_clickable((
+                    By.XPATH, "//*[@id='select_output_databbase']/following-sibling::div[1]//dd[text()='{0}']".format(
+                        database_name))))
                 database_ele = self.browser.find_element(
                     By.XPATH, "//*[@id='select_output_databbase']/following-sibling::div[1]//dd[text()='{0}']".format(
                         database_name))
@@ -814,6 +818,10 @@ class AlarmRule:
                 table_name = config_table.get("选择表")
                 self.browser.find_element(
                     By.XPATH, "//*[@id='select_output_database_table']/following-sibling::div//i").click()
+                wait = WebDriverWait(self.browser, 30)
+                wait.until(ec.element_to_be_clickable((
+                    By.XPATH, "//*[@id='select_output_database_table']/following-sibling::div[1]//dd[text()='{0}']".format(
+                        table_name))))
                 table_ele = self.browser.find_element(
                     By.XPATH, "//*[@id='select_output_database_table']/following-sibling::div[1]//dd[text()='{0}']".format(
                         table_name))
@@ -942,11 +950,12 @@ class AlarmRule:
                     if alert.title_contains("确认启用", auto_click_ok=False):
                         alert.click_ok()
                         sleep(1)
-                        alert = BeAlertBox(timeout=5, back_iframe=False)
+                        alert = BeAlertBox(timeout=30, back_iframe=False)
                         msg = alert.get_msg()
                         if alert.title_contains("操作成功"):
                             # 更新状态成功后，会将该条记录置于列表顶部（更新了修改时间）
                             num = 0
+                            sleep(1)
                             # 如果查询条件包含了状态，更新成功后会自动刷新页面，需要重新获取
                             row_status = self.browser.find_elements(
                                 By.XPATH, "//*[@funcid='AlarmPlatform_rule_active']/following-sibling::span")
@@ -994,11 +1003,12 @@ class AlarmRule:
                     if alert.title_contains("确认禁用", auto_click_ok=False):
                         alert.click_ok()
                         sleep(1)
-                        alert = BeAlertBox(timeout=5, back_iframe=False)
+                        alert = BeAlertBox(timeout=30, back_iframe=False)
                         msg = alert.get_msg()
                         if alert.title_contains("操作成功"):
                             # 更新状态成功后，会将该条记录置于列表顶部（更新了修改时间）
                             num = 0
+                            sleep(1)
                             # 如果查询条件包含了状态，更新成功后会自动刷新页面，需要重新获取
                             row_status = self.browser.find_elements(
                                 By.XPATH, "//*[@funcid='AlarmPlatform_rule_active']/following-sibling::span")

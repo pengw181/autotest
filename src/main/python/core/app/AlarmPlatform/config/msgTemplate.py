@@ -384,7 +384,7 @@ class MsgTemplate:
                     action.drag_and_drop(tag_ele, target).perform()
                 else:
                     target = last_tag_in_config
-                    action.click_and_hold(tag_ele).move_to_element_with_offset(target, xoffset=100, yoffset=0).release().perform()
+                    action.click_and_hold(tag_ele).move_to_element_with_offset(target, xoffset=180, yoffset=20).release().perform()
                 log.info("模版配置加入标签【{0}】".format(tag_name))
 
                 # 自定义值标签设置自定义值
@@ -418,6 +418,7 @@ class MsgTemplate:
                         By.XPATH, "//*[@id='editable_trigger']/*[contains(@id,'common_item') and text()='换行']")
 
             # 结果预览
+            sleep(1)
             result_view_ele = self.browser.find_element(By.XPATH, "//*[@id='preview_mess_result_text']")
             result_view_text = result_view_ele.get_attribute("value")
             log.info("结果预览: {0}".format(result_view_text))
@@ -442,11 +443,11 @@ class MsgTemplate:
             rule = self.browser.find_element(
                 By.XPATH, "//tr[contains(@class,'selected')]")
             node_id = rule.get_attribute("node-id")
-            i = None
+            i = 0
             for i in range(len(rule_node_ids)):
                 if node_id == rule_node_ids[i]:
                     break
-            js = 'return $(".active_template_op")[{0}].checked;'.format(i+1)
+            js = 'return $(".active_template_op")[{}].checked;'.format(i)
             current_status = self.browser.execute_script(js)
         except NoSuchElementException:
             log.warning("请点击一行消息模版")
@@ -471,7 +472,7 @@ class MsgTemplate:
         if temp ^ current_status:
             self.browser.find_element(
                 By.XPATH, "//*[text()='{0}']/../../../following-sibling::td[2]/div/span".format(msg_temp_name)).click()
-            alert = BeAlertBox(timeout=1, back_iframe=False)
+            alert = BeAlertBox(timeout=30, back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("操作成功"):
                 log.info("{0} {1} 成功".format(set_status, msg_temp_name))
@@ -658,7 +659,7 @@ class MsgTemplate:
                     return
                 # 重新点击该行记录
                 self.browser.find_element(
-                    By.XPATH, "//*[@field='templateName']//*[text(),'{0}']".format(search_result)).click()
+                    By.XPATH, "//*[@field='templateName']//*[text()='{0}']".format(search_result)).click()
             # 删除
             self.browser.find_element(By.XPATH, "//*[@id='deleteBtn']").click()
             alert = BeAlertBox(back_iframe=False)

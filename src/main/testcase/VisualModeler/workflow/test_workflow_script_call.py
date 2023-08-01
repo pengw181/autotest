@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class ScriptNode(unittest.TestCase):
+class WorkFlowScriptNode(unittest.TestCase):
 
     log.info("装载流程脚本调用配置测试用例")
     worker = CaseWorker()
@@ -1044,7 +1044,7 @@ class ScriptNode(unittest.TestCase):
                 "流程名称": "auto_流程_脚本调用",
                 "起始节点名称": "脚本执行超时",
                 "终止节点名称": "脚本执行超时重试",
-                "关联关系": "满足"
+                "关联关系": "无条件"
             }
         }
         msg = "操作成功"

@@ -9,9 +9,9 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class SqlNode(unittest.TestCase):
+class WorkFlowSqlNodeConfigMode1(unittest.TestCase):
 
-    log.info("装载流程数据库节点配置模式测试用例")
+    log.info("装载流程数据库节点配置模式测试用例（1）")
     worker = CaseWorker()
 
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理
@@ -360,7 +360,7 @@ class SqlNode(unittest.TestCase):
                         "变量": "加载数据",
                         "数据库": "AiSee",
                         "存储模式": "",
-                        "表选择": "auto_数据模式",
+                        "表选择": "auto_数据拼盘_数据模式",
                         "字段映射": {
                             "列1": {
                                 "值类型": "索引",
@@ -499,7 +499,7 @@ class SqlNode(unittest.TestCase):
                             "文件名": "大数据1w_正常",
                             "文件类型": "csv",
                             "编码格式": "UTF-8",
-                            "开始读取行": "1",
+                            "开始读取行": "2",
                             "分隔符": ",",
                             "变量": "大数据1w_正常",
                             "变量类型": "替换"
@@ -529,7 +529,7 @@ class SqlNode(unittest.TestCase):
                             "文件名": "大数据1w_异常",
                             "文件类型": "csv",
                             "编码格式": "UTF-8",
-                            "开始读取行": "1",
+                            "开始读取行": "2",
                             "分隔符": ",",
                             "变量": "大数据1w_异常",
                             "变量类型": "替换"
@@ -706,7 +706,7 @@ class SqlNode(unittest.TestCase):
                         "变量": "大数据1w_正常",
                         "数据库": "auto_postgres数据库",
                         "存储模式": "",
-                        "表选择": "auto_大数据表_postgres",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -777,7 +777,7 @@ class SqlNode(unittest.TestCase):
                         "变量": "大数据1w_正常",
                         "数据库": "auto_oracle数据库",
                         "存储模式": "",
-                        "表选择": "auto_大数据表_oracle",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -848,7 +848,7 @@ class SqlNode(unittest.TestCase):
                         "变量": "大数据1w_正常",
                         "数据库": "auto_mysql数据库",
                         "存储模式": "",
-                        "表选择": "auto_大数据表_mysql",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -920,10 +920,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_mysql数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "",
                             "批量提交行数": "1000",
                         },
-                        "表选择": "auto_大数据表_mysql",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -995,10 +996,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_mysql数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "",
                             "批量提交行数": "1000",
                         },
-                        "表选择": "auto_大数据表_mysql",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -1070,10 +1072,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_postgres数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "",
                             "批量提交行数": "1000",
                         },
-                        "表选择": "auto_大数据表_postgres",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -1145,10 +1148,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_oracle数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "",
                             "批量提交行数": "1000",
                         },
-                        "表选择": "auto_大数据表_oracle",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -1220,10 +1224,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_mysql数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "",
                             "批量提交行数": "1000",
                         },
-                        "表选择": "auto_大数据表_mysql",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",
@@ -1295,10 +1300,11 @@ class SqlNode(unittest.TestCase):
                         "数据库": "auto_mysql数据库",
                         "存储模式": "",
                         "高级配置": {
+                            "状态": "开启",
                             "跳过行数": "3",
                             "批量提交行数": "",
                         },
-                        "表选择": "auto_大数据表_mysql",
+                        "表选择": "auto_测试表",
                         "字段映射": {
                             "序号": {
                                 "值类型": "索引",

@@ -97,7 +97,7 @@ class EditDashboard:
         # 保存
         sleep(1)
         self.browser.find_element(By.XPATH, self.xpath + "//*[text()='保存']").click()
-        toast = Toast()
+        toast = Toast(timeout=30)
         msg = toast.get_msg()
         if toast.msg_contains("保存成功"):
             log.info("仪表盘保存成功")

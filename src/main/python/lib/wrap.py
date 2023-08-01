@@ -34,6 +34,7 @@ class Wrap:
             elif self.wrap_func == "close_enter_dashboard":
                 close_enter_dashboard()
             return func(*args, **kwargs)
+
         return wrapper
 
 
@@ -168,3 +169,52 @@ def close_enter_dashboard():
             class_name = "index-menu"
             setVisible(browser, class_name)
             browser.find_element(By.XPATH, "//*[@class='index-menu']/a[@class='close']").click()
+
+#
+# class LoadCaseWrap:
+#
+#     def __init__(self, case_file):
+#         self.case_file = case_file
+#         global_config()
+#         initiation_work()
+#
+#     def __call__(self, func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             application = gbl.service.get("application")
+#             case_file_path = gbl.service.get("TestCasePath") + application + self.case_file
+#             if not os.path.exists(case_file_path):
+#                 raise FileNotFoundError("无法找到测试用例文件, {}".format(case_file_path))
+#             workbook = xlrd.open_workbook(case_file_path, formatting_info=True)
+#             sheets = workbook.sheet_by_index(0)
+#             gbl.service.set("CaseSheets", sheets)
+#             log.info("设置CaseSheets")
+#             return func(*args, **kwargs)
+#
+#         return wrapper
+#
+#
+# class ConstructCaseWrap:
+#
+#     def __init__(self, case_order):
+#         self.case_order = case_order
+#
+#     def __call__(self, func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             sheet_case = gbl.service.get("CaseSheets")
+#             self.case_rows = sheet_case.row_values(self.case_order+1)
+#             # 用例名称
+#             case_name = self.case_rows[0]
+#             # 预置条件
+#             case_pres = self.case_rows[2]
+#             # 操作步骤
+#             case_action = self.case_rows[3]
+#             case_action = json.dumps(json.loads(case_action), indent=4, ensure_ascii=False)
+#             # 预期结果
+#             case_checks = self.case_rows[4]
+#             gbl.service.set("CaseConstruct", [case_name, case_pres, case_action, case_checks])
+#             log.info("分解CaseSheets，得到CaseConstruct")
+#             return func(*args, **kwargs)
+#
+#         return wrapper

@@ -24,7 +24,7 @@ class CmdTpl(unittest.TestCase):
             "操作": "TaskDataClear",
             "参数": {
                 "查询条件": {
-                    "任务名称": "auto_指令任务_"
+                    "任务名称": "auto_"
                 },
                 "模糊匹配": "是"
             }
@@ -93,7 +93,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -111,7 +111,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -138,7 +138,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_date",
@@ -163,7 +163,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_指令带参数",
+                "模版名称": "auto_指令模版_指令带参数",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -181,7 +181,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_指令带参数",
+                "模版名称": "auto_指令模版_指令带参数",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -208,7 +208,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_指令带参数",
+                "模版名称": "auto_指令模版_指令带参数",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_单参数",
@@ -233,7 +233,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_组合指令",
+                "模版名称": "auto_指令模版_组合指令",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -251,7 +251,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_组合指令",
+                "模版名称": "auto_指令模版_组合指令",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -278,7 +278,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_组合指令",
+                "模版名称": "auto_指令模版_组合指令",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_组合指令",
@@ -303,7 +303,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_多指令",
+                "模版名称": "auto_指令模版_多指令",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -321,7 +321,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_多指令",
+                "模版名称": "auto_指令模版_多指令",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -348,7 +348,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_多指令",
+                "模版名称": "auto_指令模版_多指令",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令",
@@ -374,7 +374,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元类型",
@@ -392,7 +392,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "状态": "启用"
             }
         }
@@ -407,7 +407,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "修改内容": {
                     "模版网元类型绑定": {
                         "待分配网元类型": [
@@ -428,7 +428,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "状态": "禁用"
             }
         }
@@ -443,7 +443,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "修改内容": {
                     "模版网元类型绑定": {
                         "待分配网元类型": [
@@ -464,7 +464,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "状态": "启用"
             }
         }
@@ -479,7 +479,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "状态": "禁用"
             }
         }
@@ -494,7 +494,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_date",
@@ -519,7 +519,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "自动跟进策略配置": {
                         "状态": "启用",
@@ -548,7 +548,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "自动跟进策略配置": {
                         "状态": "启用",
@@ -574,7 +574,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "自动跟进策略配置": {
                         "状态": "禁用"
@@ -593,7 +593,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "修改内容": {
                     "自动跟进策略配置": {
                         "状态": "启用",
@@ -620,7 +620,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "模版名称": "auto_指令模版_磁盘利用率检查",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -638,7 +638,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "模版名称": "auto_指令模版_磁盘利用率检查",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -665,7 +665,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "模版名称": "auto_指令模版_磁盘利用率检查",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_磁盘利用率检查",
@@ -690,7 +690,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_查看Slab",
+                "模版名称": "auto_指令模版_查看Slab",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -708,7 +708,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_查看Slab",
+                "模版名称": "auto_指令模版_查看Slab",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -735,7 +735,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_查看Slab",
+                "模版名称": "auto_指令模版_查看Slab",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_查看Slab",
@@ -760,7 +760,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_内存利用率检查",
+                "模版名称": "auto_指令模版_内存利用率检查",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -778,7 +778,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_内存利用率检查",
+                "模版名称": "auto_指令模版_内存利用率检查",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -805,7 +805,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_内存利用率检查",
+                "模版名称": "auto_指令模版_内存利用率检查",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_内存利用率检查",
@@ -830,7 +830,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "模版名称": "auto_指令模版_服务器性能检测Top",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -848,7 +848,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "模版名称": "auto_指令模版_服务器性能检测Top",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -875,7 +875,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "模版名称": "auto_指令模版_服务器性能检测Top",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_服务器性能检测Top",
@@ -900,7 +900,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "AddCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器负载检查",
+                "模版名称": "auto_指令模版_服务器负载检查",
                 "专业领域": ["AiSee"],
                 "网络层级": ["4G"],
                 "选择方式": "网元",
@@ -918,7 +918,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器负载检查",
+                "模版名称": "auto_指令模版_服务器负载检查",
                 "修改内容": {
                     "模版网元绑定": {
                         "网元名称": "auto_",
@@ -945,7 +945,7 @@ class CmdTpl(unittest.TestCase):
         action = {
             "操作": "UpdateCmdTpl",
             "参数": {
-                "模版名称": "auto_指令模板_服务器负载检查",
+                "模版名称": "auto_指令模版_服务器负载检查",
                 "修改内容": {
                     "模版指令绑定": {
                         "指令名称": "auto_指令_服务器负载检查",
@@ -966,11 +966,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_45_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_date"""
+        u"""启动指令模版：auto_指令模版_date"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_date",
+                "模版名称": "auto_指令模版_date",
                 "状态": "启用"
             }
         }
@@ -981,11 +981,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_46_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_指令带参数"""
+        u"""启动指令模版：auto_指令模版_指令带参数"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_指令带参数",
+                "模版名称": "auto_指令模版_指令带参数",
                 "状态": "启用"
             }
         }
@@ -996,11 +996,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_47_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_组合指令"""
+        u"""启动指令模版：auto_指令模版_组合指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_组合指令",
+                "模版名称": "auto_指令模版_组合指令",
                 "状态": "启用"
             }
         }
@@ -1011,11 +1011,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_48_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_多指令"""
+        u"""启动指令模版：auto_指令模版_多指令"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_多指令",
+                "模版名称": "auto_指令模版_多指令",
                 "状态": "启用"
             }
         }
@@ -1026,11 +1026,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_49_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_按网元类型"""
+        u"""启动指令模版：auto_指令模版_按网元类型"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_按网元类型",
+                "模版名称": "auto_指令模版_按网元类型",
                 "状态": "启用"
             }
         }
@@ -1041,11 +1041,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_50_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_磁盘利用率检查"""
+        u"""启动指令模版：auto_指令模版_磁盘利用率检查"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_磁盘利用率检查",
+                "模版名称": "auto_指令模版_磁盘利用率检查",
                 "状态": "启用"
             }
         }
@@ -1056,11 +1056,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_51_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_查看Slab"""
+        u"""启动指令模版：auto_指令模版_查看Slab"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_查看Slab",
+                "模版名称": "auto_指令模版_查看Slab",
                 "状态": "启用"
             }
         }
@@ -1071,11 +1071,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_52_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_内存利用率检查"""
+        u"""启动指令模版：auto_指令模版_内存利用率检查"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_内存利用率检查",
+                "模版名称": "auto_指令模版_内存利用率检查",
                 "状态": "启用"
             }
         }
@@ -1086,11 +1086,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_53_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_服务器性能检测Top"""
+        u"""启动指令模版：auto_指令模版_服务器性能检测Top"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_服务器性能检测Top",
+                "模版名称": "auto_指令模版_服务器性能检测Top",
                 "状态": "启用"
             }
         }
@@ -1101,11 +1101,11 @@ class CmdTpl(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_54_cmdTpl_update_status(self):
-        u"""启动指令模版：auto_指令模板_服务器负载检查"""
+        u"""启动指令模版：auto_指令模版_服务器负载检查"""
         action = {
             "操作": "UpdateCmpTplStatus",
             "参数": {
-                "模版名称": "auto_指令模板_服务器负载检查",
+                "模版名称": "auto_指令模版_服务器负载检查",
                 "状态": "启用"
             }
         }

@@ -398,7 +398,7 @@ def add_by_ne_type(level, member_name, status, show_member, ne_type, vendor, mod
                     sleep(1)
                     # 点开下拉框
                     browser.find_element(
-                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[1]//span/a".format(
+                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[2]//span/a".format(
                             cmd_name)).click()
                     try:
                         browser.find_element(
@@ -416,7 +416,7 @@ def add_by_ne_type(level, member_name, status, show_member, ne_type, vendor, mod
                     sleep(1)
                     # 点击参数设置
                     browser.find_element(
-                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[5]//a".format(
+                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[6]//a".format(
                             cmd_name)).click()
                     cmd_node_param_set(param_mode=param_set.get("模式"), params=param_set.get("参数"))
                 else:
@@ -580,13 +580,11 @@ def add_by_ne(level, level_member, ne_type, vendor, model, ne_list, cmd_set):
                 if analyzer:
                     # 点开下拉框
                     browser.find_element(
-                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[1]//span/a".format(
+                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[2]//span/a".format(
                             cmd_name)).click()
                     sleep(1)
                     panel_xpath = getPanelXpath()
-                    browser.find_element(
-                        By.XPATH, panel_xpath + "//*[contains(@id,'analyzerID_') and text()='{0}']".format(
-                            analyzer)).click()
+                    browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(analyzer)).click()
                     log.info("选择解析模版: {}".format(analyzer))
 
             # 指令参数设置
@@ -597,7 +595,7 @@ def add_by_ne(level, level_member, ne_type, vendor, model, ne_list, cmd_set):
                     sleep(1)
                     # 点击参数设置
                     browser.find_element(
-                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[5]//a".format(
+                        By.XPATH, "//*[@field='cmdName']//*[text()='{0}']/../following-sibling::td[6]//a".format(
                             cmd_name)).click()
                     cmd_node_param_set(param_mode=param_set.get("模式"), params=param_set.get("参数"))
                 else:
@@ -605,7 +603,7 @@ def add_by_ne(level, level_member, ne_type, vendor, model, ne_list, cmd_set):
                     continue
 
     # 保存配置
-    browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
+    browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
     log.info("保存配置")
 
     alert = BeAlertBox(back_iframe="default")

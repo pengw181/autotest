@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class AllNodePart2(unittest.TestCase):
+class WorkFlowAllNodePart2(unittest.TestCase):
 
     log.info("装载全流程配置测试用例（2）")
     worker = CaseWorker()
@@ -1294,7 +1294,7 @@ class AllNodePart2(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "指令模版带参数",
-                    "指令任务模版": "auto_指令模板_指令带参数",
+                    "指令任务模版": "auto_指令模版_指令带参数",
                     "应用指令模版名称": "否",
                     "高级配置": {
                         "状态": "开启",
@@ -1358,7 +1358,7 @@ class AllNodePart2(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "指令模版按网元类型",
-                    "指令任务模版": "auto_指令模板_按网元类型",
+                    "指令任务模版": "auto_指令模版_按网元类型",
                     "应用指令模版名称": "否",
                     "高级配置": {
                         "状态": "开启",

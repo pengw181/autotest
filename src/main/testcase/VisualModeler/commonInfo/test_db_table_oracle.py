@@ -203,7 +203,7 @@ class DatabaseManagement(unittest.TestCase):
                         "输出格式": ["yyyy-MM-dd", ""]
                     },
                     {
-                        "列名(数据库)": "adddress",
+                        "列名(数据库)": "address",
                         "列名(自定义)": "详细地址",
                         "列类型": "文本"
                     }
@@ -799,28 +799,136 @@ class DatabaseManagement(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_42_database_table_clear(self):
+    def test_42_database_table_delete(self):
+        u"""数据管理，oracle数据库，删除表：auto_测试表"""
+        action = {
+            "操作": "DeleteDBTable",
+            "参数": {
+                "数据库名称": "auto_oracle数据库",
+                "数据表名称": "auto_测试表"
+            }
+        }
+        msg = "删除成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_43_database_table_add(self):
+        u"""数据管理，oracle数据库，添加表"""
+        action = {
+            "操作": "AddDBTable",
+            "参数": {
+                "数据库名称": "auto_oracle数据库",
+                "数据表名称": "auto_测试表",
+                "表英文名": "auto_test_table"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_44_database_table_add_col(self):
+        u"""数据管理，oracle数据库，数据表添加字段"""
+        action = {
+            "操作": "AddDBTableCol",
+            "参数": {
+                "数据库名称": "auto_oracle数据库",
+                "数据表名称": "auto_测试表",
+                "列信息": [
+                    {
+                        "列名(数据库)": "col_index",
+                        "列名(自定义)": "序号",
+                        "列类型": "字符",
+                        "长度": "10"
+                    },
+                    {
+                        "列名(数据库)": "user_name",
+                        "列名(自定义)": "姓名",
+                        "列类型": "字符",
+                        "长度": "100"
+                    },
+                    {
+                        "列名(数据库)": "comsume",
+                        "列名(自定义)": "消费金额",
+                        "列类型": "数值",
+                        "小位数": "2"
+                    },
+                    {
+                        "列名(数据库)": "balance",
+                        "列名(自定义)": "账户余额",
+                        "列类型": "数值",
+                        "小位数": "0"
+                    },
+                    {
+                        "列名(数据库)": "order_time",
+                        "列名(自定义)": "订单时间",
+                        "列类型": "日期",
+                        "输入格式": ["yyyy-MM-dd HH:mm:ss", ""],
+                        "输出格式": ["yyyy-MM-dd HH:mm:ss", ""]
+                    },
+                    {
+                        "列名(数据库)": "accept_date",
+                        "列名(自定义)": "收货日期",
+                        "列类型": "日期",
+                        "输入格式": ["yyyy-MM-dd", ""],
+                        "输出格式": ["yyyy-MM-dd", ""]
+                    },
+                    {
+                        "列名(数据库)": "address",
+                        "列名(自定义)": "详细地址",
+                        "列类型": "文本"
+                    }
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_45_database_table_clear(self):
         u"""数据管理，oracle数据库，数据表清理，清理导入表"""
         action = {
             "操作": "DBTableClear",
             "参数": {
                 "数据库名称": "auto_oracle数据库",
                 "数据表名称": "auto_导入超大表",
-                "模糊匹配": "否"
+                "模糊匹配": "是"
             }
         }
         result = self.worker.action(action)
         assert result
 
-    def test_43_database_table_import(self):
-        u"""数据管理，oracle数据库，导入表，导入超多字段"""
+    def test_46_database_table_import(self):
+        u"""数据管理，oracle数据库，导入表，导入超多字段，100列"""
         action = {
             "操作": "ImportDBTable",
             "参数": {
                 "数据库名称": "auto_oracle数据库",
-                "数据表名称": "auto_导入超大表",
-                "表英文名": "auto_import_table_many",
-                "字段文件名": "超多字段.xlsx"
+                "数据表名称": "auto_导入超大表100",
+                "表英文名": "auto_import_table_many100",
+                "字段文件名": "超多字段_100列.xlsx"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_47_database_table_import(self):
+        u"""数据管理，oracle数据库，导入表，导入超多字段，200列"""
+        action = {
+            "操作": "ImportDBTable",
+            "参数": {
+                "数据库名称": "auto_oracle数据库",
+                "数据表名称": "auto_导入超大表200",
+                "表英文名": "auto_import_table_many200",
+                "字段文件名": "超多字段_200列.xlsx"
             }
         }
         msg = "操作成功"

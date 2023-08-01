@@ -463,7 +463,7 @@ class Node:
                 self.browser.find_element(By.XPATH, "//iframe[@id='getdata_sql_node']"))
             sql_fetch(opt=kwargs.get("操作"), target_var=kwargs.get("目标变量"), var_name=kwargs.get("变量名"),
                       output_cols=kwargs.get("输出列"), get_col_name=kwargs.get("获取列名"),
-                      value_type=kwargs.get("赋值方式"))
+                      value_type=kwargs.get("赋值方式"), output_content=kwargs.get("输出内容"))
 
         elif self.node_type == "AI节点":
             # 切换到取数配置iframe

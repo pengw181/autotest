@@ -24,7 +24,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -39,11 +39,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对网元其它资料表执行update",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -68,7 +68,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -83,11 +83,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对网元其它资料表执行truncate",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -112,7 +112,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -127,11 +127,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对网元其它资料表执行drop",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -156,7 +156,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -171,11 +171,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘二维表模式表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -200,7 +200,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -215,11 +215,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘二维表模式表执行update",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -244,7 +244,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -259,11 +259,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘二维表模式表执行delete",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -288,7 +288,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -303,11 +303,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘列更新模式表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -332,7 +332,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -347,11 +347,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘分段模式表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -376,7 +376,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -391,11 +391,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘数据模式表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -420,7 +420,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -435,11 +435,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘数据模式表执行update",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -464,7 +464,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -479,11 +479,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘数据模式表执行delete",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -508,7 +508,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -523,11 +523,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘数据模式表执行truncate",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -552,7 +552,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -567,11 +567,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘数据模式表执行drop",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -596,7 +596,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -611,11 +611,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对数据拼盘合并模式表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [
@@ -640,7 +640,7 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "AddNode",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点"
+                "节点类型": "数据库节点"
             }
         }
         msg = "操作成功"
@@ -655,11 +655,11 @@ class SqlNodePart2(unittest.TestCase):
             "操作": "NodeBusinessConf",
             "参数": {
                 "流程名称": "auto_sql节点流程",
-                "节点类型": "Sql节点",
-                "节点名称": "Sql节点",
+                "节点类型": "数据库节点",
+                "节点名称": "数据库节点",
                 "业务配置": {
                     "节点名称": "对系统内部表执行select",
-                    "操作模式": "sql节点高级模式",
+                    "操作模式": "SQL模式",
                     "sql配置": {
                         "数据库": "AiSee",
                         "编写sql": [

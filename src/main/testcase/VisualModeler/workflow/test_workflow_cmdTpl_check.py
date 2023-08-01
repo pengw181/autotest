@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class CmdTplNode(unittest.TestCase):
+class WorkFlowCmdTplNodeCheck(unittest.TestCase):
 
     log.info("装载流程指令模版系统检查测试用例")
     worker = CaseWorker()
@@ -71,7 +71,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "磁盘利用率检查",
-                    "指令任务模版": "auto_指令模板_磁盘利用率检查",
+                    "指令任务模版": "auto_指令模版_磁盘利用率检查",
                     "应用指令模版名称": "否"
                 }
             }
@@ -107,7 +107,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "查看Slab",
-                    "指令任务模版": "auto_指令模板_查看Slab",
+                    "指令任务模版": "auto_指令模版_查看Slab",
                     "应用指令模版名称": "否"
                 }
             }
@@ -143,7 +143,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "内存利用率检查",
-                    "指令任务模版": "auto_指令模板_内存利用率检查",
+                    "指令任务模版": "auto_指令模版_内存利用率检查",
                     "应用指令模版名称": "否"
                 }
             }
@@ -179,7 +179,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "服务器性能检测Top",
-                    "指令任务模版": "auto_指令模板_服务器性能检测Top",
+                    "指令任务模版": "auto_指令模版_服务器性能检测Top",
                     "应用指令模版名称": "否"
                 }
             }
@@ -215,7 +215,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "服务器负载检查",
-                    "指令任务模版": "auto_指令模板_服务器负载检查",
+                    "指令任务模版": "auto_指令模版_服务器负载检查",
                     "应用指令模版名称": "否"
                 }
             }

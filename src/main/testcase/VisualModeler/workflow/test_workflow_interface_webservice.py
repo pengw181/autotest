@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class InterfaceNode(unittest.TestCase):
+class WorkFlowInterfaceNodeWebservice(unittest.TestCase):
 
     log.info("装载流程webservice接口调用配置测试用例")
     worker = CaseWorker()
@@ -82,7 +82,7 @@ class InterfaceNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_5_process_node_opt_conf(self):
-        u"""通用节点，操作配置，添加操作，基础运算，添加一个自定义变量，自定义文本"""
+        u"""通用节点，添加一个自定义变量，自定义文本"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -119,7 +119,7 @@ class InterfaceNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_6_process_node_opt_conf(self):
-        u"""通用节点，操作配置，添加操作，基础运算，添加一个自定义变量，自定义文本"""
+        u"""通用节点，添加一个自定义变量，自定义文本"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
@@ -156,7 +156,7 @@ class InterfaceNode(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_7_process_node_opt_conf(self):
-        u"""通用节点，操作配置，添加操作，基础运算，添加一个自定义变量，内置变量，时间变量"""
+        u"""通用节点，添加一个自定义变量，内置变量，时间变量"""
         action = {
             "操作": "NodeOptConf",
             "参数": {

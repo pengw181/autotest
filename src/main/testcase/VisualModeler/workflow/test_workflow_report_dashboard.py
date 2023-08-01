@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class ReportNode(unittest.TestCase):
+class WorkFlowReportNodeDashboard(unittest.TestCase):
 
     log.info("装载流程报表节点仪表盘模式测试用例")
     worker = CaseWorker()
@@ -186,7 +186,7 @@ class ReportNode(unittest.TestCase):
                         ["2", "等级", "字符", "", "分组"],
                         ["3", "分数", "数字", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "通用报表数据",
+                    "数据接口名称": "workflow_通用报表数据",
                     "备注": "通用报表数据",
                     "样例数据": "report_sample.txt"
                 }
@@ -216,15 +216,15 @@ class ReportNode(unittest.TestCase):
     def test_10_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='通用报表数据')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='通用报表数据')
-        ${Database}.dashboard|delete from dashboard_main where dashboard_name='通用仪表盘'
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_通用报表数据')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_通用报表数据')
+        ${Database}.dashboard|delete from dashboard_main where dashboard_name='workflow_通用仪表盘'
         """
         action = {
             "操作": "DashboardConf",
             "参数": {
                 "仪表盘配置": {
-                    "仪表盘名称": "通用仪表盘",
+                    "仪表盘名称": "workflow_通用仪表盘",
                     "仪表盘副标题": "自动化仪表盘${yyyyMMdd}",
                     "备注": "通用仪表盘",
                     "主题样式": "四季主题",
@@ -248,7 +248,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_柱状图",
+                    "图像名称": "auto_workflow_柱状图",
                     "图像类型": "柱状图",
                     "数据源配置": {
                         "y轴": [
@@ -296,7 +296,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_柱状图2",
+                    "图像名称": "auto_workflow_柱状图2",
                     "图像类型": "柱状图",
                     "数据源配置": {
                         "y轴": [
@@ -361,7 +361,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_折线图",
+                    "图像名称": "auto_workflow_折线图",
                     "图像类型": "折线图",
                     "数据源配置": {
                         "y轴": [
@@ -409,7 +409,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_折线图2",
+                    "图像名称": "auto_workflow_折线图2",
                     "图像类型": "折线图",
                     "数据源配置": {
                         "y轴": [
@@ -472,7 +472,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_饼状图",
+                    "图像名称": "auto_workflow_饼状图",
                     "图像类型": "饼状图",
                     "数据源配置": {
                         "y轴": [
@@ -519,7 +519,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_饼状_饼图",
+                    "图像名称": "auto_workflow_饼状_饼图",
                     "图像类型": "饼状图",
                     "数据源配置": {
                         "y轴": [
@@ -574,7 +574,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_饼状_环形图",
+                    "图像名称": "auto_workflow_饼状_环形图",
                     "图像类型": "饼状图",
                     "数据源配置": {
                         "y轴": [
@@ -630,7 +630,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_饼状_玫瑰图",
+                    "图像名称": "auto_workflow_饼状_玫瑰图",
                     "图像类型": "饼状图",
                     "数据源配置": {
                         "y轴": [
@@ -685,7 +685,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_仪表图",
+                    "图像名称": "auto_workflow_仪表图",
                     "图像类型": "仪表图",
                     "数据源配置": {
                         "y轴": [
@@ -728,7 +728,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_数据表格",
+                    "图像名称": "auto_workflow_数据表格",
                     "图像类型": "数据表格",
                     "数据源配置": {
                         "数据列": [
@@ -764,7 +764,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_数据表格2",
+                    "图像名称": "auto_workflow_数据表格2",
                     "图像类型": "数据表格",
                     "数据源配置": {
                         "数据列": [
@@ -812,7 +812,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_雷达图",
+                    "图像名称": "auto_workflow_雷达图",
                     "图像类型": "雷达图",
                     "数据源配置": {
                         "y轴": [
@@ -860,7 +860,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_雷达图2",
+                    "图像名称": "auto_workflow_雷达图2",
                     "图像类型": "雷达图",
                     "数据源配置": {
                         "y轴": [
@@ -914,7 +914,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_矩形树图",
+                    "图像名称": "auto_workflow_矩形树图",
                     "图像类型": "矩形树图",
                     "数据源配置": {
                         "y轴": [
@@ -952,7 +952,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_矩形树图2",
+                    "图像名称": "auto_workflow_矩形树图2",
                     "图像类型": "矩形树图",
                     "数据源配置": {
                         "y轴": [
@@ -989,15 +989,15 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardAddImage",
             "参数": {
                 "图像列表": [
-                    "auto_柱状图2",
-                    "auto_折线图2",
-                    "auto_饼状_饼图",
-                    "auto_饼状_环形图",
-                    "auto_饼状_玫瑰图",
-                    "auto_仪表图",
-                    "auto_数据表格2",
-                    "auto_雷达图2",
-                    "auto_矩形树图2"
+                    "auto_workflow_柱状图2",
+                    "auto_workflow_折线图2",
+                    "auto_workflow_饼状_饼图",
+                    "auto_workflow_饼状_环形图",
+                    "auto_workflow_饼状_玫瑰图",
+                    "auto_workflow_仪表图",
+                    "auto_workflow_数据表格2",
+                    "auto_workflow_雷达图2",
+                    "auto_workflow_矩形树图2"
                 ]
             }
         }
@@ -1127,7 +1127,7 @@ class ReportNode(unittest.TestCase):
                         ["9", "夜晚风向", "字符", "", "Y轴(度量)"],
                         ["10", "风速", "字符", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "天气预报",
+                    "数据接口名称": "workflow_天气预报",
                     "备注": "7天天气预报",
                     "样例数据": "weather_sample.txt"
                 }
@@ -1157,15 +1157,15 @@ class ReportNode(unittest.TestCase):
     def test_33_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='天气预报')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='天气预报')
-        ${Database}.dashboard|delete from dashboard_main where dashboard_name='天气预报仪表盘'
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_天气预报')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_天气预报')
+        ${Database}.dashboard|delete from dashboard_main where dashboard_name='workflow_天气预报仪表盘'
         """
         action = {
             "操作": "DashboardConf",
             "参数": {
                 "仪表盘配置": {
-                    "仪表盘名称": "天气预报仪表盘",
+                    "仪表盘名称": "workflow_天气预报仪表盘",
                     "仪表盘副标题": "自动化仪表盘${yyyyMMdd}",
                     "备注": "天气预报仪表盘",
                     "主题样式": "四季主题",
@@ -1190,9 +1190,9 @@ class ReportNode(unittest.TestCase):
             "参数": {
                 "字典配置": [
                     {
-                        "字典名称": "风向字典",
+                        "字典名称": "workflow_风向字典",
                         "主题分类": "auto_流程_报表仪表盘模式_天气预报展示",
-                        "数据接口": "天气预报",
+                        "数据接口": "workflow_天气预报",
                         "字典项": "wind.txt"
                     }
                 ]
@@ -1210,7 +1210,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_天气预报",
+                    "图像名称": "auto_workflow_天气预报",
                     "图像类型": "折线图",
                     "数据源配置": {
                         "y轴": [
@@ -1237,11 +1237,11 @@ class ReportNode(unittest.TestCase):
                         "字典转义": [
                             {
                                 "转义字段": "白天风向",
-                                "转义字典": "风向字典"
+                                "转义字典": "workflow_风向字典"
                             },
                             {
                                 "转义字段": "夜晚风向",
-                                "转义字典": "风向字典"
+                                "转义字典": "workflow_风向字典"
                             }
                         ]
                     },
@@ -1274,7 +1274,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardAddImage",
             "参数": {
                 "图像列表": [
-                    "auto_天气预报"
+                    "auto_workflow_天气预报"
                 ]
             }
         }
@@ -1318,7 +1318,7 @@ class ReportNode(unittest.TestCase):
                         ["4", "累计 确诊", "数字", "", "Y轴(度量)"],
                         ["5", "风险 地区", "数字", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "新冠统计",
+                    "数据接口名称": "workflow_新冠统计",
                     "备注": "新冠统计",
                     "样例数据": "COVID-19_sample.txt"
                 }
@@ -1348,15 +1348,15 @@ class ReportNode(unittest.TestCase):
     def test_40_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='新冠统计')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='新冠统计')
-        ${Database}.dashboard|delete from dashboard_main where dashboard_name='新冠统计展示仪表盘'
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_新冠统计')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='workflow_新冠统计')
+        ${Database}.dashboard|delete from dashboard_main where dashboard_name='workflow_新冠统计展示仪表盘'
         """
         action = {
             "操作": "DashboardConf",
             "参数": {
                 "仪表盘配置": {
-                    "仪表盘名称": "新冠统计展示仪表盘",
+                    "仪表盘名称": "workflow_新冠统计展示仪表盘",
                     "仪表盘副标题": "新冠统计展示仪表盘${yyyyMMdd}",
                     "备注": "新冠统计展示仪表盘",
                     "主题样式": "默认主题",
@@ -1381,15 +1381,15 @@ class ReportNode(unittest.TestCase):
             "参数": {
                 "字典配置": [
                     {
-                        "字典名称": "新冠统计字典1",
+                        "字典名称": "workflow_新冠统计字典1",
                         "主题分类": "auto_流程_报表仪表盘模式_新冠统计展示",
-                        "数据接口": "新冠统计",
+                        "数据接口": "workflow_新冠统计",
                         "字典项": "map1.txt"
                     },
                     {
-                        "字典名称": "新冠统计字典2",
+                        "字典名称": "workflow_新冠统计字典2",
                         "主题分类": "auto_流程_报表仪表盘模式_新冠统计展示",
-                        "数据接口": "新冠统计",
+                        "数据接口": "workflow_新冠统计",
                         "字典项": "map2.txt"
                     }
                 ]
@@ -1407,7 +1407,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_地图_累计确诊",
+                    "图像名称": "auto_workflow_地图_累计确诊",
                     "图像类型": "地图",
                     "数据源配置": {
                         "y轴": [
@@ -1450,7 +1450,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_地图_新增确诊",
+                    "图像名称": "auto_workflow_地图_新增确诊",
                     "图像类型": "地图",
                     "数据源配置": {
                         "y轴": [
@@ -1493,7 +1493,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_地图_新增无症状",
+                    "图像名称": "auto_workflow_地图_新增无症状",
                     "图像类型": "地图",
                     "数据源配置": {
                         "y轴": [
@@ -1536,7 +1536,7 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardImageConf",
             "参数": {
                 "图像配置": {
-                    "图像名称": "auto_地图_风险地区",
+                    "图像名称": "auto_workflow_地图_风险地区",
                     "图像类型": "地图",
                     "数据源配置": {
                         "y轴": [
@@ -1579,10 +1579,10 @@ class ReportNode(unittest.TestCase):
             "操作": "DashboardAddImage",
             "参数": {
                 "图像列表": [
-                    "auto_地图_新增确诊",
-                    "auto_地图_新增无症状",
-                    "auto_地图_累计确诊",
-                    "auto_地图_风险地区"
+                    "auto_workflow_地图_新增确诊",
+                    "auto_workflow_地图_新增无症状",
+                    "auto_workflow_地图_累计确诊",
+                    "auto_workflow_地图_风险地区"
                 ]
             }
         }

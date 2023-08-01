@@ -7,11 +7,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from src.main.python.lib.alertBox import BeAlertBox
+from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
 
 
-def sql_fetch(opt, target_var, var_name, output_cols, get_col_name, value_type):
+def sql_fetch(opt, target_var, var_name, output_cols, get_col_name, value_type, output_content):
     """
     :param opt: 操作
     :param target_var: 目标变量
@@ -19,6 +20,7 @@ def sql_fetch(opt, target_var, var_name, output_cols, get_col_name, value_type):
     :param output_cols: 输出列，多列以逗号分隔
     :param get_col_name: 获取列名，是/否
     :param value_type: 赋值方式
+    :param output_content: 输出内容
 
     # 添加
     {
@@ -53,47 +55,53 @@ def sql_fetch(opt, target_var, var_name, output_cols, get_col_name, value_type):
         browser.switch_to.frame(
             browser.find_element(By.XPATH, "//iframe[contains(@src,'getdataSqlNodeEdit.html?type=add')]"))
         wait = WebDriverWait(browser, 30)
-        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@name='varName']/preceding-sibling::input")))
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='getNormalVarName']/following-sibling::span/input[1]")))
         log.info("添加取数配置")
 
         # 变量名
         if var_name:
-            browser.find_element(By.XPATH, "//*[@name='varName']/preceding-sibling::input").clear()
-            browser.find_element(By.XPATH, "//*[@name='varName']/preceding-sibling::input").send_keys(var_name)
+            browser.find_element(By.XPATH, "//*[@id='getNormalVarName']/following-sibling::span/input[1]").clear()
+            browser.find_element(By.XPATH, "//*[@id='getNormalVarName']/following-sibling::span/input[1]").send_keys(
+                var_name)
             log.info("设置变量名: {0}".format(var_name))
             sleep(1)
 
         # 赋值方式
         if value_type:
-            browser.find_element(By.XPATH, "//*[@name='valueType']/preceding-sibling::input").click()
-            browser.find_element(By.XPATH, "//*[contains(@id,'valuetype') and text()='{0}']".format(value_type)).click()
+            browser.find_element(By.XPATH, "//*[@id='valuetype_sql']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(value_type)).click()
             log.info("设置赋值方式: {0}".format(value_type))
             sleep(1)
 
         # 输出列
         if output_cols:
-            browser.find_element(By.XPATH, "//*[@name='varExpr']/preceding-sibling::input").clear()
-            browser.find_element(By.XPATH, "//*[@name='varExpr']/preceding-sibling::input").send_keys(output_cols)
+            browser.find_element(By.XPATH, "//*[@id='getvarExpr']/following-sibling::span/input[1]").clear()
+            browser.find_element(
+                By.XPATH, "//*[@id='getvarExpr']/following-sibling::span/input[1]").send_keys(output_cols)
             log.info("设置输出列: {0}".format(output_cols))
             sleep(1)
 
+        # 输出内容
+        if output_content:
+            browser.find_element(By.XPATH, "//*[@id='varJson']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(output_content)).click()
+            log.info("设置输出内容: {0}".format(output_content))
+            sleep(1)
+
         # 获取列名
-        js = 'return $("#isGetColumnName")[0].checked;'
-        status = browser.execute_script(js)
-        log.info("【获取列名】勾选状态: {0}".format(status))
-        # 聚焦元素
-        contains_column_name = browser.find_element(By.XPATH, "//*[@for='isGetColumnName']")
-        browser.execute_script("arguments[0].scrollIntoView(true);", contains_column_name)
-        if get_col_name == "是":
-            if not status:
+        if get_col_name:
+            js = 'return $("#isGetColumnName")[0].checked;'
+            status = browser.execute_script(js)
+            log.info("【获取列名】勾选状态: {0}".format(status))
+            # 聚焦元素
+            contains_column_name = browser.find_element(By.XPATH, "//*[@for='isGetColumnName']")
+            browser.execute_script("arguments[0].scrollIntoView(true);", contains_column_name)
+            temp = True if get_col_name == "是" else False
+            if temp ^ status:
                 contains_column_name.click()
-            log.info("勾选【获取列名】")
-        else:
-            if status:
-                contains_column_name.click()
-                log.info("取消勾选【获取列名】")
-            else:
-                log.info("【获取列名】标识为否，不开启")
+                log.info("设置获取列名: {}".format(get_col_name))
 
         # 点击保存
         browser.find_element(By.XPATH, "//*[@onclick='addSqlVar()']").click()
@@ -119,42 +127,48 @@ def sql_fetch(opt, target_var, var_name, output_cols, get_col_name, value_type):
 
         # 变量名
         if var_name:
-            browser.find_element(By.XPATH, "//*[@name='varName']/preceding-sibling::input").clear()
-            browser.find_element(By.XPATH, "//*[@name='varName']/preceding-sibling::input").send_keys(var_name)
+            browser.find_element(By.XPATH, "//*[@id='getNormalVarName']/following-sibling::span/input[1]").clear()
+            browser.find_element(By.XPATH, "//*[@id='getNormalVarName']/following-sibling::span/input[1]").send_keys(
+                var_name)
             log.info("设置变量名: {0}".format(var_name))
             sleep(1)
 
         # 赋值方式
         if value_type:
-            browser.find_element(By.XPATH, "//*[@name='valueType']/preceding-sibling::input").click()
-            browser.find_element(By.XPATH, "//*[contains(@id,'valuetype') and text()='{0}']".format(value_type)).click()
+            browser.find_element(By.XPATH, "//*[@id='valuetype_sql']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(value_type)).click()
             log.info("设置赋值方式: {0}".format(value_type))
             sleep(1)
 
         # 输出列
         if output_cols:
-            browser.find_element(By.XPATH, "//*[@name='varExpr']/preceding-sibling::input").clear()
-            browser.find_element(By.XPATH, "//*[@name='varExpr']/preceding-sibling::input").send_keys(output_cols)
+            browser.find_element(By.XPATH, "//*[@id='getvarExpr']/following-sibling::span/input[1]").clear()
+            browser.find_element(
+                By.XPATH, "//*[@id='getvarExpr']/following-sibling::span/input[1]").send_keys(output_cols)
             log.info("设置输出列: {0}".format(output_cols))
             sleep(1)
 
+        # 输出内容
+        if output_content:
+            browser.find_element(By.XPATH, "//*[@id='varJson']/following-sibling::span//a").click()
+            panel_xpath = getPanelXpath()
+            browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(output_content)).click()
+            log.info("设置输出内容: {0}".format(output_content))
+            sleep(1)
+
         # 获取列名
-        js = 'return $("#isGetColumnName")[0].checked;'
-        status = browser.execute_script(js)
-        log.info("【获取列名】勾选状态: {0}".format(status))
-        # 聚焦元素
-        contains_column_name = browser.find_element(By.XPATH, "//*[@for='isGetColumnName']")
-        browser.execute_script("arguments[0].scrollIntoView(true);", contains_column_name)
-        if get_col_name == "是":
-            if not status:
+        if get_col_name:
+            js = 'return $("#isGetColumnName")[0].checked;'
+            status = browser.execute_script(js)
+            log.info("【获取列名】勾选状态: {0}".format(status))
+            # 聚焦元素
+            contains_column_name = browser.find_element(By.XPATH, "//*[@for='isGetColumnName']")
+            browser.execute_script("arguments[0].scrollIntoView(true);", contains_column_name)
+            temp = True if get_col_name == "是" else False
+            if temp ^ status:
                 contains_column_name.click()
-            log.info("勾选【获取列名】")
-        else:
-            if status:
-                contains_column_name.click()
-                log.info("取消勾选【获取列名】")
-            else:
-                log.info("【获取列名】标识为否，不开启")
+                log.info("设置获取列名: {}".format(get_col_name))
 
         # 点击保存
         browser.find_element(By.XPATH, "//*[@onclick='addSqlVar()']").click()

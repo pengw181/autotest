@@ -163,16 +163,19 @@ class Process:
             log.warning("数据 {0} 添加失败，失败提示: {1}".format(process_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
-    def update(self, process, process_name, field, exec_mode, process_desc, advance_set):
+    def update(self, process, process_name, field, exec_mode, process_desc, advance_set, process_type=None):
         """
         :param process: 流程名称
+        :param process_type: 流程类型
         :param process_name: 流程名称
         :param field: 专业领域，数组
         :param process_desc: 流程说明
         :param exec_mode: 执行模式
         :param advance_set: 高级配置
         """
-        self.search(query={"关键字": process}, need_choose=True)
+        if process_type is None:
+            process_type = "主流程"
+        self.search(query={"关键字": process, "流程类型": process_type}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@funcid='process_update']").click()
         wait = WebDriverWait(self.browser, 30)
         wait.until(ec.frame_to_be_available_and_switch_to_it((
@@ -541,8 +544,14 @@ class Process:
         else:
             raise KeyError("【输出异常】状态只支持：开启/关闭")
 
-    def delete(self, process_name):
-        self.search(query={"关键字": process_name}, need_choose=True)
+    def delete(self, process_name, process_type=None):
+        """
+        :param process_name: 流程名称
+        :param process_type: 流程类型
+        """
+        if process_type is None:
+            process_type = "主流程"
+        self.search(query={"关键字": process_name, "流程类型": process_type}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@funcid='process_delete']").click()
 
         alert = BeAlertBox(back_iframe=False)
@@ -560,13 +569,16 @@ class Process:
             log.warning("{0} 删除失败，失败提示: {1}".format(process_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
-    def copy(self, process_name, main_process_name, sub_process_name_list):
+    def copy(self, process_name, main_process_name, sub_process_name_list, process_type=None):
         """
         :param process_name: 流程名称
+        :param process_type: 流程类型
         :param main_process_name: 主流程名称
         :param sub_process_name_list: 子流程名称列表
         """
-        self.search(query={"关键字": process_name}, need_choose=True)
+        if process_type is None:
+            process_type = "主流程"
+        self.search(query={"关键字": process_name, "流程类型": process_type}, need_choose=True)
 
         # 点击复制流程
         self.browser.find_element(By.XPATH, "//*[@onclick='copy_process_info();']").click()
@@ -578,14 +590,14 @@ class Process:
         wait.until(ec.element_to_be_clickable((By.XPATH, "//*[@id='tt']/li/div[1]//*[@name='processName']")))
 
         # 主流程名称
-        if main_process_name is not None:
+        if main_process_name:
             self.browser.find_element(By.XPATH, "//*[@id='tt']/li/div[1]//*[@name='processName']").clear()
             self.browser.find_element(
                 By.XPATH, "//*[@id='tt']/li/div[1]//*[@name='processName']").send_keys(main_process_name)
             log.info("设置主流程名称: {0}".format(main_process_name))
 
         # 子流程名称列表
-        if sub_process_name_list is not None:
+        if sub_process_name_list:
             if not isinstance(sub_process_name_list, list):
                 raise TypeError("子流程名称列表不是list")
             sub_process = self.browser.find_elements(
@@ -701,9 +713,16 @@ class Process:
             log.info("任务{0}保存失败，失败原因: {1}".format(task_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
-    def data_clear(self, process_name, fuzzy_match=False):
+    def data_clear(self, process_name, process_type=None, fuzzy_match=False):
+        """
+        :param process_name: 流程名称
+        :param process_type: 流程类型
+        :param fuzzy_match: 模糊匹配
+        """
         # 用于清除数据，在测试之前执行, 使用process_name开头模糊查询
-        self.search(query={"关键字": process_name}, need_choose=False)
+        if process_type is None:
+            process_type = "主流程"
+        self.search(query={"关键字": process_name, "流程类型": process_type}, need_choose=False)
         if fuzzy_match:
             record_element = self.browser.find_elements(
                 By.XPATH, "//*[@field='processName']//*[starts-with(text(),'{0}')]".format(process_name))
@@ -739,10 +758,11 @@ class Process:
                     # # 返回上层iframe
                     alert = BeAlertBox(timeout=1)
                     alert.click_ok()
+                    page_wait()
                 except NoSuchElementException:
                     pass
                 finally:
-                    alert = BeAlertBox(timeout=30, back_iframe=False)
+                    alert = BeAlertBox(timeout=60, back_iframe=False)
                     msg = alert.get_msg()
                     if alert.title_contains("成功"):
                         log.info("{0} 删除成功".format(search_result))

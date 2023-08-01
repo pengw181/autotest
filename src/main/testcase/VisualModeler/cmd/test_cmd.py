@@ -18,10 +18,14 @@ class Command(unittest.TestCase):
         self.browser = gbl.service.get("browser")
         self.worker.init()
 
-    def test_1_cmd_clear(self):
+    def test_2_cmd_clear(self):
         u"""指令集数据清理，删除历史数据"""
         pres = """
-        ${Database}.main|update tn_cmd_info set is_alive=0 where cmd_name like 'auto_%'
+        ${Database}.main|update tn_cmd_info set is_alive=0 where cmd_name like 'auto_%' and belong_id='${BelongID}' and domain_id='${DomainID}'
+        ${Database}.main|delete from tn_cmd_templ_cmd_rel where cmd_id in (select cmd_id from tn_cmd_info where cmd_name like 'auto_%' and belong_id='${BelongID}' and domain_id='${DomainID}')
+        ${Database}.main|delete from tn_node_nu_cmd_cfg where cmd_id in (select cmd_id from tn_cmd_info where cmd_name like 'auto_%' and belong_id='${BelongID}' and domain_id='${DomainID}')
+        ${Database}.main|update edata_custom_temp set cmd_id=null where table_name_ch like 'auto_%' and cmd_id is not null and belong_id='${BelongID}' and domain_id='${DomainID}'
+        ${Database}.main|update edata_cong_normal set cmd_id=null, analyzer_id=null where temp_id in (select temp_id from edata_custom_temp where table_name_ch like 'auto_%')  and belong_id='${BelongID}' and domain_id='${DomainID}'
         """
         action = {
             "操作": "CmdSetDataClear",
@@ -35,7 +39,7 @@ class Command(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_2_cmd_add(self):
+    def test_3_cmd_add(self):
         u"""添加指令集，指令不带参数，ping指令，网元类型MME"""
         action = {
             "操作": "AddCmdSet",
@@ -65,7 +69,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_3_cmd_add(self):
+    def test_4_cmd_add(self):
         u"""添加指令集，指令不带参数，ping指令，网元类型CSCE"""
         action = {
             "操作": "AddCmdSet",
@@ -95,7 +99,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_4_cmd_add(self):
+    def test_5_cmd_add(self):
         u"""添加指令集，指令不带参数，date指令"""
         action = {
             "操作": "AddCmdSet",
@@ -125,7 +129,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_5_cmd_add(self):
+    def test_6_cmd_add(self):
         u"""添加指令集，指令单参数"""
         action = {
             "操作": "AddCmdSet",
@@ -155,7 +159,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_6_cmd_add(self):
+    def test_7_cmd_add(self):
         u"""添加指令集，指令多参数"""
         action = {
             "操作": "AddCmdSet",
@@ -185,7 +189,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_7_cmd_add(self):
+    def test_8_cmd_add(self):
         u"""添加指令集，组合指令"""
         action = {
             "操作": "AddCmdSet",
@@ -215,7 +219,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_8_cmd_status_update(self):
+    def test_9_cmd_status_update(self):
         u"""启用指令集"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -235,12 +239,12 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_9_cmd_delete(self):
+    def test_10_cmd_delete(self):
         u"""指令已启用，无法删除"""
         action = {
             "操作": "DeleteCmdSet",
             "参数": {
-                "指令信息": {
+                "查询条件": {
                     "指令名称": "auto_指令_ping",
                     "网元分类": ["4G,4G_MME"],
                     "厂家": "华为",
@@ -254,7 +258,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_10_cmd_status_update(self):
+    def test_11_cmd_status_update(self):
         u"""禁用指令集"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -274,12 +278,12 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_11_cmd_delete(self):
+    def test_12_cmd_delete(self):
         u"""指令已禁用，允许删除"""
         action = {
             "操作": "DeleteCmdSet",
             "参数": {
-                "指令信息": {
+                "查询条件": {
                     "指令名称": "auto_指令_ping",
                     "网元分类": ["4G,4G_MME"],
                     "厂家": "华为",
@@ -293,7 +297,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_12_cmd_add(self):
+    def test_13_cmd_add(self):
         u"""添加指令集，指令不带参数，ping指令，网元类型MME"""
         action = {
             "操作": "AddCmdSet",
@@ -328,7 +332,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_13_cmd_status_update(self):
+    def test_14_cmd_status_update(self):
         u"""启用指令集：auto_指令_ping，网元类型MME"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -348,7 +352,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_14_cmd_status_update(self):
+    def test_15_cmd_status_update(self):
         u"""启用指令集：auto_指令_ping，网元类型CSCE"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -368,7 +372,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_15_cmd_status_update(self):
+    def test_16_cmd_status_update(self):
         u"""启用指令集：auto_指令_date"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -388,7 +392,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_16_cmd_status_update(self):
+    def test_17_cmd_status_update(self):
         u"""启用指令集：auto_指令_单参数"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -408,7 +412,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_17_cmd_status_update(self):
+    def test_18_cmd_status_update(self):
         u"""启用指令集：auto_指令_多参数"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -428,7 +432,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_18_cmd_status_update(self):
+    def test_19_cmd_status_update(self):
         u"""启用指令集：auto_指令_组合指令"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -448,7 +452,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_19_cmd_add(self):
+    def test_20_cmd_add(self):
         u"""添加指令集，echo指令"""
         action = {
             "操作": "AddCmdSet",
@@ -478,7 +482,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_20_cmd_status_update(self):
+    def test_21_cmd_status_update(self):
         u"""启用指令集：auto_指令_echo"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -498,7 +502,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_21_cmd_set_output_param(self):
+    def test_22_cmd_set_output_param(self):
         u"""指令集设置输出参数：auto_指令_单参数"""
         action = {
             "操作": "CmdSetOutput",
@@ -527,7 +531,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_cmd_set_input_param(self):
+    def test_23_cmd_set_input_param(self):
         u"""指令集设置输入参数：auto_指令_echo"""
         action = {
             "操作": "CmdSetInput",
@@ -549,7 +553,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_23_cmd_set_input_param(self):
+    def test_24_cmd_set_input_param(self):
         u"""指令集设置输入参数：auto_指令_单参数"""
         action = {
             "操作": "CmdSetInput",
@@ -575,7 +579,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_cmd_add(self):
+    def test_25_cmd_add(self):
         u"""添加指令集，ping指令，日志清洗"""
         action = {
             "操作": "AddCmdSet",
@@ -605,7 +609,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_cmd_set_log_wash(self):
+    def test_26_cmd_set_log_wash(self):
         u"""指令集设置日志清洗：auto_指令_ping_日志清洗"""
         action = {
             "操作": "CmdSetWash",
@@ -686,7 +690,7 @@ class Command(unittest.TestCase):
     #     log.info(gbl.temp.get("ResultMsg"))
     #     assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_cmd_add(self):
+    def test_27_cmd_add(self):
         u"""添加指令集，auto_指令_磁盘利用率检查"""
         action = {
             "操作": "AddCmdSet",
@@ -716,7 +720,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_cmd_add(self):
+    def test_28_cmd_add(self):
         u"""添加指令集，auto_指令_查看Slab"""
         action = {
             "操作": "AddCmdSet",
@@ -746,7 +750,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_cmd_add(self):
+    def test_29_cmd_add(self):
         u"""添加指令集，auto_指令_内存利用率检查"""
         action = {
             "操作": "AddCmdSet",
@@ -776,7 +780,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_cmd_add(self):
+    def test_30_cmd_add(self):
         u"""添加指令集，auto_指令_服务器性能检测Top"""
         action = {
             "操作": "AddCmdSet",
@@ -806,7 +810,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_cmd_add(self):
+    def test_31_cmd_add(self):
         u"""添加指令集，auto_指令_服务器负载检查"""
         action = {
             "操作": "AddCmdSet",
@@ -840,7 +844,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_cmd_status_update(self):
+    def test_32_cmd_status_update(self):
         u"""启用指令集：auto_指令_磁盘利用率检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -860,7 +864,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_cmd_status_update(self):
+    def test_33_cmd_status_update(self):
         u"""启用指令集：auto_指令_查看Slab"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -880,7 +884,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_cmd_status_update(self):
+    def test_34_cmd_status_update(self):
         u"""启用指令集：auto_指令_内存利用率检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -900,7 +904,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_34_cmd_status_update(self):
+    def test_35_cmd_status_update(self):
         u"""启用指令集：auto_指令_服务器性能检测Top"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -920,7 +924,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_35_cmd_status_update(self):
+    def test_36_cmd_status_update(self):
         u"""启用指令集：auto_指令_服务器负载检查"""
         action = {
             "操作": "UpdateCmdSetStatus",
@@ -940,7 +944,7 @@ class Command(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_36_cmd_status_update(self):
+    def test_37_cmd_status_update(self):
         u"""启用指令集：auto_指令_ping_日志清洗"""
         action = {
             "操作": "UpdateCmdSetStatus",

@@ -23,7 +23,9 @@ class TaskManager(unittest.TestCase):
         action = {
             "操作": "TaskDataClear",
             "参数": {
-                "任务名称": "auto_",
+                "查询条件": {
+                    "任务名称": "auto_"
+                },
                 "模糊匹配": "是"
             }
         }
@@ -37,7 +39,7 @@ class TaskManager(unittest.TestCase):
             "参数": {
                 "任务名称": "auto_指令任务_date",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_date",
+                "绑定任务名称": "auto_指令模版_date",
                 "配置定时任务": "关闭",
                 "任务说明": "auto_指令任务_date"
             }
@@ -263,13 +265,13 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_12_task_add(self):
-        u"""添加任务，指令任务"""
+        u"""添加任务，指令任务：auto_指令任务_date"""
         action = {
             "操作": "AddTask",
             "参数": {
                 "任务名称": "auto_指令任务_date",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_date",
+                "绑定任务名称": "auto_指令模版_date",
                 "配置定时任务": "开启",
                 "定时配置": {
                     "首次执行时间": "now",
@@ -287,13 +289,13 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_13_task_add(self):
-        u"""添加任务，指令任务"""
+        u"""添加任务，指令任务：auto_指令任务_指令带参数"""
         action = {
             "操作": "AddTask",
             "参数": {
                 "任务名称": "auto_指令任务_指令带参数",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_指令带参数",
+                "绑定任务名称": "auto_指令模版_指令带参数",
                 "配置定时任务": "开启",
                 "定时配置": {
                     "首次执行时间": "now",
@@ -311,13 +313,13 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_14_task_add(self):
-        u"""添加任务，指令任务"""
+        u"""添加任务，指令任务：auto_指令任务_组合指令"""
         action = {
             "操作": "AddTask",
             "参数": {
                 "任务名称": "auto_指令任务_组合指令",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_组合指令",
+                "绑定任务名称": "auto_指令模版_组合指令",
                 "配置定时任务": "开启",
                 "定时配置": {
                     "首次执行时间": "now",
@@ -335,13 +337,13 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_15_task_add(self):
-        u"""添加任务，指令任务"""
+        u"""添加任务，指令任务：auto_指令任务_多指令"""
         action = {
             "操作": "AddTask",
             "参数": {
                 "任务名称": "auto_指令任务_多指令",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_多指令",
+                "绑定任务名称": "auto_指令模版_多指令",
                 "配置定时任务": "开启",
                 "定时配置": {
                     "首次执行时间": "now",
@@ -359,13 +361,13 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_16_task_add(self):
-        u"""添加任务，指令任务"""
+        u"""添加任务，指令任务：auto_指令任务_按网元类型"""
         action = {
             "操作": "AddTask",
             "参数": {
                 "任务名称": "auto_指令任务_按网元类型",
                 "模版类型": "指令任务",
-                "绑定任务名称": "auto_指令模板_按网元类型",
+                "绑定任务名称": "auto_指令模版_按网元类型",
                 "配置定时任务": "开启",
                 "定时配置": {
                     "首次执行时间": "now",
@@ -383,7 +385,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_17_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_二维表模式"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -407,7 +409,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_18_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_分段模式"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -431,7 +433,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_19_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_列更新模式"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -455,7 +457,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_20_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_合并模式join"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -473,7 +475,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_21_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_合并模式union"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -491,7 +493,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_22_task_add(self):
-        u"""添加任务，数据拼盘任务"""
+        u"""添加任务，数据拼盘任务：auto_数据拼盘任务_合并模式unionall"""
         action = {
             "操作": "AddTask",
             "参数": {
@@ -509,7 +511,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_23_task_update_status(self):
-        u"""更新任务状态"""
+        u"""更新任务状态，启用"""
         action = {
             "操作": "UpdateTaskStatus",
             "参数": {
@@ -563,7 +565,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_26_task_update_status(self):
-        u"""更新任务状态"""
+        u"""更新任务状态，禁用"""
         action = {
             "操作": "UpdateTaskStatus",
             "参数": {
@@ -592,7 +594,7 @@ class TaskManager(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_28_task_update_status(self):
-        u"""更新任务状态"""
+        u"""更新任务状态，启用"""
         action = {
             "操作": "UpdateTaskStatus",
             "参数": {
@@ -612,6 +614,116 @@ class TaskManager(unittest.TestCase):
             "操作": "TriggerTask",
             "参数": {
                 "任务名称": "auto_指令任务_date"
+            }
+        }
+        msg = "运行成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_30_task_update_status(self):
+        u"""启用数据拼盘任务"""
+        action = {
+            "操作": "UpdateTaskStatus",
+            "参数": {
+                "任务名称": "auto_数据拼盘任务_二维表模式",
+                "状态": "启用"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_31_task_trigger(self):
+        u"""任务已启用，运行数据拼盘任务"""
+        action = {
+            "操作": "TriggerTask",
+            "参数": {
+                "任务名称": "auto_数据拼盘任务_二维表模式"
+            }
+        }
+        msg = "运行成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_32_process_approval(self):
+        u"""流程提交审批"""
+        action = {
+            "操作": "ProcessApproval",
+            "参数": {
+                "流程名称": "auto_全流程"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_33_process_update_status(self):
+        u"""流程审批通过，启用流程"""
+        action = {
+            "操作": "UpdateProcessStatus",
+            "参数": {
+                "流程名称": "auto_全流程",
+                "状态": "启用"
+            }
+        }
+        msg = "启用流程成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_34_task_add(self):
+        u"""添加流程任务"""
+        action = {
+            "操作": "AddTask",
+            "参数": {
+                "任务名称": "auto_流程任务_全流程",
+                "模版类型": "流程任务",
+                "绑定任务名称": "auto_全流程",
+                "配置定时任务": "开启",
+                "定时配置": {
+                    "首次执行时间": "2022-06-16 10:00:00",
+                    "间隔周期": "1",
+                    "间隔周期单位": "天"
+                },
+                "任务说明": "auto_流程任务_全流程"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_35_task_update_status(self):
+        u"""启用流程任务"""
+        action = {
+            "操作": "UpdateTaskStatus",
+            "参数": {
+                "任务名称": "auto_流程任务_全流程",
+                "状态": "启用"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_36_task_trigger(self):
+        u"""任务已启用，运行任务"""
+        action = {
+            "操作": "TriggerTask",
+            "参数": {
+                "任务名称": "auto_流程任务_全流程"
             }
         }
         msg = "运行成功"

@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class EmailNode(unittest.TestCase):
+class WorkFlowEmailNodeReceive(unittest.TestCase):
 
     log.info("装载流程邮件接收配置测试用例")
     worker = CaseWorker()
@@ -588,7 +588,7 @@ class EmailNode(unittest.TestCase):
                         },
                         "标题": {
                             "正则匹配": "否",
-                            "值": "{标题}"
+                            "值": "${标题}"
                         }
                     }
                 }

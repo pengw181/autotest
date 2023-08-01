@@ -159,7 +159,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "测试邮件",
                         "正文": [
@@ -311,11 +311,11 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "抄送人": {
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "测试邮件",
                         "正文": [
@@ -391,7 +391,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "抄送人": {
                             "方式": "变量",
@@ -471,7 +471,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "抄送人": {
                             "方式": "变量",

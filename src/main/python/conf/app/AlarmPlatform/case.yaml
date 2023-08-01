@@ -1,0 +1,28 @@
+path:
+#  - /dataPrepare
+#  - /connection
+  - /config
+  - /send
+  - /alarmServer
+
+case:
+  dataPrepare:
+    - test_data_clear.py
+
+  connection:
+    - test_database.py
+    - test_table_belong.py
+    - test_ftp.py
+
+  config:
+#    - test_metadata.py
+#    - test_dictionary.py
+#    - test_alarm_plan.py
+#    - test_alarm_rule.py
+    - test_message_templ.py
+
+  send:
+    - test_send_plan.py
+
+  alarmServer:
+    - test_alarm_server.py

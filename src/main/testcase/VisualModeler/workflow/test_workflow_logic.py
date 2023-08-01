@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class NodeLogic(unittest.TestCase):
+class WorkFlowNodeLogic(unittest.TestCase):
 
     log.info("装载流程逻辑分支测试用例")
     worker = CaseWorker()

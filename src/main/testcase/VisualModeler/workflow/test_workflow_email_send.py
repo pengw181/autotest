@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class EmailNode(unittest.TestCase):
+class WorkFlowEmailNodeSend(unittest.TestCase):
 
     log.info("装载流程邮件发送配置测试用例")
     worker = CaseWorker()
@@ -136,7 +136,7 @@ class EmailNode(unittest.TestCase):
                                 "表达式": [
                                     ["自定义值", ["pw@henghaodata.com"]],
                                     ["并集", ""],
-                                    ["自定义值", ["auto_test@henghaodata.com"]]
+                                    ["自定义值", ["aireade.p@outlook.com"]]
                                 ],
                                 "输出名称": {
                                     "类型": "输入",
@@ -225,7 +225,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "auto_流程_测试邮件(1)",
                         "正文": [
@@ -347,7 +347,7 @@ class EmailNode(unittest.TestCase):
                         },
                         "抄送人": {
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "auto_流程_测试邮件(3)",
                         "正文": [
@@ -469,7 +469,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "auto_流程_测试邮件(5)_${标题}",
                         "正文": [
@@ -528,7 +528,7 @@ class EmailNode(unittest.TestCase):
                         "收件人": {
                             "类型": "自定义",
                             "方式": "请选择",
-                            "值": ["pw@henghaodata.com", "auto_test@henghaodata.com"]
+                            "值": ["pw@henghaodata.com", "aireade.p@outlook.com"]
                         },
                         "标题": "auto_流程_测试邮件(6)",
                         "正文": [

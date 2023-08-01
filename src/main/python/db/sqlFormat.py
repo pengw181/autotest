@@ -54,10 +54,22 @@ def get_sql(database_type, source_data, table_name, schema):
         else:
             ######## 数据库特殊处理开始 ########
             if gbl.temp.get("UpperOrLower") == "upper":
-                upper_col_list = ["time_field", "field_chinese_name", "field_english_name", "field_english_nick_name"]
-                if data[i].lower() in upper_col_list:
+                upper_col_list = ["time_field",
+                                  "field_chinese_name",
+                                  "field_english_name",
+                                  "field_english_nick_name"
+                ]
+                if data[i] in upper_col_list:
                     # 告警平台元数据比对特殊处理
                     data[i+1] = data[i+1].upper()
+
+            else:
+                lower_col_list = [
+                    "result_field_name_en"
+                ]
+                if data[i] in lower_col_list:
+                    # 告警平台元数据比对特殊处理
+                    data[i+1] = data[i+1].lower()
 
             # 根据数据库类型替换TimeDataType
             database_type = gbl.service.get("DatabaseType")

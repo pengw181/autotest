@@ -1668,6 +1668,150 @@ class File(unittest.TestCase):
         result = self.worker.check(checks)
         assert result
 
+    def test_98_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据1w_正常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据1w_正常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_99_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据1w_异常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据1w_异常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_100_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据2w_正常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据2w_正常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_101_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据2w_异常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据2w_异常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_102_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据5w_正常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据5w_正常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_103_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据5w_异常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据5w_异常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_104_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据10w_正常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据10w_正常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
+    def test_105_file_upload(self):
+        u"""个人目录上传文件"""
+        action = {
+            "操作": "UploadFile",
+            "参数": {
+                "目录分类": "personal",
+                "目标目录": "auto_一级目录",
+                "文件名": "大数据10w_异常.csv"
+            }
+        }
+        checks = """
+        CheckFile|大数据10w_异常.csv
+        """
+        result = self.worker.action(action)
+        assert result
+        result = self.worker.check(checks)
+        assert result
+
     def tearDown(self):  # 最后执行的函数
         self.browser = gbl.service.get("browser")
         saveScreenShot()

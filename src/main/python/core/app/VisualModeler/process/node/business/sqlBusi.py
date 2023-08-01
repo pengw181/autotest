@@ -157,7 +157,7 @@ def sql_business(node_name, opt_mode, sql_config, advance_set):
             log.info("配置数据库节点配置模式")
             sql_normal_mode(var=sql_config.get("变量"), db=sql_config.get("数据库"),
                             storage_mode=sql_config.get("存储模式"), table_name=sql_config.get("表选择"),
-                            col_map=sql_config.get("字段映射"))
+                            col_map=sql_config.get("字段映射"), advance=sql_config.get("高级配置"))
 
     # 设置高级模式
     if advance_set:

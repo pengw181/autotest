@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class ReportNode(unittest.TestCase):
+class WorkFlowReportNodeLink(unittest.TestCase):
 
     log.info("装载流程报表节点链接模式测试用例")
     worker = CaseWorker()

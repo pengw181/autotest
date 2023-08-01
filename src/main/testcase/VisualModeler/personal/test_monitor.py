@@ -20,6 +20,9 @@ class MyMonitor(unittest.TestCase):
 
     def test_1_dashboard_clear(self):
         u"""仪表盘数据清理"""
+        pres = """
+        ${Database}.dashboard|delete from dashboard_visual_image where visual_image_name like 'auto_%' and interface_id not in (select interface_id from dashboard_data_interface)
+        """
         action = {
             "操作": "ClearDashboard",
             "参数": {
@@ -27,6 +30,8 @@ class MyMonitor(unittest.TestCase):
                 "模糊匹配": "是"
             }
         }
+        result = self.worker.pre(pres)
+        assert result
         result = self.worker.action(action)
         assert result
 

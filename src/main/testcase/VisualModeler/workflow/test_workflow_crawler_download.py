@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class CrawlerNode(unittest.TestCase):
+class WorkFlowCrawlerNodeDownload(unittest.TestCase):
 
     log.info("装载流程爬虫节点文件下载配置测试用例")
     worker = CaseWorker()

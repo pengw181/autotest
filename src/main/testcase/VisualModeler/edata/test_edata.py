@@ -18,7 +18,43 @@ class Edata(unittest.TestCase):
         self.browser = gbl.service.get("browser")
         self.worker.init()
 
-    def test_1_edata_clear(self):
+    def test_1_task_clear(self):
+        u"""任务数据清理，删除历史数据"""
+        action = {
+            "操作": "TaskDataClear",
+            "参数": {
+                "查询条件": {
+                    "任务名称": "auto_"
+                },
+                "模糊匹配": "是"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_2_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_数据拼盘节点流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_3_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_全流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_4_edata_clear(self):
         u"""数据拼盘，数据清理"""
         action = {
             "操作": "EDataDataClear",
@@ -30,55 +66,6 @@ class Edata(unittest.TestCase):
         }
         result = self.worker.action(action)
         assert result
-
-    def test_2_edata_add(self):
-        u"""数据拼盘，添加二维表模式"""
-        action = {
-            "操作": "AddEDataTpl",
-            "参数": {
-                "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式",
-                "专业领域": ["AiSee", "auto域"],
-                "备注": "auto_数据拼盘_二维表模式，勿删"
-            }
-        }
-        msg = "保存成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_3_edata_add(self):
-        u"""数据拼盘，添加二维表模式，名称已存在"""
-        action = {
-            "操作": "AddEDataTpl",
-            "参数": {
-                "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式",
-                "专业领域": ["AiSee", "auto域"],
-                "备注": "auto_数据拼盘_二维表模式，勿删"
-            }
-        }
-        msg = "表名已存在"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_4_edata_delete(self):
-        u"""数据拼盘，删除二维表模式"""
-        action = {
-            "操作": "DeleteEDataTpl",
-            "参数": {
-                "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式"
-            }
-        }
-        msg = "删除成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_5_edata_add(self):
         u"""数据拼盘，添加二维表模式"""
@@ -97,59 +84,33 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_6_edata_col_set(self):
-        u"""数据拼盘，二维表模式添加列配置"""
+    def test_6_edata_add(self):
+        u"""数据拼盘，添加二维表模式，名称已存在"""
         action = {
-            "操作": "EDataSetCol",
+            "操作": "AddEDataTpl",
             "参数": {
                 "模版类型": "二维表模式",
                 "数据表名称": "auto_数据拼盘_二维表模式",
-                "列配置": [
-                    {
-                        "操作类型": "添加",
-                        "列名(自定义)": "列1",
-                        "列类型": "字符",
-                        "字符长度": "200"
-                    },
-                    {
-                        "操作类型": "添加",
-                        "列名(自定义)": "列2",
-                        "列类型": "字符",
-                        "字符长度": "200"
-                    },
-                    {
-                        "操作类型": "添加",
-                        "列名(自定义)": "列3",
-                        "列类型": "字符",
-                        "字符长度": "200"
-                    }
-                ]
+                "专业领域": ["AiSee", "auto域"],
+                "备注": "auto_数据拼盘_二维表模式，勿删"
             }
         }
-        msg = "保存成功"
+        msg = "表名已存在"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_7_edata_update_rule_config(self):
-        u"""数据拼盘，二维表模式配置更新规则"""
+    def test_7_edata_delete(self):
+        u"""数据拼盘，删除二维表模式"""
         action = {
-            "操作": "EDataConfigUpdateRule",
+            "操作": "DeleteEDataTpl",
             "参数": {
                 "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式",
-                "取参指令": {
-                    "关键字": "auto_指令_date",
-                    "网元分类": ["4G,4G_MME"],
-                    "厂家": "华为",
-                    "设备型号": "ME60"
-                },
-                "指令解析模版": "auto_解析模板_解析date",
-                "二维表结果绑定": ["列1", "列2", "列3"]
+                "数据表名称": "auto_数据拼盘_二维表模式"
             }
         }
-        msg = "保存成功"
+        msg = "删除成功"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))
@@ -161,9 +122,9 @@ class Edata(unittest.TestCase):
             "操作": "AddEDataTpl",
             "参数": {
                 "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式2",
+                "数据表名称": "auto_数据拼盘_二维表模式",
                 "专业领域": ["AiSee", "auto域"],
-                "备注": "auto_数据拼盘_二维表模式2，勿删"
+                "备注": "auto_数据拼盘_二维表模式，勿删"
             }
         }
         msg = "保存成功"
@@ -178,7 +139,7 @@ class Edata(unittest.TestCase):
             "操作": "EDataSetCol",
             "参数": {
                 "模版类型": "二维表模式",
-                "数据表名称": "auto_数据拼盘_二维表模式2",
+                "数据表名称": "auto_数据拼盘_二维表模式",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -213,6 +174,81 @@ class Edata(unittest.TestCase):
             "操作": "EDataConfigUpdateRule",
             "参数": {
                 "模版类型": "二维表模式",
+                "数据表名称": "auto_数据拼盘_二维表模式",
+                "取参指令": {
+                    "关键字": "auto_指令_date",
+                    "网元分类": ["4G,4G_MME"],
+                    "厂家": "华为",
+                    "设备型号": "ME60"
+                },
+                "指令解析模版": "auto_解析模板_解析date",
+                "二维表结果绑定": ["列1", "列2", "列3"]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_11_edata_add(self):
+        u"""数据拼盘，添加二维表模式"""
+        action = {
+            "操作": "AddEDataTpl",
+            "参数": {
+                "模版类型": "二维表模式",
+                "数据表名称": "auto_数据拼盘_二维表模式2",
+                "专业领域": ["AiSee", "auto域"],
+                "备注": "auto_数据拼盘_二维表模式2，勿删"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_12_edata_col_set(self):
+        u"""数据拼盘，二维表模式添加列配置"""
+        action = {
+            "操作": "EDataSetCol",
+            "参数": {
+                "模版类型": "二维表模式",
+                "数据表名称": "auto_数据拼盘_二维表模式2",
+                "列配置": [
+                    {
+                        "操作类型": "添加",
+                        "列名(自定义)": "列1",
+                        "列类型": "字符",
+                        "字符长度": "200"
+                    },
+                    {
+                        "操作类型": "添加",
+                        "列名(自定义)": "列2",
+                        "列类型": "字符",
+                        "字符长度": "200"
+                    },
+                    {
+                        "操作类型": "添加",
+                        "列名(自定义)": "列3",
+                        "列类型": "字符",
+                        "字符长度": "200"
+                    }
+                ]
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_13_edata_update_rule_config(self):
+        u"""数据拼盘，二维表模式配置更新规则"""
+        action = {
+            "操作": "EDataConfigUpdateRule",
+            "参数": {
+                "模版类型": "二维表模式",
                 "数据表名称": "auto_数据拼盘_二维表模式2",
                 "取参指令": {
                     "关键字": "auto_指令_date",
@@ -230,7 +266,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_11_edata_clear(self):
+    def test_14_edata_clear(self):
         u"""数据拼盘，数据清理"""
         action = {
             "操作": "EDataDataClear",
@@ -243,7 +279,7 @@ class Edata(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_12_edata_add(self):
+    def test_15_edata_add(self):
         u"""数据拼盘，添加列更新模式"""
         action = {
             "操作": "AddEDataTpl",
@@ -260,7 +296,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_13_edata_col_set(self):
+    def test_16_edata_col_set(self):
         u"""数据拼盘，列更新模式添加列配置"""
         action = {
             "操作": "EDataSetCol",
@@ -287,7 +323,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_14_edata_clear(self):
+    def test_17_edata_clear(self):
         u"""数据拼盘，数据清理"""
         action = {
             "操作": "EDataDataClear",
@@ -300,7 +336,7 @@ class Edata(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_15_edata_add(self):
+    def test_18_edata_add(self):
         u"""数据拼盘，添加分段模式"""
         action = {
             "操作": "AddEDataTpl",
@@ -325,7 +361,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_16_edata_col_set(self):
+    def test_19_edata_col_set(self):
         u"""数据拼盘，分段模式添加列配置"""
         action = {
             "操作": "EDataSetCol",
@@ -349,7 +385,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_17_edata_clear(self):
+    def test_20_edata_clear(self):
         u"""数据拼盘，数据清理"""
         action = {
             "操作": "EDataDataClear",
@@ -362,7 +398,7 @@ class Edata(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_18_edata_add(self):
+    def test_21_edata_add(self):
         u"""数据拼盘，添加数据模式"""
         action = {
             "操作": "AddEDataTpl",
@@ -379,7 +415,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_19_edata_col_set(self):
+    def test_22_edata_col_set(self):
         u"""数据拼盘，数据模式添加列配置"""
         action = {
             "操作": "EDataSetCol",
@@ -426,15 +462,15 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_20_edata_add(self):
+    def test_23_edata_add(self):
         u"""数据拼盘，添加数据模式，多数据类型列"""
         action = {
             "操作": "AddEDataTpl",
             "参数": {
                 "模版类型": "数据模式",
-                "数据表名称": "auto_数据模式_多数据类型",
+                "数据表名称": "auto_数据拼盘_多数据类型",
                 "专业领域": ["AiSee", "auto域"],
-                "备注": "auto_数据模式_多数据类型，勿删"
+                "备注": "auto_数据拼盘_多数据类型，勿删"
             }
         }
         msg = "保存成功"
@@ -443,13 +479,13 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_21_edata_col_set(self):
+    def test_24_edata_col_set(self):
         u"""数据拼盘，数据模式添加列配置"""
         action = {
             "操作": "EDataSetCol",
             "参数": {
                 "模版类型": "数据模式",
-                "数据表名称": "auto_数据模式_多数据类型",
+                "数据表名称": "auto_数据拼盘_多数据类型",
                 "列配置": [
                     {
                         "操作类型": "添加",
@@ -497,7 +533,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_edata_clear(self):
+    def test_25_edata_clear(self):
         u"""数据拼盘，数据清理"""
         action = {
             "操作": "EDataDataClear",
@@ -510,7 +546,7 @@ class Edata(unittest.TestCase):
         result = self.worker.action(action)
         assert result
 
-    def test_23_edata_add(self):
+    def test_26_edata_add(self):
         u"""数据拼盘，添加合并模式，join"""
         action = {
             "操作": "AddJoinEDataTpl",
@@ -594,7 +630,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_24_edata_add(self):
+    def test_27_edata_add(self):
         u"""数据拼盘，添加合并模式，union"""
         action = {
             "操作": "AddUnionEDataTpl",
@@ -649,7 +685,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_25_edata_add(self):
+    def test_28_edata_add(self):
         u"""数据拼盘，添加合并模式，union all"""
         action = {
             "操作": "AddUnionEDataTpl",
@@ -704,7 +740,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_edata_status_update(self):
+    def test_29_edata_status_update(self):
         u"""数据拼盘，启用二维表模式，未绑定网元"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -720,7 +756,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_edata_netunit_bind(self):
+    def test_30_edata_netunit_bind(self):
         u"""数据拼盘，二维表模式绑定网元"""
         action = {
             "操作": "EDataBindNE",
@@ -755,7 +791,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_edata_netunit_bind(self):
+    def test_31_edata_netunit_bind(self):
         u"""数据拼盘，列更新模式绑定网元"""
         action = {
             "操作": "EDataBindNE",
@@ -790,7 +826,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_edata_netunit_bind(self):
+    def test_32_edata_netunit_bind(self):
         u"""数据拼盘，分段模式绑定网元"""
         action = {
             "操作": "EDataBindNE",
@@ -825,7 +861,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_edata_netunit_bind(self):
+    def test_33_edata_netunit_bind(self):
         u"""数据拼盘，二维表模式绑定网元"""
         action = {
             "操作": "EDataBindNE",
@@ -860,7 +896,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_edata_status_update(self):
+    def test_34_edata_status_update(self):
         u"""数据拼盘，启用二维表模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -876,7 +912,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_32_edata_update(self):
+    def test_35_edata_update(self):
         u"""数据拼盘，二维表模式已启用，修改数据拼盘"""
         action = {
             "操作": "UpdateEDataTpl",
@@ -896,7 +932,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_33_edata_netunit_bind(self):
+    def test_36_edata_netunit_bind(self):
         u"""数据拼盘，二维表模式已启用，绑定网元"""
         action = {
             "操作": "EDataBindNE",
@@ -931,7 +967,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_34_edata_status_update(self):
+    def test_37_edata_status_update(self):
         u"""数据拼盘，禁用二维表模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -947,7 +983,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_35_edata_status_update(self):
+    def test_38_edata_status_update(self):
         u"""数据拼盘，启用二维表模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -963,7 +999,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_36_edata_status_update(self):
+    def test_39_edata_status_update(self):
         u"""数据拼盘，启用二维表模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -979,7 +1015,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_37_edata_status_update(self):
+    def test_40_edata_status_update(self):
         u"""数据拼盘，启用列更新模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -995,7 +1031,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_38_edata_status_update(self):
+    def test_41_edata_status_update(self):
         u"""数据拼盘，启用分段模式"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -1011,7 +1047,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_39_edata_status_update(self):
+    def test_42_edata_status_update(self):
         u"""数据拼盘，启用合并模式，join"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -1027,7 +1063,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_40_edata_status_update(self):
+    def test_43_edata_status_update(self):
         u"""数据拼盘，启用合并模式，union"""
         action = {
             "操作": "EDataUpdateStatus",
@@ -1043,7 +1079,7 @@ class Edata(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_41_edata_status_update(self):
+    def test_44_edata_status_update(self):
         u"""数据拼盘，启用合并模式，union all"""
         action = {
             "操作": "EDataUpdateStatus",

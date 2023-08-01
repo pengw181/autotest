@@ -62,12 +62,12 @@ def cmd_template_business(node_name, cmd_temp_name, use_temp_name, advance_set):
         browser.find_element(By.XPATH, "//*[text()='模版名称']/following-sibling::span[1]/input[1]").send_keys(cmd_temp_name)
         page_wait()
         # 点击查询
-        browser.find_element(By.XPATH, "//*[@id='cmdTmpl-query']//*[text()='查询']").click()
+        browser.find_element(By.XPATH, "//*[@id='cmdTmpl-query']").click()
         page_wait()
         # 勾选指令模版
         browser.find_element(By.XPATH, "//*[@field='templName']//*[text()='{0}']".format(cmd_temp_name)).click()
         # 点击确定
-        browser.find_element(By.XPATH, "//*[@id='cmdTmplSelect']//*[text()='确定']").click()
+        browser.find_element(By.XPATH, "//*[@id='cmdTmplSelect']").click()
         log.info("指令模版选择完成")
         sleep(1)
         # 返回上层iframe
@@ -130,7 +130,7 @@ def cmd_template_business(node_name, cmd_temp_name, use_temp_name, advance_set):
     node_name = browser.find_element(By.XPATH, "//*[@name='node_name']/preceding-sibling::input[1]").get_attribute("value")
 
     # 保存业务配置
-    browser.find_element(By.XPATH, "//*[@id='save_retrieve']//*[text()='保存']").click()
+    browser.find_element(By.XPATH, "//*[@id='save_retrieve']").click()
 
     alert = BeAlertBox(back_iframe="default")
     msg = alert.get_msg()

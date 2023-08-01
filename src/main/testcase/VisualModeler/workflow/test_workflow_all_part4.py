@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class AllNodePart4(unittest.TestCase):
+class WorkFlowAllNodePart4(unittest.TestCase):
 
     log.info("装载全流程配置测试用例（4）")
     worker = CaseWorker()
@@ -34,7 +34,7 @@ class AllNodePart4(unittest.TestCase):
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
     def test_151_process_node_business_conf(self):
-        u"""配置接口节点：soap接口"""
+        u"""配置接口节点：webservice接口"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
@@ -665,7 +665,24 @@ class AllNodePart4(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_188_process_node_add(self):
+    def test_188_process_node_line(self):
+        u"""节点随机森林模型连线到：webservice接口"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_全流程",
+                "起始节点名称": "随机森林模型",
+                "终止节点名称": "webservice接口",
+                "关联关系": "无条件"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_189_process_node_add(self):
         u"""画流程图，添加一个结束节点"""
         action = {
             "操作": "AddNode",
@@ -680,7 +697,7 @@ class AllNodePart4(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_189_process_node_end_conf(self):
+    def test_190_process_node_end_conf(self):
         u"""设置结束节点状态为正常"""
         action = {
             "操作": "SetEndNode",
@@ -695,13 +712,13 @@ class AllNodePart4(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_190_process_node_line(self):
-        u"""节点随机森林模型连线到结束节点"""
+    def test_191_process_node_line(self):
+        u"""节点webservice接口连线到结束节点"""
         action = {
             "操作": "LineNode",
             "参数": {
                 "流程名称": "auto_全流程",
-                "起始节点名称": "随机森林模型",
+                "起始节点名称": "webservice接口",
                 "终止节点名称": "正常",
                 "关联关系": "无条件"
             }

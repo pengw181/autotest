@@ -9,9 +9,9 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class SqlNode(unittest.TestCase):
+class WorkFlowSqlNodeConfigMode2(unittest.TestCase):
 
-    log.info("装载流程数据库节点配置模式测试用例（1）")
+    log.info("装载流程数据库节点配置模式测试用例（2）")
     worker = CaseWorker()
 
     def setUp(self):    # 最先执行的函数，每执行一个方法调用一次，tearDown同理

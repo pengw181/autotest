@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class CmdTplNode(unittest.TestCase):
+class WorkFlowCmdTplNodeNormal(unittest.TestCase):
 
     log.info("装载流程指令模版通用功能测试用例")
     worker = CaseWorker()
@@ -71,7 +71,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "指令不带参数",
-                    "指令任务模版": "auto_指令模板_date",
+                    "指令任务模版": "auto_指令模版_date",
                     "应用指令模版名称": "否"
                 }
             }
@@ -107,7 +107,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "指令带参数",
-                    "指令任务模版": "auto_指令模板_指令带参数",
+                    "指令任务模版": "auto_指令模版_指令带参数",
                     "应用指令模版名称": "否"
                 }
             }
@@ -143,7 +143,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "组合指令",
-                    "指令任务模版": "auto_指令模板_组合指令",
+                    "指令任务模版": "auto_指令模版_组合指令",
                     "应用指令模版名称": "否"
                 }
             }
@@ -164,7 +164,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令不带参数",
                 "业务配置": {
                     "节点名称": "指令不带参数",
-                    "指令任务模版": "auto_指令模板_date",
+                    "指令任务模版": "auto_指令模版_date",
                     "应用指令模版名称": "是"
                 }
             }
@@ -182,10 +182,10 @@ class CmdTplNode(unittest.TestCase):
             "参数": {
                 "流程名称": "auto_流程_指令模版通用功能",
                 "节点类型": "指令模版节点",
-                "节点名称": "auto_指令模板_date",
+                "节点名称": "auto_指令模版_date",
                 "业务配置": {
                     "节点名称": "指令不带参数",
-                    "指令任务模版": "auto_指令模板_date",
+                    "指令任务模版": "auto_指令模版_date",
                     "应用指令模版名称": "否",
                     "高级配置": {
                         "状态": "开启",
@@ -225,7 +225,7 @@ class CmdTplNode(unittest.TestCase):
                 "节点名称": "指令模版节点",
                 "业务配置": {
                     "节点名称": "按网元类型",
-                    "指令任务模版": "auto_指令模板_按网元类型",
+                    "指令任务模版": "auto_指令模版_按网元类型",
                     "应用指令模版名称": "否"
                 }
             }

@@ -9,6 +9,7 @@ from src.main.python.lib.logger import log
 from src.main.python.db.SQLHelper import SQLUtil
 from src.main.python.lib.globals import gbl
 from src.main.python.lib.localAddr import getLocalAddress
+from src.main.python.lib.generateUUID import getUUID
 
 
 class Initiation:
@@ -20,8 +21,8 @@ class Initiation:
     def clear_var():
 
         # 清空过程变量值
-        gbl.temp.clear()
-        log.info("清理流程过程变量")
+        gbl.temp.empty()
+        # log.info("清理流程过程变量")
 
     @staticmethod
     def remove_download_file():
@@ -76,22 +77,32 @@ class Initiation:
 
 def initiation_work():
 
+    # log.info("开始初始化")
     init = Initiation()
-    gbl.service.set("RunEnd", False)
+
+    # 只需要初始化一次
+    if gbl.service.get("ServerInit") is True:
+        # 清空临时变量
+        init.clear_var()
+        return
 
     # 文件清理
-    if not gbl.service.get("ServerInit"):
-        init.remove_download_file()
-        init.remove_screen_shot()
-    init.clear_var()
+    init.remove_download_file()
+    init.remove_screen_shot()
+    log.info("完成数据文件清理")
 
     # 关闭浏览器
     if gbl.service.get("browser"):
         gbl.service.get("browser").quit()
         gbl.service.set("browser", None)
         gbl.service.set("WinHandles", None)
+        log.info("完成浏览器清理")
 
-    gbl.temp.set("ErrorMsg", "")
+    gbl.service.set("RunEnd", False)
+    # gbl.temp.set("ErrorMsg", "")
+
+    # 生成文件夹uuid，用于保存截图
+    gbl.service.set("FolderID", getUUID())
 
     environment = gbl.service.get("environment")
     application = gbl.service.get("application")
@@ -130,7 +141,7 @@ def initiation_work():
 
         gbl.service.set('MockIp', getLocalAddress())
         # 第三方系统平台网络标识, 3.2爬虫服务使用，低于3.2使用内部网/外部网标识
-        if gbl.service.get("crawlerVersion") == 'cmcc':
+        if gbl.service.get("crawlerVersion") == 'ctcc':
             # noinspection PyBroadException
             try:
                 sql_util = SQLUtil(environment, "main")
@@ -146,9 +157,9 @@ def initiation_work():
         gbl.service.set('PlatformNwName', platform_nw_name)
 
         # 数据库管理建大数据表表名配置
-        gbl.service.set('BigImportTable', "AUTO_BIG_IMPORT")
+        gbl.service.set('BigImportTable', "auto_test_table")
 
-    if application == "AlarmPlatform":
+    elif application == "AlarmPlatform":
 
         gbl.service.set('DatabaseP', "v31.postgres")
         gbl.service.set('DatabaseO', "v31.oracle")
@@ -160,7 +171,7 @@ def initiation_work():
         init.init_zg_table(environment, "OutputTableName", "auto_测试输出表", "3")
         gbl.service.set('AlarmRuleTableName', gbl.service.get('AlarmTableName'))
         sql_util = SQLUtil(environment, "alarm")
-        sql = "SELECT database_name FROM alarm_database_info WHERE database_info_id = 'default-{}'".format(
+        sql = "SELECT database_name FROM alarm_database_info WHERE database_info_id like 'default-{}%' and database_username = 'aisee1'".format(
             gbl.service.get("BelongID"))
         default_database_id = sql_util.select(sql)
         gbl.service.set('DefaultDBName', default_database_id)

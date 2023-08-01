@@ -467,7 +467,7 @@ class System(unittest.TestCase):
                 "平台名称": "auto_第三方系统"
             }
         }
-        msg = "测试登录异常！登录失败：账号或密码错误"
+        msg = "账号或密码错误"
         result = self.worker.action(action)
         assert result
         log.info(gbl.temp.get("ResultMsg"))

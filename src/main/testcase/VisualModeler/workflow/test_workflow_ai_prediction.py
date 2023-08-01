@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class AiNode(unittest.TestCase):
+class WorkFlowAiNode(unittest.TestCase):
 
     log.info("装载流程AI节点预测配置测试用例")
     worker = CaseWorker()

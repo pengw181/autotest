@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class FileNode(unittest.TestCase):
+class WorkFlowFileNodeLoad(unittest.TestCase):
 
     log.info("装载流程文件加载配置测试用例")
     worker = CaseWorker()
@@ -216,7 +216,7 @@ class FileNode(unittest.TestCase):
                             "类型": "关键字",
                             "文件名": "文本结果csv3",
                             "文件类型": "csv",
-                            "编码格式": "GBK",
+                            "编码格式": "UTF-8",
                             "开始读取行": "1",
                             "分隔符": ",",
                             "变量": "文件加载csv"
@@ -275,7 +275,7 @@ class FileNode(unittest.TestCase):
                             "类型": "关键字",
                             "文件名": "文本结果csv",
                             "文件类型": "csv",
-                            "编码格式": "GBK",
+                            "编码格式": "UTF-8",
                             "开始读取行": "1",
                             "分隔符": ",",
                             "变量": "文件加载多个csv"
@@ -303,7 +303,7 @@ class FileNode(unittest.TestCase):
                         {
                             "类型": "关键字",
                             "文件名": "图像结果pdf.pdf",
-                            "编码格式": "GBK",
+                            "编码格式": "UTF-8",
                             "开始读取行": "1",
                             "变量": "文件加载pdf"
                         }

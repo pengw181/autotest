@@ -195,7 +195,7 @@ class ReportNode(unittest.TestCase):
                         ["2", "等级", "字符", "", "分组"],
                         ["3", "分数", "数字", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "通用报表数据",
+                    "数据接口名称": "auto_通用报表数据",
                     "备注": "通用报表数据",
                     "样例数据": "report_sample.txt"
                 }
@@ -225,8 +225,8 @@ class ReportNode(unittest.TestCase):
     def test_10_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='通用报表数据')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='通用报表数据')
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_通用报表数据')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_通用报表数据')
         ${Database}.dashboard|delete from dashboard_main where dashboard_name='通用仪表盘'
         """
         action = {
@@ -1136,7 +1136,7 @@ class ReportNode(unittest.TestCase):
                         ["9", "夜晚风向", "字符", "", "Y轴(度量)"],
                         ["10", "风速", "字符", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "天气预报",
+                    "数据接口名称": "auto_天气预报",
                     "备注": "7天天气预报",
                     "样例数据": "weather_sample.txt"
                 }
@@ -1166,8 +1166,8 @@ class ReportNode(unittest.TestCase):
     def test_33_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='天气预报')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='天气预报')
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_天气预报')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_天气预报')
         ${Database}.dashboard|delete from dashboard_main where dashboard_name='天气预报仪表盘'
         """
         action = {
@@ -1201,7 +1201,7 @@ class ReportNode(unittest.TestCase):
                     {
                         "字典名称": "风向字典",
                         "主题分类": "auto_报表节点流程_天气预报展示",
-                        "数据接口": "天气预报",
+                        "数据接口": "auto_天气预报",
                         "字典项": "wind.txt"
                     }
                 ]
@@ -1327,7 +1327,7 @@ class ReportNode(unittest.TestCase):
                         ["4", "累计 确诊", "数字", "", "Y轴(度量)"],
                         ["5", "风险 地区", "数字", "", "Y轴(度量)"]
                     ],
-                    "数据接口名称": "新冠统计",
+                    "数据接口名称": "auto_新冠统计",
                     "备注": "新冠统计",
                     "样例数据": "COVID-19_sample.txt"
                 }
@@ -1357,8 +1357,8 @@ class ReportNode(unittest.TestCase):
     def test_40_dashboard_conf(self):
         u"""添加仪表盘"""
         pres = """
-        ${Database}.dashboard|delete from dashboard_dictionary where interface_id=(select interface_id from dashboard_data_interface where interface_name='新冠统计')
-        ${Database}.dashboard|delete from dashboard_visual_image where interface_id=(select interface_id from dashboard_data_interface where interface_name='新冠统计')
+        ${Database}.dashboard|delete from dashboard_dictionary where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_新冠统计')
+        ${Database}.dashboard|delete from dashboard_visual_image where interface_id = (select interface_id from dashboard_data_interface where interface_name='auto_新冠统计')
         ${Database}.dashboard|delete from dashboard_main where dashboard_name='新冠统计展示仪表盘'
         """
         action = {
@@ -1392,13 +1392,13 @@ class ReportNode(unittest.TestCase):
                     {
                         "字典名称": "新冠统计字典1",
                         "主题分类": "auto_报表节点流程_新冠统计展示",
-                        "数据接口": "新冠统计",
+                        "数据接口": "auto_新冠统计",
                         "字典项": "map1.txt"
                     },
                     {
                         "字典名称": "新冠统计字典2",
                         "主题分类": "auto_报表节点流程_新冠统计展示",
-                        "数据接口": "新冠统计",
+                        "数据接口": "auto_新冠统计",
                         "字典项": "map2.txt"
                     }
                 ]

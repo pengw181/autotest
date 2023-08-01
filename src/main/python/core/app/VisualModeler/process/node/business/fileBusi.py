@@ -836,7 +836,6 @@ def file_load_mode(storage_set, files_set):
             else:
                 file_name_element = browser.find_element(By.XPATH, "//*[@name='keyExpr{0}']".format(num))
             var_name = file_name_element.get_attribute("value")
-            log.info(var_name)
             if var_name:
                 # 如果value不为空，表示本条已配置
                 num += 1

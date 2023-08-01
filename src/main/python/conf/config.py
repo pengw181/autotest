@@ -136,6 +136,9 @@ class IniConfig:
 
 def global_config(config_dict=None):
 
+    if gbl.service.get("ServerInit"):
+        return
+
     configs = Configuration(config_dict)
 
     # service业务参数配置

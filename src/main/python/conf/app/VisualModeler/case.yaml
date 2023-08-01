@@ -1,11 +1,11 @@
 path:
-  - /commonInfo
-  - /cmd
-  - /edata
-  - /process
-  - /personal
+#  - /commonInfo
+#  - /cmd
+#  - /edata
+#  - /process
+#  - /personal
+#  - /workflow
   - /task
-  - /workflow
 
 case:
   commonInfo:
@@ -100,6 +100,8 @@ case:
     - test_workflow_sql_config_part1.py
     - test_workflow_sql_config_part2.py
     - test_workflow_sql_permission.py
+    - test_workflow_sql_efficiency_part1.py
+    - test_workflow_sql_efficiency_part2.py
 
   personal:
     - test_monitor.py

@@ -21,34 +21,45 @@ from src.main.python.lib.globals import gbl
 
 class DrawProcess:
 
-    def __init__(self, process_name):
+    def __init__(self, process_name, process_type=None):
+        """
+        :param process_name: 流程名称
+        :param process_type: 流程类型
+        """
         self.browser = gbl.service.get("browser")
         self.process_name = process_name
         self.current_node_count = 0
         self.last_node_name = "开始"
+
+        current_svg_name = gbl.service.get("DrawProcessName")
+        current_win_handle = WindowHandles()
+        if current_svg_name:
+            if current_svg_name != process_name:
+                # 当前流程图编辑器中的流程不是接下来要编辑的话，将关闭流程图编辑器窗口
+                log.info("当前流程图非待编辑流程，将关闭它")
+                current_win_handle.close("流程图编辑器")
         try:
-            current_win_handle = WindowHandles()
             current_win_handle.switch("流程图编辑器")
         except NoSuchWindowException:
             log.info("当前不在流程图编辑页面，自动进入画流程图页面")
-            Process().search(query={"关键字": process_name}, need_choose=True)
-            self.browser.find_element(By.XPATH, "//*[text()='画流程图']").click()
+            if process_type is None:
+                process_type = "主流程"
+            Process().search(query={"关键字": process_name, "流程类型": process_type}, need_choose=True)
+            self.browser.find_element(By.XPATH, "//*[contains(@onclick,'create_process_figure')]").click()
+            log.info("点击画流程图")
+            page_wait()
 
             # 保存新窗口，并切换到新窗口
-            current_win_handle = WindowHandles()
             current_win_handle.save("流程图编辑器")
             current_win_handle.switch("流程图编辑器")
+            sleep(1)
+
+            # 记录当前流程图编辑器的流程名称信息
+            p_svg = self.browser.find_element(By.XPATH, "//*[@class='GooFlow_head']")
+            p_svg_name = p_svg.get_attribute("innerText")
+            gbl.service.set("DrawProcessName", p_svg_name)
         finally:
             page_wait()
-            # # 如果操作过程中，顶部保存按钮不可见，先刷新当前页面
-            # try:
-            #     save_button = self.browser.find_element(By.XPATH, "//*[contains(@class,'ico_save')]")
-            #     if save_button.is_displayed() is False:
-            #         log.info("保存按钮不可见，刷新页面")
-            #         self.browser.refresh()
-            # except NoSuchElementException:
-            #     log.info("保存按钮不存在，刷新页面")
-            #     self.browser.refresh()
             sleep(1)
 
     def get_new_location(self, is_end_node=False):
@@ -91,8 +102,8 @@ class DrawProcess:
                     By.XPATH, "//*[contains(@class, 'GooFlow_item')]//*[@class='ico_end']")
             else:
                 self.browser.find_element(
-                    By.XPATH, "//*[contains(@class, 'GooFlow_item') and contains(@title,'节点未保存')]//*[text()='{}']".format
-                    (node_name))
+                    By.XPATH, "//*[contains(@class, 'GooFlow_item') and contains(@title,'节点未保存')]//*[text()='{}']".format(
+                        node_name))
             # self.browser.execute_script("arguments[0].scrollIntoView(true);", new_node_element)
             log.info("节点已放置在画布中")
         except NoSuchElementException as e:
@@ -120,7 +131,7 @@ class DrawProcess:
             xset = x_loc - location['x']
         if y_loc is not None:
             yset = y_loc - location['y'] + 30   # 加上节点高度/2
-        log.info("由于指定了新节点坐标，使用指定坐标偏值（相较于开始节点）：[{}, {}]".format(xset, yset))
+        log.info("使用坐标偏值（相较于开始节点）：[{}, {}]".format(xset, yset))
 
         # 如果当前流程图中节点较多，在添加新节点前，先滚动屏幕
         if self.current_node_count > 20:

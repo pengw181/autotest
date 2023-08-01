@@ -391,7 +391,7 @@ class VarEditor:
             #              check_msg=match_regex.get("样例数据"), confirm_selector=confirm_selector)
 
             regular_cube = RegularCube()
-            confirm_selector = "//*[@id='regexpPopUp']"
+            confirm_selector = "//*[@id='regexpReplaceDiv']"
             regular_cube.setRegular(advance_mode=match_regex.get("高级模式"), regular=match_regex.get("标签配置"),
                                     expression=match_regex.get("表达式"), enable_check=match_regex.get("开启验证"),
                                     check_msg=match_regex.get("样例数据"), confirm_selector=confirm_selector)

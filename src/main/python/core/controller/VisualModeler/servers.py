@@ -50,53 +50,55 @@ def actions(func, param):
     elif func == "UpdateProcess":
         action = Process()
         update_map = param.get("修改内容")
-        action.update(process=param.get("流程名称"), process_name=update_map.get("流程名称"), field=update_map.get("专业领域"),
+        action.update(process=param.get("流程名称"), process_type=param.get("流程类型"),
+                      process_name=update_map.get("流程名称"), field=update_map.get("专业领域"),
                       exec_mode=update_map.get("执行模式"), process_desc=update_map.get("流程说明"),
                       advance_set=update_map.get("高级配置"))
 
     elif func == "DeleteProcess":
         action = Process()
-        action.delete(process_name=param.get("流程名称"))
+        action.delete(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
 
     elif func == "CopyProcess":
         action = Process()
-        action.copy(process_name=param.get("流程名称"), main_process_name=param.get("主流程名称"),
-                    sub_process_name_list=param.get("子流程名称列表"))
+        action.copy(process_name=param.get("流程名称"), process_type=param.get("流程类型"),
+                    main_process_name=param.get("主流程名称"), sub_process_name_list=param.get("子流程名称列表"))
 
     elif func == "ProcessDataClear":
         action = Process()
-        action.data_clear(process_name=param.get("流程名称"), fuzzy_match=param.get("模糊匹配"))
+        action.data_clear(process_name=param.get("流程名称"), process_type=param.get("流程类型"),
+                          fuzzy_match=param.get("模糊匹配"))
 
     elif func == "ListProcess":
         action = Process()
         action.search(query=param.get("查询条件"))
 
     elif func == "AddNode":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.locate_node(node_type=param.get("节点类型"), x_loc=param.get("左边距"), y_loc=param.get("上边距"))
 
     elif func == "SetEndNode":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.set_end_node(status=param.get("状态"))
 
     elif func == "NodeBusinessConf":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.node_business_conf(node_type=param.get("节点类型"), node_name=param.get("节点名称"), **param.get("业务配置"))
 
     elif func == "NodeFetchConf":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.node_fetch_conf(node_type=param.get("节点类型"), node_name=param.get("节点名称"), **param.get("取数配置"))
 
     elif func == "NodeControlConf":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.node_control_conf(node_type=param.get("节点类型"), node_name=param.get("节点名称"), **param.get("控制配置"))
 
     elif func == "NodeOptConf":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.node_operate_conf(node_type=param.get("节点类型"), node_name=param.get("节点名称"), array=param.get("操作配置"))
 
     elif func == "LineNode":
-        action = DrawProcess(process_name=param.get("流程名称"))
+        action = DrawProcess(process_name=param.get("流程名称"), process_type=param.get("流程类型"))
         action.combine(source_node_name=param.get("起始节点名称"), target_node_name=param.get("终止节点名称"),
                        logic=param.get("关联关系"))
 

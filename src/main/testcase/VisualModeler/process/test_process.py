@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class CommonNodePart1(unittest.TestCase):
+class ProcessConfig(unittest.TestCase):
 
     log.info("装载流程配置测试用例")
     worker = CaseWorker()
@@ -23,7 +23,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "ProcessDataClear",
             "参数": {
-                "流程名称": "auto_通用节点流程"
+                "流程名称": "auto_配置流程"
             }
         }
         result = self.worker.action(action)
@@ -34,10 +34,10 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_通用节点流程说明"
+                "流程说明": "auto_配置流程说明"
             }
         }
         msg = "保存成功"
@@ -51,10 +51,10 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_通用节点流程说明"
+                "流程说明": "auto_配置流程说明"
             }
         }
         msg = "流程名称重复"
@@ -68,12 +68,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程新",
+                    "流程名称": "auto_配置流程新",
                     "专业领域": ["AiSee"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程新说明"
+                    "流程说明": "auto_配置流程新说明"
                 }
             }
         }
@@ -88,7 +88,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "DeleteProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程新"
+                "流程名称": "auto_配置流程新"
             }
         }
         msg = "删除成功"
@@ -102,10 +102,10 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_通用节点流程说明",
+                "流程说明": "auto_配置流程说明",
                 "高级配置": {
                     "自定义流程变量": {
                         "状态": "开启",
@@ -129,7 +129,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "DeleteProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程"
+                "流程名称": "auto_配置流程"
             }
         }
         msg = "删除成功"
@@ -143,10 +143,10 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_通用节点流程说明",
+                "流程说明": "auto_配置流程说明",
                 "高级配置": {
                     "输出异常": {
                         "状态": "开启",
@@ -154,8 +154,8 @@ class CommonNodePart1(unittest.TestCase):
                         "发件人": "pw@henghaodata.com",
                         "收件人": ["pw@henghaodata.com"],
                         "抄送人": ["pw@henghaodata.com"],
-                        "主题": "auto_流程异常",
-                        "正文": "auto_流程运行异常"
+                        "主题": "auto_配置流程异常",
+                        "正文": "auto_配置流程运行异常"
                     }
                 }
             }
@@ -171,7 +171,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "DeleteProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程"
+                "流程名称": "auto_配置流程"
             }
         }
         msg = "删除成功"
@@ -185,10 +185,10 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "专业领域": ["AiSee", "auto域"],
                 "流程类型": "主流程",
-                "流程说明": "auto_通用节点流程说明",
+                "流程说明": "auto_配置流程说明",
                 "高级配置": {
                     "节点异常终止流程": "否"
                 }
@@ -205,12 +205,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是"
                     }
@@ -228,12 +228,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是",
                         "自定义流程变量": {
@@ -268,12 +268,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是",
                         "自定义流程变量": {
@@ -294,12 +294,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是",
                         "自定义流程变量": {
@@ -316,8 +316,8 @@ class CommonNodePart1(unittest.TestCase):
                             "发件人": "pw@henghaodata.com",
                             "收件人": ["pw@henghaodata.com"],
                             "抄送人": ["pw@henghaodata.com"],
-                            "主题": "auto_流程异常",
-                            "正文": "auto_流程运行异常"
+                            "主题": "auto_配置流程异常",
+                            "正文": "auto_配置流程运行异常"
                         }
                     }
                 }
@@ -334,12 +334,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是",
                         "自定义流程变量": {
@@ -391,12 +391,12 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "UpdateProcess",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "修改内容": {
-                    "流程名称": "auto_通用节点流程",
+                    "流程名称": "auto_配置流程",
                     "专业领域": ["AiSee", "auto域"],
                     "流程类型": "主流程",
-                    "流程说明": "auto_通用节点流程说明",
+                    "流程说明": "auto_配置流程说明",
                     "高级配置": {
                         "节点异常终止流程": "是",
                         "自定义流程变量": {
@@ -422,7 +422,7 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "节点类型": "通用节点"
             }
         }
@@ -437,11 +437,11 @@ class CommonNodePart1(unittest.TestCase):
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_测试流程",
+                "流程名称": "auto_配置流程",
                 "节点类型": "通用节点",
                 "节点名称": "通用节点",
                 "业务配置": {
-                    "节点名称": "参数设置",
+                    "节点名称": "休眠",
                     "场景标识": "无"
                 }
             }
@@ -452,34 +452,24 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    #######################################################################
-
     def test_20_process_node_opt_conf(self):
-        u"""配置通用节点，添加一个变量"""
+        u"""操作配置，添加操作，动作，休眠"""
         action = {
             "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_配置流程",
                 "节点类型": "通用节点",
-                "节点名称": "参数设置",
+                "节点名称": "休眠",
                 "操作配置": [
                     {
                         "对象": "操作",
                         "右键操作": "添加操作",
                         "运算配置": {
-                            "运算类型": "基础运算",
+                            "运算类型": "动作",
                             "配置": {
                                 "表达式": [
-                                    ["变量", "时间"],
-                                    ["并集", ""],
-                                    ["变量", "名字"]
-                                ],
-                                "输出名称": {
-                                    "类型": "输入",
-                                    "变量名": "数据"
-                                },
-                                "输出列": "*",
-                                "赋值方式": "替换"
+                                    ["休眠", "3"]
+                                ]
                             }
                         }
                     }
@@ -492,12 +482,221 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_21_process_node_add(self):
+    def test_21_process_node_line(self):
+        u"""开始节点连线到节点：休眠"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_配置流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "休眠",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_22_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_配置流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_23_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_配置流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_24_process_node_line(self):
+        u"""节点休眠连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_配置流程",
+                "起始节点名称": "休眠",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_25_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_多级流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_26_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_27_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_28_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_29_process_clear(self):
+        u"""流程数据清理，删除历史数据"""
+        action = {
+            "操作": "ProcessDataClear",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程"
+            }
+        }
+        result = self.worker.action(action)
+        assert result
+
+    def test_30_process_add(self):
+        u"""添加流程，多级流程"""
+        action = {
+            "操作": "AddProcess",
+            "参数": {
+                "流程名称": "auto_多级流程",
+                "专业领域": ["AiSee", "auto域"],
+                "流程类型": "主流程",
+                "流程说明": "auto_多级流程说明"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_31_process_add(self):
+        u"""添加流程，添加一级子流程"""
+        action = {
+            "操作": "AddProcess",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "专业领域": ["AiSee", "auto域"],
+                "流程类型": "子流程",
+                "流程说明": "auto_一级子流程说明"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_32_process_add(self):
+        u"""添加流程，添加二级子流程"""
+        action = {
+            "操作": "AddProcess",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "专业领域": ["AiSee", "auto域"],
+                "流程类型": "子流程",
+                "流程说明": "auto_二级子流程说明"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_33_process_add(self):
+        u"""添加流程，添加二级子流程"""
+        action = {
+            "操作": "AddProcess",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "专业领域": ["AiSee", "auto域"],
+                "流程类型": "子流程",
+                "流程说明": "auto_二级子流程2说明"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_34_process_add(self):
+        u"""添加流程，添加三级子流程"""
+        action = {
+            "操作": "AddProcess",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "专业领域": ["AiSee", "auto域"],
+                "流程类型": "子流程",
+                "流程说明": "auto_三级子流程说明"
+            }
+        }
+        msg = "保存成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_35_process_node_add(self):
         u"""画流程图，添加一个通用节点"""
         action = {
             "操作": "AddNode",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_多级流程",
+                "流程类型": "主流程",
                 "节点类型": "通用节点"
             }
         }
@@ -507,16 +706,17 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_22_process_node_business_conf(self):
+    def test_36_process_node_business_conf(self):
         u"""配置通用节点"""
         action = {
             "操作": "NodeBusinessConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_多级流程",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
                 "节点名称": "通用节点",
                 "业务配置": {
-                    "节点名称": "条件依赖",
+                    "节点名称": "主流程节点",
                     "场景标识": "无"
                 }
             }
@@ -527,68 +727,61 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_23_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，关闭条件依赖"""
+    def test_37_process_node_opt_conf(self):
+        u"""操作配置，绑定一级子流程"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_多级流程",
+                "流程类型": "主流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "条件依赖": {
-                        "状态": "关闭"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_24_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启条件依赖"""
-        action = {
-            "操作": "NodeControlConf",
-            "参数": {
-                "流程名称": "auto_通用节点流程",
-                "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "条件依赖": {
-                        "状态": "开启"
-                    }
-                }
-            }
-        }
-        msg = "操作成功"
-        result = self.worker.action(action)
-        assert result
-        log.info(gbl.temp.get("ResultMsg"))
-        assert gbl.temp.get("ResultMsg").startswith(msg)
-
-    def test_25_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启循环，变量列表循环，自定义模式"""
-        action = {
-            "操作": "NodeControlConf",
-            "参数": {
-                "流程名称": "auto_通用节点流程",
-                "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "开启循环": {
-                        "状态": "开启",
-                        "循环条件": ["操作配置"],
-                        "循环类型": "变量列表",
-                        "循环内容": {
-                            "模式": "自定义模式",
-                            "变量名称": "数据",
-                            "循环行变量名称": "i",
-                            "赋值方式": "替换"
+                "节点名称": "主流程节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加子流程",
+                        "操作类型": "绑定子流程",
+                        "子流程配置": {
+                            "子流程名称": "auto_一级子流程"
                         }
                     }
+                ]
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_38_process_node_add(self):
+        u"""画流程图，添加一个通用节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_39_process_node_business_conf(self):
+        u"""配置通用节点"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点",
+                "节点名称": "通用节点",
+                "业务配置": {
+                    "节点名称": "一级子流程节点",
+                    "场景标识": "无"
                 }
             }
         }
@@ -598,44 +791,25 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_26_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启循环，次数循环"""
+    def test_40_process_node_opt_conf(self):
+        u"""操作配置，绑定二级子流程"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "开启循环": {
-                        "状态": "开启",
-                        "循环条件": ["操作配置"],
-                        "循环类型": "次数",
-                        "循环内容": {
-                            "循环次数": "5",
-                            "循环变量名称": "num",
-                            "赋值方式": "替换",
-                            "跳至下一轮条件": [
-                                ["变量", "时间"],
-                                ["不等于", ""],
-                                ["空值", ""],
-                                ["与", ""],
-                                ["变量", "名字"],
-                                ["包含", ""],
-                                ["自定义值", "abc ddd"]
-                            ],
-                            "结束循环条件": [
-                                ["变量", "时间"],
-                                ["不等于", ""],
-                                ["空值", ""],
-                                ["与", ""],
-                                ["变量", "名字"],
-                                ["包含", ""],
-                                ["自定义值", "abc ddd"]
-                            ]
+                "节点名称": "一级子流程节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加子流程",
+                        "操作类型": "绑定子流程",
+                        "子流程配置": {
+                            "子流程名称": "auto_二级子流程"
                         }
                     }
-                }
+                ]
             }
         }
         msg = "操作成功"
@@ -644,49 +818,61 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_27_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启循环，条件循环"""
+    def test_41_process_node_opt_conf(self):
+        u"""操作配置，绑定二级子流程"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "开启循环": {
-                        "状态": "开启",
-                        "循环条件": ["操作配置"],
-                        "循环类型": "条件",
-                        "循环内容": {
-                            "循环条件": [
-                                ["变量", "时间"],
-                                ["不等于", ""],
-                                ["空值", ""],
-                                ["与", ""],
-                                ["变量", "名字"],
-                                ["包含", ""],
-                                ["自定义值", "abc ddd"]
-                            ],
-                            "跳至下一轮条件": [
-                                ["变量", "时间"],
-                                ["不等于", ""],
-                                ["空值", ""],
-                                ["与", ""],
-                                ["变量", "名字"],
-                                ["包含", ""],
-                                ["自定义值", "abc ddd"]
-                            ],
-                            "结束循环条件": [
-                                ["变量", "时间"],
-                                ["不等于", ""],
-                                ["空值", ""],
-                                ["与", ""],
-                                ["变量", "名字"],
-                                ["包含", ""],
-                                ["自定义值", "abc ddd"]
-                            ]
+                "节点名称": "一级子流程节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加子流程",
+                        "操作类型": "绑定子流程",
+                        "子流程配置": {
+                            "子流程名称": "auto_二级子流程2"
                         }
                     }
+                ]
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_42_process_node_add(self):
+        u"""画流程图，添加一个通用节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_43_process_node_business_conf(self):
+        u"""配置通用节点"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点",
+                "节点名称": "通用节点",
+                "业务配置": {
+                    "节点名称": "二级子流程节点",
+                    "场景标识": "无"
                 }
             }
         }
@@ -696,18 +882,260 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_28_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，关闭循环"""
+    def test_44_process_node_opt_conf(self):
+        u"""操作配置，绑定三级子流程"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "开启循环": {
-                        "状态": "关闭"
+                "节点名称": "二级子流程节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加子流程",
+                        "操作类型": "绑定子流程",
+                        "子流程配置": {
+                            "子流程名称": "auto_三级子流程"
+                        }
                     }
+                ]
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_45_process_node_line(self):
+        u"""开始节点连线到节点：主流程节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_多级流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "主流程节点",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_46_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_多级流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_47_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_多级流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_48_process_node_line(self):
+        u"""节点主流程节点连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_多级流程",
+                "起始节点名称": "主流程节点",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_49_process_node_line(self):
+        u"""开始节点连线到节点：一级子流程节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "一级子流程节点",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_50_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_51_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "流程类型": "子流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_52_process_node_line(self):
+        u"""节点一级子流程节点连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_一级子流程",
+                "起始节点名称": "一级子流程节点",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_53_process_node_line(self):
+        u"""开始节点连线到节点：一级子流程节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "二级子流程节点",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_54_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_55_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_56_process_node_line(self):
+        u"""节点二级子流程节点连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_二级子流程",
+                "流程类型": "子流程",
+                "起始节点名称": "二级子流程节点",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_57_process_node_add(self):
+        u"""画流程图，添加一个通用节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "节点类型": "通用节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_58_process_node_business_conf(self):
+        u"""配置通用节点"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "节点类型": "通用节点",
+                "节点名称": "通用节点",
+                "业务配置": {
+                    "节点名称": "二级子流程2节点",
+                    "场景标识": "无"
                 }
             }
         }
@@ -717,46 +1145,133 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_29_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启逻辑分支控制，固定值分支"""
+    def test_59_process_node_opt_conf(self):
+        u"""操作配置，添加操作，动作，休眠"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "逻辑分支控制": {
-                        "状态": "开启",
-                        "逻辑分支类型": "固定值分支",
-                        "满足条件": [
-                            ["变量", "时间"],
-                            ["不等于", ""],
-                            ["空值", ""],
-                            ["与", ""],
-                            ["变量", "名字"],
-                            ["包含", ""],
-                            ["自定义值", "abc ddd"]
-                        ],
-                        "不满足条件": [
-                            ["变量", "时间"],
-                            ["不等于", ""],
-                            ["空值", ""],
-                            ["与", ""],
-                            ["变量", "名字"],
-                            ["包含", ""],
-                            ["自定义值", "abc ddd"]
-                        ],
-                        "不确定条件": [
-                            ["变量", "时间"],
-                            ["不等于", ""],
-                            ["空值", ""],
-                            ["与", ""],
-                            ["变量", "名字"],
-                            ["包含", ""],
-                            ["自定义值", "abc ddd"]
-                        ]
+                "节点名称": "二级子流程2节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加操作",
+                        "运算配置": {
+                            "运算类型": "动作",
+                            "配置": {
+                                "表达式": [
+                                    ["休眠", "2"]
+                                ]
+                            }
+                        }
                     }
+                ]
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_60_process_node_line(self):
+        u"""开始节点连线到节点：二级子流程2节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "二级子流程2节点",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_61_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_62_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_63_process_node_line(self):
+        u"""节点二级子流程2节点连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_二级子流程2",
+                "流程类型": "子流程",
+                "起始节点名称": "二级子流程2节点",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_64_process_node_add(self):
+        u"""画流程图，添加一个通用节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_65_process_node_business_conf(self):
+        u"""配置通用节点"""
+        action = {
+            "操作": "NodeBusinessConf",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "节点类型": "通用节点",
+                "节点名称": "通用节点",
+                "业务配置": {
+                    "节点名称": "三级子流程节点",
+                    "场景标识": "无"
                 }
             }
         }
@@ -766,25 +1281,29 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_30_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，开启逻辑分支控制，动态值分支"""
+    def test_66_process_node_opt_conf(self):
+        u"""操作配置，添加操作，动作，休眠"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "NodeOptConf",
             "参数": {
-                "流程名称": "auto_通用节点流程",
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
                 "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "逻辑分支控制": {
-                        "状态": "开启",
-                        "逻辑分支类型": "动态值分支",
-                        "动态值": [
-                            ["变量", "时间"],
-                            ["+", ""],
-                            ["自定义值", "1"]
-                        ]
+                "节点名称": "三级子流程节点",
+                "操作配置": [
+                    {
+                        "对象": "操作",
+                        "右键操作": "添加操作",
+                        "运算配置": {
+                            "运算类型": "动作",
+                            "配置": {
+                                "表达式": [
+                                    ["休眠", "3"]
+                                ]
+                            }
+                        }
                     }
-                }
+                ]
             }
         }
         msg = "操作成功"
@@ -793,19 +1312,66 @@ class CommonNodePart1(unittest.TestCase):
         log.info(gbl.temp.get("ResultMsg"))
         assert gbl.temp.get("ResultMsg").startswith(msg)
 
-    def test_31_process_node_control_conf(self):
-        u"""配置通用节点，控制配置，关闭逻辑分支控制"""
+    def test_67_process_node_line(self):
+        u"""开始节点连线到节点：三级子流程节点"""
         action = {
-            "操作": "NodeControlConf",
+            "操作": "LineNode",
             "参数": {
-                "流程名称": "auto_通用节点流程",
-                "节点类型": "通用节点",
-                "节点名称": "条件依赖",
-                "控制配置": {
-                    "逻辑分支控制": {
-                        "状态": "关闭"
-                    }
-                }
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "起始节点名称": "开始",
+                "终止节点名称": "三级子流程节点",
+                "关联关系": "满足"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_68_process_node_add(self):
+        u"""画流程图，添加一个结束节点"""
+        action = {
+            "操作": "AddNode",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "节点类型": "结束节点"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_69_process_node_end_conf(self):
+        u"""设置结束节点状态为正常"""
+        action = {
+            "操作": "SetEndNode",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "状态": "正常"
+            }
+        }
+        msg = "操作成功"
+        result = self.worker.action(action)
+        assert result
+        log.info(gbl.temp.get("ResultMsg"))
+        assert gbl.temp.get("ResultMsg").startswith(msg)
+
+    def test_70_process_node_line(self):
+        u"""节点三级子流程节点连线到：结束节点"""
+        action = {
+            "操作": "LineNode",
+            "参数": {
+                "流程名称": "auto_三级子流程",
+                "流程类型": "子流程",
+                "起始节点名称": "三级子流程节点",
+                "终止节点名称": "正常",
+                "关联关系": "满足"
             }
         }
         msg = "操作成功"

@@ -4,7 +4,6 @@
 
 import os
 # import time
-from src.main.python.lib.globals import gbl
 from src.main.python.core.gooflow.suite import createSuite
 from src.main.python.core.gooflow.initiation import initiation_work
 from src.main.python.conf.config import global_config

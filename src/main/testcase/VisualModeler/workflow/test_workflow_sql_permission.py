@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class SqlNode(unittest.TestCase):
+class WorkFlowSqlNodePermission(unittest.TestCase):
 
     log.info("装载流程数据库SQL模式权限测试用例")
     worker = CaseWorker()

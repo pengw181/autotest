@@ -59,12 +59,13 @@ class GlobalSubSet(dict):
         self.global_set.update({key: value})
         self.update(self.global_set)
 
-    def clear(self):
+    def empty(self):
         """
         # 在每条测试用例执行之前，清空过程变量，即temp
         :return:
         """
-        self = {}
+        self.global_set.clear()
+        self.update(self.global_set)
 
     def get(self, var_name):
         """
@@ -95,6 +96,8 @@ class GlobalSubSet(dict):
                     value = str(self.get(var))
                 else:
                     value = self.get(var)
+                if not value:
+                    raise AttributeError("无法替换变量【{}】".format(var))
                 if value.find("\\") > -1:  # 新增
                     data = value.replace("\\", "\\\\")
                 else:

@@ -11,7 +11,7 @@ from src.main.python.lib.globals import gbl
 # ------------------------------------------------------------------------
 # The redirectors below are used to capture output during testing. Output
 # sent to sys.stdout and sys.stderr are automatically captured. However
-# in some cases sys.stdout is already cached before HTMLTestRunner is
+# in some cases sys.stdout is already cached dataPrepare HTMLTestRunner is
 # invoked (e.g. calling logging.basicConfig). In order to capture those
 # output, use the redirectors for the cached stream.
 #
@@ -750,7 +750,7 @@ class HTMLTestRunner(TemplateHtml):
         if uo and unum != -1:
             hidde_status = ''
             # print(unum)
-            image_url = '../screenShot/' + str(uo)[unum + 11:unum + 34]
+            image_url = str(uo)[unum + 11:]     # 获取截图完整路径
             # print("图片地址：%s" % image_url)
         else:
             hidde_status = '''hidden="hidden"'''
@@ -791,7 +791,7 @@ class TestProgram(unittest.TestProgram):
     def runTests(self):
         # Pick HTMLTestRunner as the default test runner.
         # base class's testRunner parameter is not useful because it means
-        # we have to instantiate HTMLTestRunner before we know self.verbosity.
+        # we have to instantiate HTMLTestRunner dataPrepare we know self.verbosity.
         if self.testRunner is None:
             self.testRunner = HTMLTestRunner(verbosity=self.verbosity)
         unittest.TestProgram.runTests(self)

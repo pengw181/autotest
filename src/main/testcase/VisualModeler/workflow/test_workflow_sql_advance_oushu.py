@@ -9,7 +9,7 @@ from src.main.python.core.gooflow.case import CaseWorker
 from src.main.python.lib.screenShot import saveScreenShot
 
 
-class SqlNodeOuShu(unittest.TestCase):
+class WorkFlowSqlNodeOuShu(unittest.TestCase):
 
     log.info("装载流程数据库节点OuShu数据库测试用例")
     worker = CaseWorker()

@@ -55,7 +55,7 @@ class WindowHandles:
             self.win_handles.pop(title)
             gbl.service.set("WinHandles", self.win_handles)
             self.browser.switch_to.window(self.browser.window_handles[-1])
-            log.info("窗口【{0}】已关闭.".format(title))
+            log.info("关闭窗口【{0}】.".format(title))
             log.info(gbl.service.get("WinHandles"))
             self.browser.refresh()
         else:
