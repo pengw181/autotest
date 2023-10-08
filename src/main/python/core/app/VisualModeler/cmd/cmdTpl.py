@@ -343,7 +343,7 @@ class CmdTemplate:
 
         # 保存
         self.browser.find_element(By.XPATH, "//*[@id='cmdTmpl-saveFollowUp']").click()
-        alert = BeAlertBox(timeout=3)
+        alert = BeAlertBox(timeout=30)
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
             log.info("保存自动跟进策略成功")

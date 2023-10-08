@@ -223,7 +223,7 @@ def cmd_business(node_name, mem_filter, ne_filter, choose_type, scene, config, a
         By.XPATH, "//*[@name='node_name']/preceding-sibling::input[1]").get_attribute("value")
 
     # 保存节点
-    browser.find_element(By.XPATH, "//*[@id='save_retrieve']//*[text()='保存']").click()
+    browser.find_element(By.XPATH, "//*[@id='save_retrieve']").click()
     log.info("保存节点")
 
     alert = BeAlertBox(back_iframe="default")
@@ -424,7 +424,7 @@ def add_by_ne_type(level, member_name, status, show_member, ne_type, vendor, mod
                     continue
 
     # 保存配置
-    browser.find_element(By.XPATH, "//*[@id='submitBtn']//*[text()='提交']").click()
+    browser.find_element(By.XPATH, "//*[@id='submitBtn']").click()
     log.info("保存配置")
 
     alert = BeAlertBox(back_iframe="default")

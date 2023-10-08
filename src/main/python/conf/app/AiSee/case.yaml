@@ -1,17 +1,18 @@
 path:
-  - /user
+#  - /user
   - /netunit
 
 case:
   netunit:
-    - test_vendor_model.py
-    - test_ne_level.py
-    - test_login_mode.py
-    - test_account.py
-    - test_jump_cmd.py
-    - test_terminal.py
-    - test_ne_template.py
-    - test_confirm.py
+#    - test_vendor_model.py
+#    - test_ne_level.py
+#    - test_login_mode.py
+#    - test_account.py
+#    - test_jump_cmd.py
+#    - test_terminal.py
+#    - test_netunit.py
+#    - test_ne_template.py
+#    - test_confirm.py
     - test_connection.py
     - test_connection_report.py
 

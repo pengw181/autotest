@@ -28,9 +28,25 @@ thirdSystem:
   https: https://192.168.88.116:9336
 
 netunit:
-  - auto_test_001
-  - auto_test_002
-  - auto_test_003
+  MME:
+    - auto_mme_001
+    - auto_mme_002
+    - auto_mme_003
+  AUTO:
+    - auto_test_001
+    - auto_test_002
+    - auto_test_003
+    - auto_test_004
+    - auto_test_005
+    - auto_test_006
+    - auto_test_007
+    - auto_test_008
+    - auto_test_009
+    - auto_test_010
+  CSCE:
+    - auto_csce_001
+    - auto_csce_002
+    - auto_csce_003
 
 email:
   password: P!w0401030990

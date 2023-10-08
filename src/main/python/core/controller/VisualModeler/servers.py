@@ -24,10 +24,10 @@ from src.main.python.core.app.VisualModeler.cmd.cmdSet import CmdSet
 from src.main.python.core.app.VisualModeler.cmd.cmdTpl import CmdTemplate
 from src.main.python.core.app.VisualModeler.cmd.relurX import RulerX
 from src.main.python.core.app.VisualModeler.cmd.regexpTpl import RegexpTemplate
+from src.main.python.core.app.VisualModeler.cmd.blacklist import BlackList
 from src.main.python.core.app.VisualModeler.edata.eDataTpl import EDataTemplate
 from src.main.python.core.app.VisualModeler.personal.myMonitor import Monitor
 from src.main.python.core.app.VisualModeler.task.taskManage import TaskManage
-# from src.main.python.lib.autoLogin import auto_enter_vm
 from src.main.python.lib.wrap import Wrap
 from src.main.python.lib.logger import log
 
@@ -737,6 +737,30 @@ def actions(func, param):
     elif func == "RegexpDataClear":
         action = RegexpTemplate()
         action.data_clear(regexp_name=param.get("正则模版名称"), fuzzy_match=param.get("模糊匹配"))
+
+    # 指令集黑名单
+    elif func == "AddCmdBlacklist":
+        action = BlackList()
+        action.add(vendor=param.get("厂家"), model=param.get("设备型号"),
+                   blacklist_str=param.get("黑名单内容"), remark=param.get("备注"))
+
+    elif func == "UpdateCmdBlacklist":
+        action = BlackList()
+        update_map = param.get("修改内容")
+        action.update(query=param.get("查询条件"), vendor=update_map.get("厂家"), model=update_map.get("设备型号"),
+                      blacklist_str=update_map.get("黑名单内容"), remark=update_map.get("备注"))
+
+    elif func == "SetBlacklistStatus":
+        action = BlackList()
+        action.set_status(query=param.get("查询条件"), status=param.get("状态"))
+
+    elif func == "DeleteBlacklist":
+        action = BlackList()
+        action.delete(query=param.get("查询条件"))
+
+    elif func == "BlacklistDataClear":
+        action = BlackList()
+        action.data_clear(blacklist=param.get("黑名单内容"), fuzzy_match=param.get("模糊匹配"))
 
     # 数据拼盘
     elif func == "AddEDataTpl":

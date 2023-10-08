@@ -157,8 +157,8 @@ class ProcessNodeJson:
         log.info("节点: {0} 至节点: {1}".format(source_node_name, target_node_name))
         from_location = "{0},{1}".format(from_x, from_y)
         to_location = "{0},{1}".format(to_x, to_y)
-        log.info(from_location)
-        log.info(to_location)
+        # log.info(from_location)
+        # log.info(to_location)
 
         return from_location, to_location, line_type
 

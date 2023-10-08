@@ -13,7 +13,6 @@ from src.main.python.lib.toast import Toast
 from src.main.python.lib.wrap import Wrap
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl
-from src.main.python.core.app.Dashboard.image.imageType import getImageType
 from src.main.python.core.app.Dashboard.image.style.bar import bar_style
 from src.main.python.core.app.Dashboard.image.style.line import line_style
 from src.main.python.core.app.Dashboard.image.style.pie import pie_style
@@ -722,3 +721,20 @@ class Image:
                 log.warning("清理失败，失败提示: {0}".format(msg))
                 gbl.temp.set("ResultMsg", msg)
                 break
+
+
+def getImageType(image_type_name):
+    image_map = {
+        "柱状图": "bar",
+        "折线图": "line",
+        "饼状图": "pie",
+        "仪表图": "gauge",
+        "雷达图": "radar",
+        "数据表格": "table",
+        "地图": "map",
+        "文本块": "text",
+        "散点图": "scatter",
+        "矩形树图": "treeMap",
+        "iframe块": "iframe"
+    }
+    return image_map.get(image_type_name)

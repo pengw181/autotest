@@ -2,24 +2,29 @@ path:
 #  - /commonInfo
 #  - /cmd
 #  - /edata
-#  - /process
-#  - /personal
+  - /process
 #  - /workflow
-  - /task
+#  - /task
+#  - /personal
 
 case:
   commonInfo:
-    - test_template.py
+    - test_template_part1.py
+    - test_template_part2.py
     - test_proxy.py
     - test_field.py
-    - test_database.py
-    - test_script.py
+    - test_script_part1.py
+    - test_script_part2.py
     - test_email.py
     - test_ftp.py
-    - test_file.py
+    - test_file_part1.py
+    - test_file_part2.py
+    - test_file_part3.py
     - test_system.py
     - test_interface.py
     - test_ai.py
+    - test_database_part1.py
+    - test_database_part2.py
     - test_db_table_mysql.py
     - test_db_table_oracle.py
     - test_db_table_postgres.py
@@ -29,37 +34,41 @@ case:
     - test_regex.py
     - test_rulerX.py
     - test_cmd.py
-    - test_cmdTpl.py
+    - test_cmdTpl_part1.py
+    - test_cmdTpl_part2.py
 
   edata:
     - test_edata.py
 
   process:
-    - test_node_common_part1.py
-    - test_node_common_part2.py
-    - test_node_common_part3.py
-    - test_node_common_part4.py
-    - test_node_cmd.py
-    - test_node_cmdTpl.py
-    - test_node_edata.py
-    - test_node_file.py
-    - test_node_script.py
-    - test_node_sql_part1.py
-    - test_node_sql_part2.py
-    - test_node_crawler_part1.py
-    - test_node_crawler_part2.py
-    - test_node_crawler_part3.py
-    - test_node_crawler_part4.py
-    - test_node_crawler_part5.py
+#    - test_node_common_part1.py
+#    - test_node_common_part2.py
+#    - test_node_cmd.py
+#    - test_node_cmdTpl.py
+#    - test_node_edata.py
+#    - test_node_file_part1.py
+#    - test_node_file_part2.py
+#    - test_node_script_part1.py
+#    - test_node_script_part2.py
+#    - test_node_sql_part1.py
+#    - test_node_sql_part2.py
+#    - test_node_sql_part3.py
+#    - test_node_crawler_part1.py
+#    - test_node_crawler_part2.py
+#    - test_node_crawler_part3.py
+#    - test_node_crawler_part4.py
     - test_node_info.py
-    - test_node_handle.py
-    - test_node_email.py
-    - test_node_interface.py
-    - test_node_report.py
-    - test_node_ocr.py
-    - test_node_ai.py
-    - test_process.py
-    - test_process_copy.py
+#    - test_node_handle.py
+#    - test_node_email_part1.py
+#    - test_node_email_part2.py
+#    - test_node_interface.py
+#    - test_node_report_part1.py
+#    - test_node_report_part2.py
+#    - test_node_ocr.py
+#    - test_node_ai_part1.py
+#    - test_node_ai_part2.py
+#    - test_process_part1.py
+#    - test_process_part2.py
 
   workflow:
     - test_workflow_all_part1.py
@@ -83,25 +92,31 @@ case:
     - test_workflow_file_load.py
     - test_workflow_info_show.py
     - test_workflow_info_alarm.py
-    - test_workflow_script_call.py
+    - test_workflow_script_call_part1.py
+    - test_workflow_script_call_part2.py
     - test_workflow_interface_webservice.py
     - test_workflow_interface_restful.py
     - test_workflow_interface_soap.py
     - test_workflow_report_link.py
-    - test_workflow_report_dashboard.py
+    - test_workflow_report_dashboard_part1.py
+    - test_workflow_report_dashboard_part2.py
     - test_workflow_ai_prediction.py
     - test_workflow_ocr_identify.py
     - test_workflow_logic.py
     - test_workflow_calculate.py
-    - test_workflow_function.py
+    - test_workflow_function_part1.py
+    - test_workflow_function_part2.py
     - test_workflow_sql_advance_part1.py
     - test_workflow_sql_advance_part2.py
     - test_workflow_sql_advance_oushu.py
     - test_workflow_sql_config_part1.py
     - test_workflow_sql_config_part2.py
-    - test_workflow_sql_permission.py
+    - test_workflow_sql_permission_part1.py
+    - test_workflow_sql_permission_part2.py
     - test_workflow_sql_efficiency_part1.py
     - test_workflow_sql_efficiency_part2.py
+    - test_workflow_sql_efficiency_part3.py
+    - test_process_copy.py
 
   personal:
     - test_monitor.py

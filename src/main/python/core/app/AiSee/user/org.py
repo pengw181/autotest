@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from src.main.python.core.mainPage import AiSee
+from src.main.python.core.app.AiSee.user.user import User
 from src.main.python.lib.pageMaskWait import page_wait
 from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.alertBox import BeAlertBox
@@ -63,7 +64,7 @@ class Organization:
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='org-form-submit']").click()
         self.browser.switch_to.parent_frame()
-        alert = BeAlertBox(timeout=3)
+        alert = BeAlertBox(timeout=30)
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
             log.info("添加组织 {0} 成功".format(org_name))
@@ -106,7 +107,7 @@ class Organization:
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='org-form-submit']").click()
         self.browser.switch_to.parent_frame()
-        alert = BeAlertBox(timeout=3)
+        alert = BeAlertBox(timeout=30)
         msg = alert.get_msg()
         if alert.title_contains("保存成功"):
             log.info("修改组织 {0} 成功".format(org_name))
@@ -149,19 +150,17 @@ class Organization:
             log.info("组织 {0} 不存在，无需清理".format(node_name))
             return
         log.info("选择组织: {0}，删除组织".format(node_name))
-        delete_elements = self.browser.find_elements(By.XPATH, "//*[text()='删除选中组织']")
-        for element in delete_elements:
-            if element.is_displayed():
-                element.click()
-                alert = BeAlertBox(timeout=1)
-                msg = alert.get_msg()
-                if alert.title_contains("您确定要删除{0}，及其下属组织吗".format(node_name), auto_click_ok=False):
-                    alert.click_ok()
-                    alert = BeAlertBox(timeout=10, back_iframe=False)
-                    msg = alert.get_msg()
-                    if alert.title_contains("删除成功"):
-                        log.info("删除组织 {0} 成功".format(node_name))
-                    else:
-                        log.warning("删除组织 {0} 失败，失败原因: {1}".format(node_name, msg))
-                gbl.temp.set("ResultMsg", msg)
-                break
+        self.browser.find_element(By.XPATH, "//*[text()='删除选中组织']").click()
+        alert = BeAlertBox(timeout=3)
+        msg = alert.get_msg()
+        if alert.title_contains("您确定要删除{0}，及其下属组织吗".format(node_name), auto_click_ok=False):
+            alert.click_ok()
+            alert = BeAlertBox(timeout=10, back_iframe=False)
+            msg = alert.get_msg()
+            if alert.title_contains("删除成功"):
+                log.info("删除组织 {0} 成功".format(node_name))
+            else:
+                log.warning("删除组织 {0} 失败，失败原因: {1}".format(node_name, msg))
+        elif alert.title_contains("组织下有人员不能删除", auto_click_ok=False):
+            alert.click_ok()
+        gbl.temp.set("ResultMsg", msg)

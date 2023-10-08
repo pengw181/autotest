@@ -14,15 +14,11 @@ from src.main.python.lib.generateUUID import getUUID
 
 class Initiation:
 
-    def __init__(self):
-        self.inited = False
-
     @staticmethod
     def clear_var():
 
         # 清空过程变量值
         gbl.temp.empty()
-        # log.info("清理流程过程变量")
 
     @staticmethod
     def remove_download_file():
@@ -76,8 +72,6 @@ class Initiation:
 
 
 def initiation_work():
-
-    # log.info("开始初始化")
     init = Initiation()
 
     # 只需要初始化一次

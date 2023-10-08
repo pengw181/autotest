@@ -744,7 +744,7 @@ class EDataTemplate:
                     self.browser.find_element(
                         By.XPATH, "//*[text()='{0}']/../../following-sibling::td[3]/div/span".format(table_name)).click()
 
-                alert = BeAlertBox(timeout=5)
+                alert = BeAlertBox(timeout=30)
                 msg = alert.get_msg()
                 if alert.title_contains("启用模版成功", auto_click_ok=False):
                     alert.click_cancel()

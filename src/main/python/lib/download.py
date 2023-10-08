@@ -4,7 +4,6 @@
 
 import os
 from src.main.python.lib.logger import log
-from src.main.python.lib.globals import gbl
 
 
 def exist_download_file(filename, file_suffix):

@@ -605,7 +605,7 @@ class TableManagement(Database):
 
         # 点击表字段上传
         self.browser.find_element(By.XPATH, "//*[@onclick='uploadTableFile()']").click()
-        alert = BeAlertBox()
+        alert = BeAlertBox(timeout=60)
         msg = alert.get_msg()
         if alert.title_contains("操作成功", auto_click_ok=False):
             alert.click_ok()

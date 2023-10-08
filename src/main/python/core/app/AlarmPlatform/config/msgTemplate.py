@@ -334,6 +334,7 @@ class MsgTemplate:
             self.browser.find_element(By.XPATH, "//*[@id='delete_all_result_item']").click()
             sleep(1)
             last_tag_in_config = None
+            tag_num = 0
             for tag_info in tag_config:
                 tag_type = tag_info.get("标签类型")
                 tag_name = tag_info.get("标签名称")
@@ -377,15 +378,23 @@ class MsgTemplate:
                 else:
                     raise KeyError("标签类型【{0}】错误".format(tag_type))
 
-                # 将标签拖到模版配置框中，如果是第一次加入，则直接拖入配置池，否则已到距离最后一个标签x_offset=5，y_offset=0距离的位置
+                # 将标签拖到模版配置框中，如果是第一次加入，则直接拖入配置池，否则移到距离最后一个标签x_offset=5，y_offset=0距离的位置
                 action = ActionChains(self.browser)
                 if last_tag_in_config is None:
                     target = self.browser.find_element(By.XPATH, "//*[@id='editable_trigger']")
                     action.drag_and_drop(tag_ele, target).perform()
                 else:
                     target = last_tag_in_config
-                    action.click_and_hold(tag_ele).move_to_element_with_offset(target, xoffset=180, yoffset=20).release().perform()
+                    if tag_num % 2 == 1:    # 添加偶数个标签时
+                        x_offset = 80
+                        y_offset = 10
+                    else:   # 奇数个
+                        x_offset = 80
+                        y_offset = 30
+                    action.click_and_hold(tag_ele).move_to_element_with_offset(target, xoffset=x_offset, yoffset=y_offset).release().perform()
                 log.info("模版配置加入标签【{0}】".format(tag_name))
+                # print(target)
+                tag_num += 1
 
                 # 自定义值标签设置自定义值
                 if tag_name == "自定义文本":
@@ -416,7 +425,7 @@ class MsgTemplate:
                 else:
                     last_tag_in_config = self.browser.find_element(
                         By.XPATH, "//*[@id='editable_trigger']/*[contains(@id,'common_item') and text()='换行']")
-
+                sleep(1)
             # 结果预览
             sleep(1)
             result_view_ele = self.browser.find_element(By.XPATH, "//*[@id='preview_mess_result_text']")
@@ -480,12 +489,14 @@ class MsgTemplate:
                 log.warning("{0} {1} 失败，失败提示: {2}".format(set_status, msg_temp_name, msg))
             gbl.temp.set("ResultMsg", msg)
 
-    def set_default_template(self, msg_temp_name, set_default):
+    def set_default_template(self, msg_temp_name, set_default, need_choose=True):
         """
         :param msg_temp_name: 消息模版名称
         :param set_default: 默认模版，是/否
+        :param need_choose:
         """
-        self.search(query={"消息模版名称": msg_temp_name}, need_choose=True)
+        if need_choose:
+            self.search(query={"消息模版名称": msg_temp_name}, need_choose=True)
 
         # 获取当前状态
         js = 'return $(".is_default_template")[0].checked;'
@@ -504,7 +515,10 @@ class MsgTemplate:
                 log.warning("更新默认消息模版状态失败，失败提示: {0}".format(msg))
             else:
                 log.warning("更新默认消息模版状态失败，失败提示: {0}".format(msg))
-            gbl.temp.set("ResultMsg", msg)
+        else:
+            log.info("默认模版状态是: {}".format(set_default))
+            msg = "操作成功"
+        gbl.temp.set("ResultMsg", msg)
 
     def batch_enable(self, query):
         """
@@ -657,9 +671,11 @@ class MsgTemplate:
                 else:
                     log.warning("更新默认消息模版状态失败，失败提示: {0}".format(msg))
                     return
-                # 重新点击该行记录
-                self.browser.find_element(
-                    By.XPATH, "//*[@field='templateName']//*[text()='{0}']".format(search_result)).click()
+            # 更新默认模版状态为否
+            self.set_default_template(search_result, "否", need_choose=False)
+            # 重新点击该行记录
+            self.browser.find_element(
+                By.XPATH, "//*[@field='templateName']//*[text()='{0}']".format(search_result)).click()
             # 删除
             self.browser.find_element(By.XPATH, "//*[@id='deleteBtn']").click()
             alert = BeAlertBox(back_iframe=False)

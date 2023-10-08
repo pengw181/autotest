@@ -126,7 +126,7 @@ class User:
     def update(self, user, user_name=None, sex=None, password=None, belong_org=None, phone=None, email=None, wechat=None,
                is_alive=None, is_lock=None, pwd_overdue=None, pwd_warn_days=None, need_query=True):
         """
-        :param user: 用户
+        :param user: 用户名称
         :param user_name: 用户名称
         :param sex: 性别
         :param password: 用户密码
@@ -275,25 +275,25 @@ class User:
         # 提交
         self.browser.find_element(By.XPATH, "//*[@id='user-form-submit']").click()
 
-    def delete(self, user_id):
+    def delete(self, user_name):
         """
-        :param user_id: 登录账号
+        :param user_name: 用户名称
         """
         log.info("开始修改用户")
-        self.search(query={"用户": user_id}, need_choose=True)
+        self.search(query={"用户": user_name}, need_choose=True)
         self.browser.find_element(By.XPATH, "//*[@id='user-del']").click()
         alert = BeAlertBox(timeout=1)
         msg = alert.get_msg()
-        if alert.title_contains("您确定需要删除", auto_click_ok=False):
+        if alert.title_contains("您确定需要删除{}吗".format(user_name), auto_click_ok=False):
             alert.click_ok()
             alert = BeAlertBox(timeout=10, back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("用户信息删除成功"):
-                log.warning('删除用户 {0} 成功'.format(user_id))
+                log.warning('删除用户 {0} 成功'.format(user_name))
             else:
-                log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_id, msg))
+                log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_name, msg))
         else:
-            log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_id, msg))
+            log.warning('删除用户 {0} 失败，失败原因: {1}'.format(user_name, msg))
         gbl.temp.set("ResultMsg", msg)
 
     def data_clear(self, user_id, fuzzy_match=False):
@@ -302,6 +302,9 @@ class User:
         :param fuzzy_match: 模糊匹配
         """
         self.search(query={"用户": user_id}, need_choose=False)
+        wait = WebDriverWait(self.browser, 30)
+        wait.until(ec.frame_to_be_available_and_switch_to_it((
+            By.XPATH, "//iframe[contains(@src,'/AiSee/html/user/userInfoMgt.html')]")))
         fuzzy_match = True if fuzzy_match == "是" else False
         if fuzzy_match:
             record_element = self.browser.find_elements(
@@ -317,7 +320,7 @@ class User:
         exist_data = True
         while exist_data:
             pe = record_element[0]
-            js = 'return $(".userInfoTab_datagrid-cell-c1-userId")[1].innerText;'
+            js = 'return $(".userInfoTab_datagrid-cell-c1-userName")[1].innerText;'
             search_result = self.browser.execute_script(js)
             js = 'return $(".userInfoTab_datagrid-cell-c1-isAliveText")[1].innerText;'
             is_alive = self.browser.execute_script(js)
@@ -335,7 +338,7 @@ class User:
                 page_wait()
                 sleep(1)
 
-            self.browser.find_element(By.XPATH, "//*[@field='userId']//*[text()='{0}']".format(search_result)).click()
+            self.browser.find_element(By.XPATH, "//*[@field='userName']//*[text()='{0}']".format(search_result)).click()
             log.info("选择: {0}".format(search_result))
             # 删除
             self.browser.find_element(By.XPATH, "//*[@id='user-del']").click()

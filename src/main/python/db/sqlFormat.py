@@ -95,6 +95,7 @@ def get_sql(database_type, source_data, table_name, schema):
                 if data[i + 1] == "${StrDataType}":
                     data[i + 1] = "VARCHAR"
 
+            # clob字段处理
             if database_type == "oracle":
                 if gbl.service.get("ClobCol") is None:
                     gbl.service.set("ClobCol", [])
@@ -117,6 +118,7 @@ def get_sql(database_type, source_data, table_name, schema):
                     #             'json', 'param_cfg', 'param_cfg', 'file_oprt_cfg', 'regx_expr', 'sql_cfg', 'attach_cfg',
                     #             'oprt_cfg', 'config', 'attach_content', 'loop_cnd', 'logic_cnd']
                     gbl.service["ClobTableName"].append(table_name.upper())
+
             ######## 数据库特殊处理结束 ########
 
             if data[i+1].lower() == "null":
@@ -149,6 +151,10 @@ def get_sql(database_type, source_data, table_name, schema):
                     where_condition += " and {0} like '%{1}%'".format(data[i], k.strip())
 
             else:
+                # int类型字段处理
+                int_col_list = [
+                    "result_field_name_en"
+                ]
                 # 具体值匹配
                 value4key = data[i + 1]
                 if checkColTypeDate(table_name, schema, data[i]):
@@ -159,6 +165,9 @@ def get_sql(database_type, source_data, table_name, schema):
                     else:
                         where_condition += " and {0} = to_date('{1}', 'yyyy-mm-dd hh24:mi:ss')".format(
                             data[i], value4key)
+                elif value4key in int_col_list:
+                    # 字段类型是int时特殊处理
+                    where_condition += " and {} = {}".format(data[i], value4key)
                 else:
                     # 常用字段匹配
                     if database_type == "postgres":

@@ -214,5 +214,12 @@ def global_config(config_dict=None):
     gbl.service.set('ThirdSystem', configs.service.get('thirdSystem').get("url"))
     gbl.service.set('ThirdSystemHttps', configs.service.get('thirdSystem').get("https"))
 
-    for i in range(len(configs.service.get('netunit'))):
-        gbl.service.set('NetunitMME{}'.format(i+1), configs.service.get('netunit')[i])
+    mme = configs.service.get('netunit').get("MME")
+    for i in range(len(mme)):
+        gbl.service.set('NetunitMME{}'.format(i + 1), mme[i])
+    csce = configs.service.get('netunit').get("CSCE")
+    for i in range(len(csce)):
+        gbl.service.set('NetunitCSCE{}'.format(i + 1), csce[i])
+    auto = configs.service.get('netunit').get("AUTO")
+    for i in range(len(csce)):
+        gbl.service.set('NetunitAUTO{}'.format(i + 1), auto[i])

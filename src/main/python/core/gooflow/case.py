@@ -23,12 +23,7 @@ class CaseWorker:
         """
         业务参数初始化
         """
-        if gbl.service.get("ServerInit") is not True:
-            # 未初始化执行初始化操作
-            global_config()
-            initiation_work()
-        else:
-            Initiation.clear_var()
+        Initiation.clear_var()
 
     @staticmethod
     def pre(pres):
@@ -76,7 +71,7 @@ class CaseWorker:
 
 
 class CaseEngine:
-
+    """构造测试用例py文件时用到"""
     def __init__(self, worker=None):
         global_config()
         if worker:
@@ -91,19 +86,33 @@ class CaseEngine:
             raise FileNotFoundError("无法找到测试用例文件, {}".format(case_file_path))
         workbook = xlrd.open_workbook(case_file_path, formatting_info=True)
         sheets = workbook.sheet_by_index(0)
-        gbl.service.set("CaseSheets", sheets)
+        sheets_content = []
+        for row_num in range(sheets.nrows):
+            case_name = sheets.row_values(row_num)[0]
+            case_action = sheets.row_values(row_num)[3]
+            if case_name is None or len(case_name) == 0:
+                break
+            if case_name.startswith("UNTEST") and len(case_action) == 0:
+                continue
+            sheets_content.append(sheets.row_values(row_num))
+        gbl.service.set("CaseSheets", sheets_content)
 
     @staticmethod
     def construct(case_order):
         sheet_case = gbl.service.get("CaseSheets")
-        case_rows = sheet_case.row_values(case_order)
+        case_rows = sheet_case[case_order]
         # 用例名称
         case_name = case_rows[0]
         # 预置条件
         case_pres = case_rows[2]
         # 操作步骤
         case_action = case_rows[3]
-        case_action = json.loads(case_action)
+        try:
+            case_action = json.loads(str(case_action))
+        except json.decoder.JSONDecodeError:
+            log.info(case_action)
+            traceback.print_exc()
+            case_action = None
         # 预期结果
         case_checks = case_rows[4]
         gbl.service.set("CaseConstruct", [case_name, case_pres, case_action, case_checks])

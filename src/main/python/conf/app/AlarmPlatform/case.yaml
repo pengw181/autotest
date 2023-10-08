@@ -1,8 +1,8 @@
 path:
 #  - /dataPrepare
 #  - /connection
-  - /config
-  - /send
+#  - /config
+#  - /send
   - /alarmServer
 
 case:

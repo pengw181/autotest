@@ -10,9 +10,8 @@ from src.main.python.lib.logger import log
 from src.main.python.core.gooflow.case import CaseEngine
 
 
-
-
 set_name = {
+    # AlarmPlatform
     "/测试准备/数据清理.xls": {
         "cls_name": "DataClearWorker",
         "dir_name": "/dataPrepare",
@@ -67,6 +66,17 @@ set_name = {
         "cls_name": "AlarmServerConfig",
         "dir_name": "/alarmServer",
         "file_name": "alarm_server"
+    },
+    # VisualModeler
+    "/流程配置/全流程功能.xls": {
+        "cls_name": "WorkFlowAllNode",
+        "dir_name": "/workflow",
+        "file_name": "workflow_all"
+    },
+    "/流程引擎/流程数据库节点大数据效率.xls": {
+        "cls_name": "WorkFlowSqlNodeEfficiency",
+        "dir_name": "/workflow",
+        "file_name": "workflow_sql_efficiency"
     }
 }
 
@@ -175,9 +185,10 @@ class AutoCreateCaseCls:
                 raise KeyError("生成测试用例函数失败，action数据错误")
             action = json.dumps(action, indent=4, ensure_ascii=False)
 
-            self._add("def {}_{}_{}(self):".format(case_prefix, self.case_order, short_case_name), True, 1)
+            func_name = "{}_{}_{}".format(case_prefix, self.case_order, short_case_name)
+            self._add("def {}(self):".format(func_name), True, 1)
 
-            self._add("u\"\"\"{}\"\"\"".format(case_name), True, 2)
+            self._add("u\"\"\"{}\"\"\"".format(case_name.replace("\"", "")), True, 2)
 
             if len(pres.strip()) > 0:
                 self._add("pres = \"\"\"", True, 2)
@@ -256,6 +267,8 @@ class AutoCreateCaseCls:
 
             if output_path.endswith("/"):
                 output_path = output_path[:-1]
+            if not os.path.exists(output_path):
+                os.mkdir(output_path)
             global set_name
             file_name = set_name.get(case_path).get("file_name")
             dir_name = set_name.get(case_path).get("dir_name")
@@ -270,6 +283,6 @@ class AutoCreateCaseCls:
 
 
 if __name__ == "__main__":
-    # auto = AutoCreateCaseCls(case_path="/Users/pengwei/Desktop/测试用例集/3.3/AlarmPlatform", point_case="/连接配置/关系型数据库配置.xls")
-    auto = AutoCreateCaseCls(case_path="/Users/pengwei/Desktop/测试用例集/3.3/AlarmPlatform")
-    auto.auto_create(output_path="/Users/pengwei/Desktop/autotest/src/main/testcase/AlarmPlatform")
+    auto = AutoCreateCaseCls(case_path="/Users/pengwei/Desktop/测试用例集/3.3/VisualModeler", point_case="/流程引擎/流程数据库节点大数据效率.xls")
+    # auto = AutoCreateCaseCls(case_path="/Users/pengwei/Desktop/测试用例集/3.3/VisualModeler")
+    auto.auto_create(output_path="/Users/pengwei/Downloads/Download/cases/VisualModeler")

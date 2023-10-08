@@ -29,4 +29,4 @@ def saveScreenShot():
     screenShot_file = screenShot_file_path + file_name
     browser.save_screenshot(screenShot_file)
     log.info("保存截图: {0}".format(file_name))
-    print("screenshot: {}".format(screenShot_file))     # 这一行必须要，生成报告用
+    print("screenshot: {}".format(screenShot_file))     # 这一行固定，生成报告用

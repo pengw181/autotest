@@ -286,7 +286,7 @@ def actions(func, param):
     elif func == "UpdateUser":
         action = User()
         update_map = param.get("修改内容")
-        action.update(user=param.get("用户"), user_name=update_map.get("用户名称"), sex=update_map.get("性别"),
+        action.update(user=param.get("用户名称"), user_name=update_map.get("用户名称"), sex=update_map.get("性别"),
                       password=update_map.get("用户密码"), belong_org=update_map.get("所属组织"),
                       phone=update_map.get("电话号码"), email=update_map.get("邮箱"), wechat=update_map.get("portal号"),
                       is_alive=update_map.get("启用状态"), is_lock=update_map.get("锁定状态"),
@@ -294,7 +294,7 @@ def actions(func, param):
 
     elif func == "DeleteUser":
         action = User()
-        action.delete(user_id=param.get("登录账号"))
+        action.delete(user_name=param.get("用户名称"))
 
     elif func == "UserDataClear":
         action = User()
@@ -310,60 +310,3 @@ def actions(func, param):
         run_flag = False
 
     return run_flag
-
-
-"""
-    {
-        "操作": "AddUser",
-        "参数": {
-            "登录账号": "autom",
-            "用户名称": "自动化测试1",
-            "性别": "男",
-            "用户密码": "12345678",
-            "所属组织": "海珠区事业办",
-            "电话号码": "13000000000",
-            "邮箱": "auto1@125.com",
-            "portal号": "auto1@125",
-            "启用状态": "启用",
-            "锁定状态": "未锁定",
-            "密码有效期(天)": "60",
-            "密码过期预警天数": "1"
-        }
-    }
-    
-    {
-        "操作": "UpdateUser",
-        "参数": {
-            "用户": "autom",
-            "修改内容": {
-                "用户": "自动化测试2",
-                "性别": "nv",
-                "用户密码": "11111111",
-                "所属组织": "黄浦区区事业办",
-                "电话号码": "13100000000",
-                "邮箱": "auto1@115.com",
-                "portal号": "auto1@115",
-                "启用状态": "启用",
-                "锁定状态": "未锁定",
-                "密码有效期(天)": "80",
-                "密码过期预警天数": "3"
-            }
-        }
-    }
-
-    {
-        "操作": "DeleteUser",
-        "参数": {
-            "用户": "autom"
-        }
-    }
-
-    {
-        "操作": "ClearUser",
-        "参数": {
-            "用户名称": "自动化测试",
-            "模糊匹配": "是"
-        }
-    }
-
-"""

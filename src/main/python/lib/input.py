@@ -9,7 +9,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from src.main.python.lib.processVar import var_list_panel
-from src.main.python.lib.waitElement import WaitElement
 from src.main.python.lib.positionPanel import getPanelXpath
 from src.main.python.lib.logger import log
 from src.main.python.lib.globals import gbl

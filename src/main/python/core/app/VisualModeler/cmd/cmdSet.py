@@ -48,8 +48,9 @@ class CmdSet:
         # 指令名称
         if query.__contains__("指令名称"):
             cmd_name = query.get("指令名称")
-            self.browser.find_element(By.XPATH, "//*[@name='cmdKeyword']/preceding-sibling::input").clear()
-            self.browser.find_element(By.XPATH, "//*[@name='cmdKeyword']/preceding-sibling::input").send_keys(cmd_name)
+            self.browser.find_element(By.XPATH, "//*[@id='cmdKeyword']/following-sibling::span/input[1]").clear()
+            self.browser.find_element(
+                By.XPATH, "//*[@id='cmdKeyword']/following-sibling::span/input[1]").send_keys(cmd_name)
             log.info("设置指令名称: {0}".format(cmd_name))
             select_item = cmd_name
 
@@ -57,14 +58,16 @@ class CmdSet:
         if query.__contains__("指令用途"):
             cmd_use = query.get("指令用途")
             self.browser.find_element(By.XPATH, "//*[@id='cmdUse']/following-sibling::span//a").click()
-            self.browser.find_element(By.XPATH, "//*[contains(@id,'cmdUse') and text()='{0}']".format(cmd_use)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(cmd_use)).click()
             log.info("设置指令用途: {0}".format(cmd_use))
 
         # 启用状态
         if query.__contains__("启用状态"):
             alive = query.get("启用状态")
             self.browser.find_element(By.XPATH, "//*[@id='isAlive']/following-sibling::span//a").click()
-            self.browser.find_element(By.XPATH, "//*[contains(@id,'isAlive') and text()='{0}']".format(alive)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(alive)).click()
             log.info("设置启用状态: {0}".format(alive))
 
         # 公有指令
@@ -79,15 +82,16 @@ class CmdSet:
         if query.__contains__("指令来源"):
             cmd_from = query.get("指令来源")
             self.browser.find_element(By.XPATH, "//*[@id='isDown']/following-sibling::span//a").click()
-            self.browser.find_element(By.XPATH, "//*[contains(@id,'isDown') and text()='{0}']".format(cmd_from)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(cmd_from)).click()
             log.info("设置指令来源: {0}".format(cmd_from))
 
         # 审批状态
         if query.__contains__("审批状态"):
             check_tag = query.get("审批状态")
             self.browser.find_element(By.XPATH, "//*[@id='checkTag']/following-sibling::span//a").click()
-            self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'checkTag') and text()='{0}']".format(check_tag)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(check_tag)).click()
             log.info("设置审批状态: {0}".format(check_tag))
 
         # 网元分类
@@ -104,7 +108,8 @@ class CmdSet:
         if query.__contains__("厂家"):
             vendor = query.get("厂家")
             self.browser.find_element(By.XPATH, "//*[@id='vendor']/following-sibling::span//a").click()
-            self.browser.find_element(By.XPATH, "//*[contains(@id,'vendor') and text()='{0}']".format(vendor)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(vendor)).click()
             log.info("设置厂家: {0}".format(vendor))
             sleep(1)
 
@@ -112,8 +117,8 @@ class CmdSet:
         if query.__contains__("设备型号"):
             model = query.get("设备型号")
             self.browser.find_element(By.XPATH, "//*[@id='netunitModel']/following-sibling::span//a").click()
-            self.browser.find_element(
-                By.XPATH, "//*[contains(@id,'netunitModel') and text()='{0}']".format(model)).click()
+            panel_xpath = getPanelXpath()
+            self.browser.find_element(By.XPATH, panel_xpath + "//*[text()='{0}']".format(model)).click()
             log.info("设置设备型号: {0}".format(model))
 
         # 点击查询
@@ -490,7 +495,7 @@ class CmdSet:
         cmd = self.browser.find_element(
             By.XPATH, "//*[contains(@id,'cmdInfoTab')]//*[text()='{0}']/../../..".format(cmd_name))
         row_index = cmd.get_attribute("datagrid-row-index")
-        js = 'return $(".switchbutton")[{0}].checked;'.format(row_index)
+        js = 'return $(".switchbutton")[{0}].checked;'.format(2 * int(row_index))
         current_status = self.browser.execute_script(js)
 
         tmp = True if status == "启用" else False
@@ -503,10 +508,10 @@ class CmdSet:
             alert = BeAlertBox(back_iframe=False)
             msg = alert.get_msg()
             if alert.title_contains("启用成功"):
-                # 启用指令模版成功
+                # 启用指令成功
                 log.info("启用指令成功")
             elif alert.title_contains("禁用成功"):
-                log.info("启用指令成功")
+                log.info("禁用指令成功")
             else:
                 log.warning("{0}指令失败，失败原因: {1}".format(status, msg))
         else:

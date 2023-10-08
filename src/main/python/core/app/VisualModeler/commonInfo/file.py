@@ -40,14 +40,15 @@ class File:
         sleep(1)
 
         # 获取系统目录
-        sql_util = SQLUtil(db=gbl.service.get("environment"), schema="main")
-        sql = """ SELECT A.CATALOG_PATH AS catalogPath FROM TN_CATALOG_DEF A
-                    WHERE A.CATALOG_TYPE = '1'
-                    AND A.BELONG_ID = '{0}' AND A.DOMAIN_ID = '{1}'""".format(
-            gbl.service.get("BelongID"), gbl.service.get("DomainID"))
-        system_path = sql_util.select(sql)
-        gbl.service.set('SystemCatalogPath', system_path)
-        system_catalog_path = system_path.split("/")
+        if gbl.service.get('SystemCatalogPath') is None:
+            sql_util = SQLUtil(db=gbl.service.get("environment"), schema="main")
+            sql = """ SELECT A.CATALOG_PATH AS catalogPath FROM TN_CATALOG_DEF A
+                        WHERE A.CATALOG_TYPE = '1'
+                        AND A.BELONG_ID = '{0}' AND A.DOMAIN_ID = '{1}'""".format(
+                gbl.service.get("BelongID"), gbl.service.get("DomainID"))
+            system_path = sql_util.select(sql)
+            gbl.service.set('SystemCatalogPath', system_path)
+        system_catalog_path = gbl.service.get('SystemCatalogPath').split("/")
         self.system_catalog_path = system_catalog_path[-1]
         log.info(self.system_catalog_path)
 

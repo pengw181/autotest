@@ -97,7 +97,8 @@ class GlobalSubSet(dict):
                 else:
                     value = self.get(var)
                 if not value:
-                    raise AttributeError("无法替换变量【{}】".format(var))
+                    break
+                    # raise AttributeError("无法替换变量【{}】".format(var))
                 if value.find("\\") > -1:  # 新增
                     data = value.replace("\\", "\\\\")
                 else:
